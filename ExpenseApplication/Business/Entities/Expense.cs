@@ -10,7 +10,7 @@ public class Expense : BaseEntity
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
     public int UserId { get; set; } // (Foreign Key)
-    public decimal Amount { get; set; }
+    public double Amount { get; set; }
     public int CategoryId { get; set; } // (Foreign Key to ExpenseCategory)
     public string PaymentMethod { get; set; }
     public string PaymentLocation { get; set; }
