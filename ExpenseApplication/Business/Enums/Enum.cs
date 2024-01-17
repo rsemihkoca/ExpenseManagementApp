@@ -1,6 +1,14 @@
 namespace Business.Enums;
 
-public class Enum
+public enum UserRole
 {
-    
+    Admin,
+    Personnel
+}
+
+public enum ExpenseRequestStatus
+{
+    Pending,
+    Approved,
+    Rejected
 }
