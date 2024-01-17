@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  sql-server:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      DATABASE_NAME: "dbo"      
+      ACCEPT_EULA: "Y"
+      MSSQL_USER: "sa"
+      MSSQL_SA_PASSWORD: "P@ssw0rd"
+      MSSQL_PID: Express
+    ports:
+      - 1433:1433
+    volumes:
+      - mssql-volume:/var/opt/mssql
+    networks:
+      - mssql-networks
+
+
+volumes:
+  mssql-volume:
+
+networks:
+  mssql-networks:
+    driver: bridge
