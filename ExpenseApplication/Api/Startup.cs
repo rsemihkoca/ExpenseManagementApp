@@ -56,11 +56,11 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expense Business Api Management", Version = "v1.0" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expense Management Api", Version = "v1.0" });
 
             var securityScheme = new OpenApiSecurityScheme
             {
-                Name = "Expense Business Api Management for IT Company",
+                Name = "Expense Management Api for IT Company",
                 Description = "Enter JWT Bearer token **_only_**",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.Http,
