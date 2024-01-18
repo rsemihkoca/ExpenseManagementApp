@@ -17,14 +17,6 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => src.Status.ToString()))
             .ForMember(dest => dest.PaymentStatus,
                 opt => opt.MapFrom(src => src.PaymentInstruction.PaymentStatus.ToString()));
-        // .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.CreationDate)));
 
-        // public int PersonnelName { get; set; } // (Foreign Key)
-        // public int CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
-        // public ExpenseRequestStatus ExpenseStatus { get; set; }
-        // public string PaymentStatus { get; set; }
-
-        // public DateTime CreationDate { get; set; }
-        // public DateTime LastUpdateTime { get; set; }
     }
 }
