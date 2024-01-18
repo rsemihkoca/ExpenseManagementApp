@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Business.Entities;
 
-[Table("PaymentInstruction", Schema = "dbo")]
+[Table("PaymentInstruction", Schema = "CaseDb")]
 public class PaymentInstruction : BaseEntity
 {
     public int PaymentInstructionId { get; set; } // (Primary Key)
