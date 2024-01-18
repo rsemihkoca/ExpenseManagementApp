@@ -58,8 +58,9 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
             // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of ExpenseCategory if it is referenced by an Expense
 
         builder.HasOne(e => e.PaymentInstruction)
-            .WithMany()
-            .HasForeignKey(e => e.PaymentMethod);
+            .WithOne(e => e.Expense)
+            .HasForeignKey<PaymentInstruction>(p => p.ExpenseRequestId);
+
             // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of PaymentInstruction if it is referenced by an Expense
 
         
