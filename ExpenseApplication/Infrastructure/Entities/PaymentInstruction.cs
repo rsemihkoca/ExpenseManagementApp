@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Business.Entities;
 
+[Table("PaymentInstruction", Schema = "dbo")]
 public class PaymentInstruction : BaseEntity
 {
     public int PaymentInstructionId { get; set; } // (Primary Key)
