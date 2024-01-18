@@ -1,6 +1,12 @@
+using System.Text;
 using Api.Middlewares;
 using Infrastructure.Data.DbContext;
+using Infrastructure.Token;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 //
 // using FluentValidation;
 // using FluentValidation.AspNetCore;
@@ -22,7 +28,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-
         services.AddHealthChecks();
         services.AddControllers();
         // services.AddFluentValidationAutoValidation();
@@ -32,10 +37,58 @@ public class Startup
             options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
         });
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expense Business Api Management", Version = "v1.0" });
+
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Name = "Expense Business Api Management for IT Company",
+                Description = "Enter JWT Bearer token **_only_**",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
+            c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { securityScheme, new string[] { } }
+            });
+        });
+
+
+        JwtConfig jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+        services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = true;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtConfig.Issuer,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                ValidAudience = jwtConfig.Audience,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes(2)
+            };
+        });
     }
-    
-    public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -43,9 +96,10 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
         app.UseHealthChecks("/health");
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-        
+
         app.UseDefaultFiles();
         app.UseStaticFiles();
         // app.UseHttpsRedirection();
