@@ -1,6 +1,14 @@
+using System.Reflection;
 using System.Text;
 using Api.Middlewares;
+using Application.Cqrs;
+using Application.Mapper;
+using Application.Validators;
+using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure.Data.DbContext;
+using Infrastructure.Dtos;
 using Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,14 +36,23 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddHealthChecks();
-        services.AddControllers();
-        // services.AddFluentValidationAutoValidation();
-        // services.AddScoped<IValidator<CalculateInterestRequest>, CalculateInterestRequestValidator>();
+        
+        
         services.AddDbContext<ExpenseDbContext>(options =>
         {
             options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
         });
+        
+        // MediatR
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+        }
+
+        // AutoMapper
+        var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new MapperConfig()));
+        services.AddSingleton(mapperConfig.CreateMapper());
+        
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
@@ -86,6 +103,14 @@ public class Startup
                 ClockSkew = TimeSpan.FromMinutes(2)
             };
         });
+        
+        services.AddHealthChecks();
+        services.AddControllers();
+        
+        
+        services.AddFluentValidationAutoValidation();
+        services.AddScoped<IValidator<TokenRequest>, CreateTokenValidator>();
+        
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -99,10 +124,6 @@ public class Startup
 
         app.UseHealthChecks("/health");
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
-        // app.UseHttpsRedirection();
 
         app.UseRouting();
         app.UseAuthorization();
