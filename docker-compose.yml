@@ -5,7 +5,7 @@ services:
     container_name: sql-server
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      DATABASE_NAME: "dbo"      
+      DATABASE_NAME: "db"
       ACCEPT_EULA: "Y"
       MSSQL_USER: "sa"
       MSSQL_SA_PASSWORD: "P@ssw0rd"
