@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Business.Entities;
 
-[Table("Users", Schema = "dbo")]
+[Table("Users", Schema = "CaseDb")]
 public class User : BaseEntity
 {
     public int UserId { get; set; } // Primary key
