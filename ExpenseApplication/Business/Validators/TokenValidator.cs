@@ -1,7 +1,7 @@
 using FluentValidation;
 using Infrastructure.Dtos;
 
-namespace Business.Validators;
+namespace Application.Validators;
 
 public class CreateTokenValidator : AbstractValidator<TokenRequest>
 {
