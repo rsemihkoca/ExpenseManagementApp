@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Business.Entities;
 
-[Table("Expense", Schema = "dbo")]
+[Table("Expense", Schema = "CaseDb")]
 public class Expense : BaseEntity
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
