@@ -46,7 +46,7 @@ public class TokenCommandHandler :
             user.LastActivityDateTime = DateTime.UtcNow;
             user.PasswordRetryCount++;
             await dbContext.SaveChangesAsync(cancellationToken);
-            throw new Exception($"Password is incorrect. You have {3 - user.PasswordRetryCount} attempts left.");
+            throw new Exception($"Credentials are incorrect. You have {3 - user.PasswordRetryCount} attempts left.");
         }
 
         if (user.PasswordRetryCount > 3)
