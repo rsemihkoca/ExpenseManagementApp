@@ -16,7 +16,7 @@ public class User : BaseEntity
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Iban { get; set; }
-    public UserRole Role { get; set; } // (Admin or Personnel)
+    public string Role { get; set; } // (Admin or Personnel)
     public int PasswordRetryCount { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime LastActivityDateTime { get; set; }
@@ -46,7 +46,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Iban).IsRequired().HasMaxLength(34);
         builder.HasIndex(u => u.Iban).IsUnique();
 
-        builder.Property(u => u.Role).IsRequired().HasConversion<string>();
+        builder.Property(u => u.Role).IsRequired().HasMaxLength(30);
 
         builder.Property(u => u.PasswordRetryCount).IsRequired();
 
