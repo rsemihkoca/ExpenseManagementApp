@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Cqrs;
 using Business.Enums;
 using Infrastructure.Dtos;
@@ -22,7 +23,7 @@ public class ExpenseController : ControllerBase
 
     // Create Expense
     [HttpPost]
-    [Authorize(Roles = "Admin") ]
+    [Authorize(Roles = "Admin, Personnel")]
     public async Task<IActionResult> CreateExpense([FromBody] InsertExpenseRequest request)
     {
         var command = new CreateExpenseCommand(request);
