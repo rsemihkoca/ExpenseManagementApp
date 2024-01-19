@@ -22,12 +22,15 @@ public class CreateExpenseValidator : AbstractValidator<InsertExpenseRequest>
             .MaximumLength(50).WithMessage("Payment method cannot exceed 50 characters.");
 
         RuleFor(expense => expense.PaymentLocation)
+            .NotEmpty().WithMessage("Payment location is required.")
             .MaximumLength(255).WithMessage("Payment location cannot exceed 255 characters.");
 
         RuleFor(expense => expense.Documents)
+            .NotEmpty().WithMessage("Documents path is required.")
             .MaximumLength(255).WithMessage("Documents path cannot exceed 255 characters.");
         
         RuleFor(expense => expense.Description)
+            .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(255).WithMessage("Description cannot exceed 255 characters.");
     }
 }
