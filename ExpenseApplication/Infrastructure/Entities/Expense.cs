@@ -30,18 +30,22 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
     {
         builder.HasKey(e => e.ExpenseRequestId);
         builder.HasIndex(e => e.ExpenseRequestId).IsUnique();
+        
+        builder.Property(e => e.UserId).IsRequired();
 
         builder.Property(e => e.Amount).IsRequired();
+        
+        builder.Property(e => e.CategoryId).IsRequired();
 
-        builder.Property(e => e.PaymentMethod).HasMaxLength(50);
+        builder.Property(e => e.PaymentMethod).IsRequired().HasMaxLength(50);
 
-        builder.Property(e => e.PaymentLocation).HasMaxLength(255);
+        builder.Property(e => e.PaymentLocation).IsRequired().HasMaxLength(255);
 
-        builder.Property(e => e.Documents).HasMaxLength(255);
+        builder.Property(e => e.Documents).HasMaxLength(255); // Optional
 
         builder.Property(e => e.Status).IsRequired();
 
-        builder.Property(e => e.Description).HasMaxLength(255);
+        builder.Property(e => e.Description).IsRequired().HasMaxLength(255);
 
         builder.Property(e => e.CreationDate).IsRequired();
         
