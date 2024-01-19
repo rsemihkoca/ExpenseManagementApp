@@ -12,3 +12,12 @@ public enum ExpenseRequestStatus
     Approved,
     Rejected
 }
+
+public enum PaymentRequestStatus
+{
+    Pending,
+    Completed,
+    Failed
+}
+
+
