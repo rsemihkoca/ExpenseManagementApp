@@ -3,7 +3,7 @@ using Infrastructure.Dtos;
 
 namespace Application.Validators;
 
-public class CreateExpenseValidator : AbstractValidator<InsertExpenseRequest>
+public class CreateExpenseValidator : AbstractValidator<CreateExpenseRequest>
 {
     
     public CreateExpenseValidator()
