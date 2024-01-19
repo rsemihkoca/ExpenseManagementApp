@@ -37,7 +37,7 @@ public class ExpenseCommandHandler :
         await validator.ValidateCategoryAsync(request.Model.CategoryId, cancellationToken);
 
         var role = userService.GetUserRole();
-
+        var creatorId = userService.GetUserId();
         switch (role)
         {
             case "Admin":
@@ -63,6 +63,7 @@ public class ExpenseCommandHandler :
         //
 
         var entity = mapper.Map<InsertExpenseRequest, Expense>(request.Model);
+        entity.CreatedBy = creatorId;
 
         var entityResult = await dbContext.AddAsync(entity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
