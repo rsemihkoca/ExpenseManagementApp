@@ -37,7 +37,7 @@ public class ExpenseResponse
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
     public int PersonnelName { get; set; } // (Foreign Key)
-    public int CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
+    public string CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
     public ExpenseRequestStatus ExpenseStatus { get; set; }
     public string PaymentStatus { get; set; }
 
