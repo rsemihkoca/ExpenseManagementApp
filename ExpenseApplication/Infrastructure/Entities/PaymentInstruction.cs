@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Business.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,11 +10,9 @@ public class PaymentInstruction : BaseEntity
 {
     public int PaymentInstructionId { get; set; } // (Primary Key)
     public int ExpenseRequestId { get; set; } // (Foreign Key to Expense)
-    public string PaymentStatus { get; set; } // (Pending, Completed)
+    public PaymentRequestStatus PaymentStatus { get; set; } // (Pending, Completed, Failed)
     public DateTime? PaymentDate { get; set; }
-    // Additional payment-related fields
 
-    // Navigation property
     public virtual Expense Expense { get; set; }
 }
 
@@ -24,8 +23,12 @@ public class PaymentInstructionConfiguration : IEntityTypeConfiguration<PaymentI
         builder.HasKey(p => p.PaymentInstructionId);
         builder.HasIndex(p => p.PaymentInstructionId).IsUnique();
         
+        builder.Property(p => p.ExpenseRequestId).IsRequired();
+        
         builder.Property(p => p.PaymentStatus).IsRequired().HasMaxLength(255);
-        // Additional configuration for payment instruction entity
+        
+        builder.Property(p => p.PaymentDate).IsRequired();
+        
         
         builder.HasOne(p => p.Expense)
             .WithOne(e => e.PaymentInstruction)
