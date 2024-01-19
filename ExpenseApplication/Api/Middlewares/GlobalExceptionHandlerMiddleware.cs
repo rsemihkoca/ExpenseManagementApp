@@ -1,3 +1,4 @@
+using Infrastructure.Exceptions;
 using Newtonsoft.Json;
 
 namespace Api.Middlewares;
@@ -17,13 +18,18 @@ public class GlobalExceptionHandlerMiddleware
         {
             await _next(context);
         }
+        catch (HttpException ex)
+        {
+            await HandleExceptionAsync(context, ex, ex.StatusCode);
+        }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            await HandleExceptionAsync(context, ex, StatusCodes.Status500InternalServerError);
         }
+
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception, int statusCode = StatusCodes.Status500InternalServerError)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception, int statusCode)
     {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = statusCode;
