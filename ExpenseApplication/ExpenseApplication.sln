@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{91E3D034-B948-44EA-9A1A-EADE42D4EC32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Schemas\Schemas.csproj", "{E994E4A6-A3E6-4132-86AC-F66EFEF0674D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemes", "Schemes\Schemes.csproj", "{E994E4A6-A3E6-4132-86AC-F66EFEF0674D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
