@@ -33,7 +33,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 LastName = "1",
                 Email = "admin1@example.com",
                 Iban = "TR760009901234567800100001",
-                Role = UserRole.Admin,
+                Role = "Admin",
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -47,7 +47,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 LastName = "2",
                 Email = "admin2@example.com",
                 Iban = "TR548695845712502365201452",
-                Role = UserRole.Admin,
+                Role = "Admin",
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -61,7 +61,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 LastName = "1",
                 Email = "personnel1@example.com",
                 Iban = "TR115181625282523330364444",
-                Role = UserRole.Personnel,
+                Role = "Personnel",
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -75,7 +75,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 LastName = "2",
                 Email = "personnel2@example.com",
                 Iban = "TR960251857420045115789005",
-                Role = UserRole.Personnel,
+                Role = "Personnel",
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
