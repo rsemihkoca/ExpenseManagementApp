@@ -181,6 +181,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 1,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 1500,
                 CategoryId = 1,
                 PaymentMethod = "Credit Card",
@@ -195,6 +196,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 2,
                 UserId = 2,
+                CreatedBy = 2,
                 Amount = 350,
                 CategoryId = 2,
                 PaymentMethod = "Bank Transfer",
@@ -209,6 +211,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 3,
                 UserId = 3,
+                CreatedBy = 3,
                 Amount = 2500,
                 CategoryId = 3,
                 PaymentMethod = "Cash",
@@ -223,6 +226,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 4,
                 UserId = 4,
+                CreatedBy = 4,
                 Amount = 700,
                 CategoryId = 4,
                 PaymentMethod = "Credit Card",
@@ -237,6 +241,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 5,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 1200,
                 CategoryId = 5,
                 PaymentMethod = "Bank Transfer",
@@ -251,6 +256,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 6,
                 UserId = 2,
+                CreatedBy = 2,
                 Amount = 450,
                 CategoryId = 6,
                 PaymentMethod = "Cash",
@@ -265,6 +271,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 7,
                 UserId = 3,
+                CreatedBy = 3,
                 Amount = 300,
                 CategoryId = 7,
                 PaymentMethod = "Credit Card",
@@ -279,6 +286,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 8,
                 UserId = 4,
+                CreatedBy = 4,
                 Amount = 180,
                 CategoryId = 8,
                 PaymentMethod = "Bank Transfer",
@@ -293,6 +301,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 9,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 500,
                 CategoryId = 9,
                 PaymentMethod = "Cash",
@@ -307,6 +316,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 10,
                 UserId = 2,
+                CreatedBy = 2,
                 Amount = 800,
                 CategoryId = 10,
                 PaymentMethod = "Credit Card",
@@ -321,6 +331,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 11,
                 UserId = 3,
+                CreatedBy = 3,
                 Amount = 150,
                 CategoryId = 11,
                 PaymentMethod = "Bank Transfer",
@@ -335,6 +346,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 12,
                 UserId = 4,
+                CreatedBy = 4,
                 Amount = 75,
                 CategoryId = 12,
                 PaymentMethod = "Cash",
@@ -349,6 +361,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 13,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 200,
                 CategoryId = 13,
                 PaymentMethod = "Credit Card",
@@ -363,6 +376,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 14,
                 UserId = 2,
+                CreatedBy = 2,
                 Amount = 300,
                 CategoryId = 14,
                 PaymentMethod = "Bank Transfer",
@@ -377,6 +391,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 15,
                 UserId = 3,
+                CreatedBy = 3,
                 Amount = 50,
                 CategoryId = 15,
                 PaymentMethod = "Cash",
@@ -391,6 +406,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 16,
                 UserId = 4,
+                CreatedBy = 4,
                 Amount = 1000,
                 CategoryId = 16,
                 PaymentMethod = "Credit Card",
@@ -405,6 +421,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 17,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 400,
                 CategoryId = 3,
                 PaymentMethod = "Bank Transfer",
@@ -419,6 +436,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 18,
                 UserId = 2,
+                CreatedBy = 2,
                 Amount = 600,
                 CategoryId = 5,
                 PaymentMethod = "Cash",
@@ -433,6 +451,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 19,
                 UserId = 3,
+                CreatedBy = 3,
                 Amount = 250,
                 CategoryId = 6,
                 PaymentMethod = "Credit Card",
@@ -447,6 +466,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 20,
                 UserId = 4,
+                CreatedBy = 4,
                 Amount = 120,
                 CategoryId = 8,
                 PaymentMethod = "Bank Transfer",
@@ -461,6 +481,7 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 ExpenseRequestId = 21,
                 UserId = 1,
+                CreatedBy = 1,
                 Amount = 300,
                 CategoryId = 10,
                 PaymentMethod = "Cash",
