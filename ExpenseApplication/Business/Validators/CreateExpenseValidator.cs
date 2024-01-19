@@ -8,6 +8,11 @@ public class CreateExpenseValidator : AbstractValidator<InsertExpenseRequest>
     
     public CreateExpenseValidator()
     {
+    
+        RuleFor(expense => expense.UserId)
+            .NotEmpty().WithMessage("User id is required.")
+            .GreaterThan(0).WithMessage("User id must be greater than zero.");
+        
         RuleFor(expense => expense.Amount)
             .NotEmpty().WithMessage("Amount is required.")
             .GreaterThan(0).WithMessage("Amount must be greater than zero.");
