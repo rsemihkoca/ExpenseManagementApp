@@ -22,7 +22,7 @@ public class ExpenseController : ControllerBase
 
     // Create Expense
     [HttpPost]
-    [Authorize(Roles = "0") ]
+    [Authorize(Roles = "Admin") ]
     public async Task<IActionResult> CreateExpense([FromBody] InsertExpenseRequest request)
     {
         var command = new CreateExpenseCommand(request);
