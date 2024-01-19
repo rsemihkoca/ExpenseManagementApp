@@ -24,7 +24,7 @@ public class ExpenseController : ControllerBase
     // Create Expense
     [HttpPost]
     [Authorize(Roles = "Admin, Personnel")]
-    public async Task<IActionResult> CreateExpense([FromBody] InsertExpenseRequest request)
+    public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request)
     {
         var command = new CreateExpenseCommand(request);
         var result = await _mediator.Send(command);
