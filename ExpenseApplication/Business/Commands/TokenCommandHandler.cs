@@ -93,7 +93,7 @@ public class TokenCommandHandler :
             new Claim("Id", user.UserId.ToString()),
             new Claim("Email", user.Email),
             new Claim("Username", user.Username),
-            new Claim("Role", user.Role.ToString()),
+            new Claim(ClaimTypes.Role, user.Role),
         };
 
         return claims;
