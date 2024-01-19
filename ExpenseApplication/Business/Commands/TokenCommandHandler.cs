@@ -5,6 +5,7 @@ using Application.Cqrs;
 using Business.Entities;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
+using Infrastructure.Exceptions;
 using Infrastructure.Token;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,12 +33,12 @@ public class TokenCommandHandler :
             
         if (user == null)
         {
-            throw new Exception("Invalid user information");
+            throw new HttpException("Invalid user information", 400);
         }
 
         if (!user.IsActive)
         {
-            throw new Exception("Please contact your administrator, your account is locked.");
+            throw new HttpException("Please contact your administrator, your account is locked.", 403);
         }
 
         string hash = MD5Extensions.ToMD5(request.Model.Password.Trim());
@@ -46,12 +47,12 @@ public class TokenCommandHandler :
             user.LastActivityDateTime = DateTime.UtcNow;
             user.PasswordRetryCount++;
             await dbContext.SaveChangesAsync(cancellationToken);
-            throw new Exception($"Credentials are incorrect. You have {3 - user.PasswordRetryCount} attempts left.");
+            throw new HttpException($"Credentials are incorrect. You have {3 - user.PasswordRetryCount} attempts left.", 401);
         }
 
         if (user.PasswordRetryCount > 3)
         {
-            throw new Exception("Please contact your administrator, your account is locked.");
+            throw new HttpException("Please contact your administrator, your account is locked.", 405);
         }
 
         user.LastActivityDateTime = DateTime.UtcNow;
