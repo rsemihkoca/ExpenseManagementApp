@@ -10,14 +10,16 @@ public class MapperConfig : Profile
 {
     public MapperConfig()
     {
-    
+
         CreateMap<InsertExpenseRequest, Expense>()
             .ForMember(dest => dest.Status,
                 opt => opt.MapFrom(src => ExpenseRequestStatus.Pending))
             .ForMember(dest => dest.CreationDate,
                 opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForMember(dest => dest.LastUpdateTime,
-                opt => opt.MapFrom(src => DateTime.UtcNow));
+                opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.CreatedBy,
+                opt => opt.MapFrom(src => src.UserId));
         
         
 
