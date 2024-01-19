@@ -22,7 +22,7 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
         
         builder.Property(e => e.CategoryName).IsRequired().HasMaxLength(255);
         
-        // Additional configuration for expense category entity
+
         builder.HasMany(e => e.ExpenseRequests)
             .WithOne(e => e.ExpenseCategory)
             .HasForeignKey(e => e.CategoryId);
