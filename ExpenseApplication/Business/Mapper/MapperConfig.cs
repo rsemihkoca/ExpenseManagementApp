@@ -11,7 +11,7 @@ public class MapperConfig : Profile
     public MapperConfig()
     {
 
-        CreateMap<InsertExpenseRequest, Expense>()
+        CreateMap<CreateExpenseRequest, Expense>()
             .ForMember(dest => dest.Status,
                 opt => opt.MapFrom(src => ExpenseRequestStatus.Pending))
             .ForMember(dest => dest.CreationDate,
