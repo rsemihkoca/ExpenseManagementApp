@@ -6,7 +6,7 @@ namespace Application.Cqrs;
 
 // common endpoint for all entites
 
-public record CreateExpenseCommand(InsertExpenseRequest Model) : IRequest<ExpenseResponse>;
+public record CreateExpenseCommand(CreateExpenseRequest Model) : IRequest<ExpenseResponse>;
 
 public record UpdateExpenseCommand(int ExpenseRequestId, UpdateExpenseRequest Model) : IRequest<ExpenseResponse>;
 // admin kendini onaylayamaz
