@@ -62,7 +62,7 @@ public class ExpenseCommandHandler :
         // admin herkes için expense oluşturabilir
         //
 
-        var entity = mapper.Map<InsertExpenseRequest, Expense>(request.Model);
+        var entity = mapper.Map<CreateExpenseRequest, Expense>(request.Model);
         entity.CreatedBy = creatorId;
 
         var entityResult = await dbContext.AddAsync(entity, cancellationToken);
