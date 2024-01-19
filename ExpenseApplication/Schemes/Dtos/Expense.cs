@@ -2,7 +2,7 @@ using Business.Enums;
 
 namespace Infrastructure.Dtos;
 
-public class InsertExpenseRequest
+public class CreateExpenseRequest
 {
     public int UserId { get; set; }
     public double Amount { get; set; }
