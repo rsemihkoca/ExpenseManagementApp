@@ -9,7 +9,7 @@ namespace Application.Cqrs;
 public record CreateExpenseCommand(InsertExpenseRequest Model) : IRequest<ExpenseResponse>;
 
 public record UpdateExpenseCommand(int ExpenseRequestId, UpdateExpenseRequest Model) : IRequest<ExpenseResponse>;
-
+// admin kendini onaylayamaz
 public record DeleteExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
 
 
