@@ -43,7 +43,7 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
 
         builder.Property(e => e.Documents).HasMaxLength(255); // Optional
 
-        builder.Property(e => e.Status).IsRequired();
+        builder.Property(e => e.Status).IsRequired().HasConversion<string>();
 
         builder.Property(e => e.Description).IsRequired().HasMaxLength(255);
 
