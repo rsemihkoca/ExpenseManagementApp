@@ -3,6 +3,7 @@ using System.Text;
 using Api.Middlewares;
 using Application.Cqrs;
 using Application.Mapper;
+using Application.Services;
 using Application.Validators;
 using AutoMapper;
 using FluentValidation;
@@ -12,16 +13,9 @@ using Infrastructure.Dtos;
 using Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
-//
-// using FluentValidation;
-// using FluentValidation.AspNetCore;
-// using Api.Middleware;
-// using Api.Schema;
-// using Api.Service;
-// using Api.Validator;
 
 namespace Api;
 
@@ -54,6 +48,9 @@ public class Startup
         services.AddSingleton(mapperConfig.CreateMapper());
         
         services.AddEndpointsApiExplorer();
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserService, UserService>();
+        
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expense Management Api", Version = "v1.0" });
@@ -107,10 +104,13 @@ public class Startup
         services.AddHealthChecks();
         services.AddControllers();
         
-        
         services.AddFluentValidationAutoValidation();
         services.AddScoped<IValidator<TokenRequest>, CreateTokenValidator>();
-        
+        services.AddScoped<IValidator<InsertExpenseRequest>, CreateExpenseValidator>();
+
+        services.AddScoped<IHandlerValidator, HandlerValidator>();
+
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
