@@ -25,7 +25,7 @@ public class PaymentInstructionConfiguration : IEntityTypeConfiguration<PaymentI
         
         builder.Property(p => p.ExpenseRequestId).IsRequired();
         
-        builder.Property(p => p.PaymentStatus).IsRequired().HasMaxLength(255);
+        builder.Property(p => p.PaymentStatus).IsRequired().HasMaxLength(255).HasConversion<string>();
         
         builder.Property(p => p.PaymentDate).IsRequired();
         
