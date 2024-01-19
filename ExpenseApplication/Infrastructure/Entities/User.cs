@@ -36,14 +36,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Password).IsRequired().HasMaxLength(255);
 
-        builder.Property(u => u.FirstName).HasMaxLength(50);
+        builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
 
-        builder.Property(u => u.LastName).HasMaxLength(50);
+        builder.Property(u => u.LastName).IsRequired().HasMaxLength(50);
 
-        builder.Property(u => u.Email).HasMaxLength(255);
+        builder.Property(u => u.Email).IsRequired().HasMaxLength(255);
         builder.HasIndex(u => u.Email).IsUnique();
 
-        builder.Property(u => u.Iban).HasMaxLength(34);
+        builder.Property(u => u.Iban).IsRequired().HasMaxLength(34);
         builder.HasIndex(u => u.Iban).IsUnique();
 
         builder.Property(u => u.Role).IsRequired();
@@ -53,7 +53,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsActive).IsRequired();
         
         builder.Property(u => u.LastActivityDateTime).IsRequired();
-
+        
+        
         builder.HasMany(u => u.ExpenseRequests)
             .WithOne(e => e.User)
             .HasForeignKey(e => e.UserId);
