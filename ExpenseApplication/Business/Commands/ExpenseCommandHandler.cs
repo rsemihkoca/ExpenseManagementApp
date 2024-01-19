@@ -22,9 +22,24 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
+        
         // category validation user validation amount validation 
         // check float category id will be casted or what
         // cast category name to id 
+        
+        /* personel sadece kendisi için expense oluşturabilir
+         * admin herkes için expense oluşturabilir
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         */
         return await Task.FromResult(new ExpenseResponse());
     }
 }
