@@ -46,7 +46,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Iban).IsRequired().HasMaxLength(34);
         builder.HasIndex(u => u.Iban).IsUnique();
 
-        builder.Property(u => u.Role).IsRequired();
+        builder.Property(u => u.Role).IsRequired().HasConversion<string>();
 
         builder.Property(u => u.PasswordRetryCount).IsRequired();
 
