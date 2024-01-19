@@ -106,7 +106,7 @@ public class Startup
         
         services.AddFluentValidationAutoValidation();
         services.AddScoped<IValidator<TokenRequest>, CreateTokenValidator>();
-        services.AddScoped<IValidator<InsertExpenseRequest>, CreateExpenseValidator>();
+        services.AddScoped<IValidator<CreateExpenseRequest>, CreateExpenseValidator>();
 
         services.AddScoped<IHandlerValidator, HandlerValidator>();
 
