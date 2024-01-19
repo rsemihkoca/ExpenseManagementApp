@@ -125,6 +125,7 @@ public class Startup
         app.UseHealthChecks("/health");
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
+        app.UseAuthentication();
         app.UseRouting();
         app.UseAuthorization();
 
