@@ -1,13 +1,10 @@
 using Application.Cqrs;
-using Application.Services;
 using Application.Validators;
 using AutoMapper;
 using Business.Entities;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands;
 
@@ -18,7 +15,7 @@ public class ExpenseCategoryCommandHandler :
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
-    private readonly IHandlerValidator validator;
+    private readonly IHandlerValidator validate;
 
     public ExpenseCategoryCommandHandler(
         ExpenseDbContext dbContext,
@@ -27,13 +24,13 @@ public class ExpenseCategoryCommandHandler :
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
-        this.validator = validator;
+        this.validate = validator;
     }
 
     public async Task<ExpenseCategoryResponse> Handle(CreateExpenseCategoryCommand request,
         CancellationToken cancellationToken)
     {
-        await validator.ValidateCategoryNameNotExistAsync(request.Model.CategoryName, cancellationToken);
+        await validate.RecordNotExistAsync<ExpenseCategory>(x => x.CategoryName == request.Model.CategoryName, cancellationToken);
 
         ExpenseCategory entity = new ExpenseCategory
         {
@@ -50,10 +47,8 @@ public class ExpenseCategoryCommandHandler :
     public async Task<ExpenseCategoryResponse> Handle(UpdateExpenseCategoryCommand request,
         CancellationToken cancellationToken)
     {
-        var fromdb =
-            await validator.ValidateCategoryIsExistAsync(request.CategoryId, cancellationToken);
-        await validator.ValidateCategoryNameNotExistAsync(request.Model.CategoryName, cancellationToken);
-
+        var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
+        await validate.RecordNotExistAsync<ExpenseCategory>(x => x.CategoryName == request.Model.CategoryName, cancellationToken);
 
         fromdb.CategoryName = request.Model.CategoryName;
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -68,9 +63,9 @@ public class ExpenseCategoryCommandHandler :
     public async Task<ExpenseCategoryResponse> Handle(DeleteExpenseCategoryCommand request,
         CancellationToken cancellationToken)
     {
-        var fromdb = await validator.ValidateCategoryIsExistAsync(request.CategoryId, cancellationToken);
+        var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
 
-        await validator.ValidateNoActiveEntityExistAsync(request.CategoryId,
+        await validate.ActiveExpenseNotExistAsync(request.CategoryId,
             expense => expense.CategoryId == request.CategoryId, cancellationToken);
 
         dbContext.Remove(fromdb);
