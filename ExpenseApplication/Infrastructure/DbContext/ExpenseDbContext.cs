@@ -86,82 +86,82 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             new ExpenseCategory // Reklam
             {
                 CategoryId = 1,
-                CategoryName = "Advertising"
+                CategoryName = "Advertising".ToUpper()
             },
             new ExpenseCategory // Elektrik, Su, Fatura
             {
                 CategoryId = 2,
-                CategoryName = "Utilities"
+                CategoryName = "Utilities".ToUpper()
             },
             new ExpenseCategory // Maaş ve İşçi Giderleri
             {
                 CategoryId = 3,
-                CategoryName = "Payroll"
+                CategoryName = "Payroll".ToUpper()
             },
             new ExpenseCategory // Sigorta
             {
                 CategoryId = 4,
-                CategoryName = "Insurance"
+                CategoryName = "Insurance".ToUpper()
             },
             new ExpenseCategory // Kira
             {
                 CategoryId = 5,
-                CategoryName = "Rent"
+                CategoryName = "Rent".ToUpper()
             },
             new ExpenseCategory // Seyahat Giderleri
             {
                 CategoryId = 6,
-                CategoryName = "Travel Expenses"
+                CategoryName = "Travel Expenses".ToUpper()
             },
             new ExpenseCategory // Bakım ve Onarım
             {
                 CategoryId = 7,
-                CategoryName = "Maintenance and Repairs"
+                CategoryName = "Maintenance and Repairs".ToUpper()
             },
             new ExpenseCategory // Üyelik Ücretleri
             {
                 CategoryId = 8,
-                CategoryName = "Membership Fees"
+                CategoryName = "Membership Fees".ToUpper()
             },
             new ExpenseCategory // İş Lisansları ve İzinler
             {
                 CategoryId = 9,
-                CategoryName = "Business Licenses and Permits"
+                CategoryName = "Business Licenses and Permits".ToUpper()
             },
             new ExpenseCategory // Eğitim
             {
                 CategoryId = 10,
-                CategoryName = "Education"
+                CategoryName = "Education".ToUpper()
             },
             new ExpenseCategory // Sabit Giderler
             {
                 CategoryId = 11,
-                CategoryName = "Fixed Expenses"
+                CategoryName = "Fixed Expenses".ToUpper()
             },
             new ExpenseCategory // Yiyecek
             {
                 CategoryId = 12,
-                CategoryName = "Food"
+                CategoryName = "Food".ToUpper()
             },
             new ExpenseCategory // Eğlence
             {
                 CategoryId = 13,
-                CategoryName = "Entertainment"
+                CategoryName = "Entertainment".ToUpper()
             },
             new ExpenseCategory // Vergiler
             {
                 CategoryId = 14,
-                CategoryName = "Taxes"
+                CategoryName = "Taxes".ToUpper()
             },
             new ExpenseCategory // Hediyeler
             {
                 CategoryId = 15,
-                CategoryName = "Gifts"
+                CategoryName = "Gifts".ToUpper()
             },
             new ExpenseCategory // Ofis Ekipmanları
             {
                 CategoryId = 16,
-                CategoryName = "Office Equipment"
+                CategoryName = "Office Equipment".ToUpper()
             }
         );
 
