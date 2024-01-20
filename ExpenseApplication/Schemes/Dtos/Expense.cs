@@ -25,7 +25,6 @@ public class UpdateExpenseRequest //     public int ExpenseRequestId { get; set;
     public string Documents { get; set; }
     public ExpenseRequestStatus Status { get; set; }
     public string Description { get; set; }
-    public DateTime CreationDate { get; set; }
 }
 
 public class ExpenseResponse
