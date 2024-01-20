@@ -1,10 +1,13 @@
+using System.ComponentModel;
 using Business.Entities;
 
 namespace Business.Enums;
 
 public enum UserRole
 {
+    [Description ("Admin")]
     Admin,
+    [Description ("Personnel")]
     Personnel
 }
 //
@@ -39,15 +42,21 @@ public enum UserRole
 
 public enum ExpenseRequestStatus
 {
+    [Description ("Pending")]
     Pending,
+    [Description ("Approved")]
     Approved,
+    [Description ("Rejected")]
     Rejected
 }
 
 public enum PaymentRequestStatus
 {
+    [Description ("Pending")]
     Pending,
+    [Description ("Completed")]
     Completed,
+    [Description ("Failed")]
     Failed
 }
 
