@@ -11,7 +11,8 @@ using MediatR;
 namespace Application.Commands;
 
 public class ExpenseCommandHandler :
-    IRequestHandler<CreateExpenseCommand, ExpenseResponse>
+    IRequestHandler<CreateExpenseCommand, ExpenseResponse>,
+    IRequestHandler<UpdateExpenseCommand, ExpenseResponse>
 {
     private readonly ExpenseDbContext dbContext;
 
@@ -70,5 +71,15 @@ public class ExpenseCommandHandler :
 
         var mapped = mapper.Map<Expense, ExpenseResponse>(entityResult.Entity);
         return mapped;
+    }
+
+    public async Task<ExpenseResponse> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
+    {
+        // Admin approve ederse payment instruction oluşturulur
+        // approve yapıldıgında backfire, reject yapıldıgında backfire
+        // UpdateRequest için validator eklemeyi unutma !!!! DONE
+        // must be valid enum dene
+
+        return new ExpenseResponse();
     }
 }
