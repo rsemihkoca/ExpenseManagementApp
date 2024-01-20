@@ -70,21 +70,14 @@ public class UpdateExpenseValidator : AbstractValidator<UpdateExpenseRequest>
             .NotEmpty().WithMessage("Documents path is required.")
             .MaximumLength(255).WithMessage("Documents path cannot exceed 255 characters.");
             
+        //     public ExpenseRequestStatus Status { get; set; }
+        // must be valid enum
         RuleFor(expense => expense.Status)
             .NotEmpty().WithMessage("Status is required.")
+            .IsInEnum().WithMessage("Status must be valid.");
         
         RuleFor(expense => expense.Description)
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(255).WithMessage("Description cannot exceed 255 characters.");
     }
 }
-
-public int UserId { get; set; }
-public double Amount { get; set; }
-public int CategoryId { get; set; }
-public string PaymentMethod { get; set; }
-public string PaymentLocation { get; set; }
-public string Documents { get; set; }
-public ExpenseRequestStatus Status { get; set; }
-public string Description { get; set; }
-public DateTime CreationDate { get; set; }
