@@ -8,6 +8,7 @@ using Application.Validators;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using IbanNet.DependencyInjection.ServiceProvider;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
 using Infrastructure.Token;
@@ -104,15 +105,18 @@ public class Startup
         services.AddHealthChecks();
         services.AddControllers();
         
+        services.AddIbanNet();
         services.AddFluentValidationAutoValidation();
         services.AddScoped<IValidator<TokenRequest>, CreateTokenValidator>();
         
-        services.AddScoped<IValidator<CreateExpenseRequest>, ExpenseValidator>();
+        services.AddScoped<IValidator<CreateExpenseRequest>, CreateExpenseValidator>();
         services.AddScoped<IValidator<UpdateExpenseRequest>, UpdateExpenseValidator>();
         
-        services.AddScoped<IValidator<CreateExpenseCategoryRequest>, ExpenseCategoryValidator>();
+        services.AddScoped<IValidator<CreateExpenseCategoryRequest>, CreateExpenseCategoryValidator>();
         services.AddScoped<IValidator<UpdateExpenseCategoryRequest>, UpdateExpenseCategoryValidator>();
 
+        services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
+        services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserValidator>();
 
         services.AddScoped<IHandlerValidator, HandlerValidator>();
 
