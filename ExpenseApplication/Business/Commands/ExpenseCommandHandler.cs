@@ -34,8 +34,8 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
-        await validator.ValidateUserAsync(request.Model.UserId, cancellationToken);
-        await validator.ValidateCategoryAsync(request.Model.CategoryId, cancellationToken);
+        await validator.ValidateUserIsExistAsync(request.Model.UserId, cancellationToken);
+        await validator.ValidateCategoryIsExistAsync(request.Model.CategoryId, cancellationToken);
 
         var role = userService.GetUserRole();
         var creatorId = userService.GetUserId();
