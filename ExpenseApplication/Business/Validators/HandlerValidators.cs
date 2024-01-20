@@ -9,12 +9,12 @@ namespace Application.Validators;
 
 public interface IHandlerValidator
 {
-    Task<User> ValidateUserIsExistAsync(int userId, CancellationToken cancellationToken);
-    Task<ExpenseCategory> ValidateCategoryIsExistAsync(int categoryId, CancellationToken cancellationToken);
-
-    Task<ExpenseCategory?> ValidateCategoryNameNotExistAsync(string modelCategoryName,
-        CancellationToken cancellationToken);
-    Task<bool> ValidateNoActiveEntityExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken);
+    
+    Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken);
+    Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
+    
+    Task<bool> RecordNotExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
+    
 }
 
 
@@ -26,46 +26,10 @@ public class HandlerValidator : IHandlerValidator
     {
         this.dbContext = dbContext;
     }
-
-    public async Task<User> ValidateUserIsExistAsync(int userId, CancellationToken cancellationToken)
-    {
-        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId, cancellationToken);
-
-        if (user == null)
-        {
-            throw new HttpException("User not found", 404);
-        }
-
-        return user;
-    }
-
-    public async Task<ExpenseCategory> ValidateCategoryIsExistAsync(int categoryId, CancellationToken cancellationToken)
-    {
-        var category = await dbContext.ExpenseCategories.FirstOrDefaultAsync(x => x.CategoryId == categoryId, cancellationToken);
-
-        if (category == null)
-        {
-            throw new HttpException("Category not found", 404);
-        }
-        
-        return category;
-    }
     
-    public async Task<ExpenseCategory?> ValidateCategoryNameNotExistAsync(string categoryName, CancellationToken cancellationToken)
+    public async Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
     {
-        var category = await dbContext.ExpenseCategories.FirstOrDefaultAsync(x => x.CategoryName == categoryName.ToUpper(), cancellationToken);
-
-        if (category != null)
-        {
-            throw new HttpException("Category name already exist", 409);
-        }
-        
-        return category;
-    }
-    
-    public async Task<bool> ValidateNoActiveEntityExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
-    {
-        var entity = await dbContext.Expenses.FirstOrDefaultAsync(predicate, cancellationToken);
+        var entity = await dbContext.Expenses.Where(predicate).FirstOrDefaultAsync(cancellationToken);
 
         if (entity != null)
         {
@@ -75,6 +39,71 @@ public class HandlerValidator : IHandlerValidator
         return true;
     }
     
+    public async Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken) where T : class
+    {
+        T? entity = await dbContext.Set<T>().FirstOrDefaultAsync<T>(predicate, cancellationToken);
+
+        if (entity == null)
+        {
+            throw new HttpException($"No record found in {typeof(T).Name}", 404);
+        }
+
+        return entity;
+    }
+    
+    public async Task<bool> RecordNotExistAsync<T>(Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken) where T : class
+    {
+        T? entity = await dbContext.Set<T>().FirstOrDefaultAsync<T>(predicate, cancellationToken);
+        
+        if (entity != null)
+        {
+            throw new HttpException($"Existing record in {typeof(T).Name}.{GetParameterName(predicate)}", 409);
+        }
+
+        return true;
+    }
+    
+    // public async Task<T?> ValidateExistsAsync<T>(Func<IQueryable<T>, IQueryable<T>> query, CancellationToken cancellationToken) where T : class
+    // {
+    //     // T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
+    //     T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
+    //
+    //     if (entity == null)
+    //     {
+    //         throw new HttpException($"{typeof(T)} record not found", 404);
+    //     }
+    //
+    //     return entity;
+    // }
+
+    // public async Task<bool> ValidateNotExistsAsync<T>(Func<IQueryable<T>, IQueryable<T>> query, CancellationToken cancellationToken) where T : class
+    // {
+    //     T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
+    //
+    //     if (entity != null)
+    //     {
+    //         throw new HttpException($"Existing record in {typeof(T)}", 409);
+    //     }
+    //
+    //     return true;
+    // }
+
+
+    private string GetParameterName<T>(Expression<Func<T, bool>> predicate)
+    {
+        if (predicate.Body is BinaryExpression binaryExpression)
+        {
+            if (binaryExpression.Left is MemberExpression left)
+            {
+                return left.Member.Name;
+                
+            }
+        }
+
+        throw new ArgumentException("Unable to extract parameter name from the expression.", nameof(predicate));
+    }
     
     
     
