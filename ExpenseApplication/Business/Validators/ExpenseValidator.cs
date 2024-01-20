@@ -3,10 +3,10 @@ using Infrastructure.Dtos;
 
 namespace Application.Validators;
 
-public class ExpenseValidator : AbstractValidator<CreateExpenseRequest>
+public class CreateExpenseValidator : AbstractValidator<CreateExpenseRequest>
 {
     
-    public ExpenseValidator()
+    public CreateExpenseValidator()
     {
     
         RuleFor(expense => expense.UserId)
