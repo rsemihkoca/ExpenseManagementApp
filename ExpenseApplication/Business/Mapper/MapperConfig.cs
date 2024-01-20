@@ -34,6 +34,7 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => src.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")))
             .ForMember(src => src.LastUpdateTime,
                 opt => opt.MapFrom(src => src.LastUpdateTime.ToString("dd/MM/yyyy HH:mm:ss")));
-        
+
+        CreateMap<ExpenseCategory, ExpenseCategoryResponse>();
     }
 }
