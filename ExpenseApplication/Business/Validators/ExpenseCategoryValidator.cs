@@ -7,7 +7,11 @@ public class ExpenseCategoryValidator : AbstractValidator<CreateExpenseCategoryR
 {
     public ExpenseCategoryValidator()
     {
-        RuleFor(x => x.CategoryName).NotEmpty().WithMessage("Name is required");
+        RuleFor(x => x.CategoryName)
+            .NotEmpty()
+            .WithMessage("Categoryname is required")
+            .MaximumLength(255)
+            .WithMessage("Categoryname must not exceed 255 characters");
     }
 }
 
@@ -15,6 +19,10 @@ public class UpdateExpenseCategoryValidator : AbstractValidator<UpdateExpenseCat
 {
     public UpdateExpenseCategoryValidator()
     {
-        RuleFor(x => x.CategoryName).NotEmpty().WithMessage("Name is required");
+        RuleFor(x => x.CategoryName)
+            .NotEmpty()
+            .WithMessage("Categoryname is required")
+            .MaximumLength(255)
+            .WithMessage("Categoryname must not exceed 255 characters");
     }
 }
