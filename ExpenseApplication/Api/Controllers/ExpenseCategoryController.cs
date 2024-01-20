@@ -44,9 +44,9 @@ public class ExpenseCategoryController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetAllExpenseCategorys()
+    public async Task<IActionResult> GetAllExpenseCategory()
     {
         var query = new GetAllExpenseCategoryQuery();
         var result = await _mediator.Send(query);
