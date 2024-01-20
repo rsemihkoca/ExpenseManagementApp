@@ -15,27 +15,25 @@ public class ExpenseCommandHandler :
     IRequestHandler<UpdateExpenseCommand, ExpenseResponse>
 {
     private readonly ExpenseDbContext dbContext;
-
-    // private readonly JwtConfig jwtConfig;
     private readonly IUserService userService;
     private readonly IMapper mapper;
-    private readonly IHandlerValidator validator;
+    private readonly IHandlerValidator validate;
 
     public ExpenseCommandHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validator,
-        IUserService userService) // IOptionsMonitor<JwtConfig> jwtConfig,
+        IUserService userService)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
-        this.validator = validator;
+        this.validate = validator;
         this.userService = userService;
-        // this.jwtConfig = jwtConfig.CurrentValue;
     }
 
 
     public async Task<ExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
-        await validator.ValidateUserIsExistAsync(request.Model.UserId, cancellationToken);
-        await validator.ValidateCategoryIsExistAsync(request.Model.CategoryId, cancellationToken);
+        await validate.RecordExistAsync<User>(x => x.UserId == request.Model.UserId, cancellationToken);
+        await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.Model.CategoryId,
+            cancellationToken);
 
         var role = userService.GetUserRole();
         var creatorId = userService.GetUserId();
@@ -52,16 +50,6 @@ public class ExpenseCommandHandler :
             default:
                 throw new HttpException("You can't create expense", 403);
         }
-        // + // Get role from jwttoken
-        // + // check user is admin or not
-        // + // check user is exist or not
-        // + // check category is exist or not
-        // check category id is integer or not
-        // check amount is integer or not
-        // 
-        // personel sadece kendisi için expense oluşturabilir
-        // admin herkes için expense oluşturabilir
-        //
 
         var entity = mapper.Map<CreateExpenseRequest, Expense>(request.Model);
         entity.CreatedBy = creatorId;
