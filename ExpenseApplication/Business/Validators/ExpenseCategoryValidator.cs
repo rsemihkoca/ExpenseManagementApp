@@ -3,9 +3,9 @@ using Infrastructure.Dtos;
 
 namespace Application.Validators;
 
-public class ExpenseCategoryValidator : AbstractValidator<CreateExpenseCategoryRequest>
+public class CreateExpenseCategoryValidator : AbstractValidator<CreateExpenseCategoryRequest>
 {
-    public ExpenseCategoryValidator()
+    public CreateExpenseCategoryValidator()
     {
         RuleFor(x => x.CategoryName)
             .NotEmpty()
