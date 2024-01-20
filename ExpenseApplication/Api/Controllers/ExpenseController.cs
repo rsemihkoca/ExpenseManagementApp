@@ -33,6 +33,8 @@ public class ExpenseController : ControllerBase
 
     // Update Expense
     [HttpPut("{expenseRequestId}")]
+    [Authorize(Roles = "Admin")]
+
     public async Task<IActionResult> UpdateExpense(int expenseRequestId, [FromBody] UpdateExpenseRequest request)
     {
         var command = new UpdateExpenseCommand(expenseRequestId, request);
@@ -42,6 +44,7 @@ public class ExpenseController : ControllerBase
 
     // Delete Expense
     [HttpDelete("{expenseRequestId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteExpense(int expenseRequestId)
     {
         var command = new DeleteExpenseCommand(expenseRequestId);
@@ -51,6 +54,7 @@ public class ExpenseController : ControllerBase
 
     // Get all Expenses
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllExpenses()
     {
         var query = new GetAllExpenseQuery();
