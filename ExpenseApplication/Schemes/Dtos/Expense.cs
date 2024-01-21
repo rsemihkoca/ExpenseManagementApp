@@ -18,7 +18,6 @@ public class CreateExpenseRequest
     public int CategoryId { get; set; }
     public string PaymentMethod { get; set; }
     public string PaymentLocation { get; set; }
-
     public string Documents { get; set; }
     public string Description { get; set; }
 }
@@ -32,8 +31,10 @@ public class UpdateExpenseRequest //     public int ExpenseRequestId { get; set;
     public string PaymentMethod { get; set; }
     public string PaymentLocation { get; set; }
     public string Documents { get; set; }
-    public ExpenseRequestStatus Status { get; set; }
+    public string Status { get; set; }
     public string Description { get; set; }
+    public string PaymentStatus { get; set; }
+    public string PaymentDescription { get; set; }
 }
 
 public class ExpenseResponse
