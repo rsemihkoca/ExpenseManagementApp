@@ -8,74 +8,57 @@ namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public class PaymentInstructionController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public UserController(IMediator mediator)
+    public PaymentInstructionController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+    public async Task<IActionResult> CreatePaymentInstruction([FromBody] CreatePaymentInstructionRequest request)
     {
-        var command = new CreateUserCommand(request);
+        var command = new CreatePaymentInstructionCommand(request);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
 
-    [HttpPut("{UserId}")]
+    [HttpPut("{paymentInstructionId}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> UpdateUser(int UserId, [FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> UpdatePaymentInstruction(int paymentInstructionId, [FromBody] UpdatePaymentInstructionRequest request)
     {
-        var command = new UpdateUserCommand(UserId, request);
+        var command = new UpdatePaymentInstructionCommand(paymentInstructionId, request);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
 
-    [HttpDelete("{UserId}")]
+    [HttpDelete("{paymentInstructionId}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteUser(int UserId)
+    public async Task<IActionResult> DeletePaymentInstruction(int paymentInstructionId)
     {
-        var command = new DeleteUserCommand(UserId);
+        var command = new DeletePaymentInstructionCommand(paymentInstructionId);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
     
-    [HttpPost("[action]")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ActivateUser(int UserId)
-    {
-        var command = new ActivateUserCommand(UserId);
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
-    
-    [HttpPost("[action]")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeactivateUser(int UserId)
-    {
-        var command = new DeactivateUserCommand(UserId);
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
 
     [HttpGet("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetAllUser()
+    public async Task<IActionResult> GetAllPaymentInstruction()
     {
-        var query = new GetAllUserQuery();
+        var query = new GetAllPaymentInstructionQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
     
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetUserById(int UserId)
+    public async Task<IActionResult> GetPaymentInstructionById(int paymentInstructionId)
     {
-        var query = new GetUserByIdQuery(UserId);
+        var query = new GetPaymentInstructionByIdQuery(paymentInstructionId);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
