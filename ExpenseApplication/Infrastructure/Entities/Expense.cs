@@ -21,9 +21,12 @@ public class Expense : BaseEntity
     public string Description { get; set; } //  (from User)
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
+
+    public PaymentRequestStatus PaymentStatus { get; set; } = PaymentRequestStatus.Pending;// (Pending, Completed, Failed)
+    public DateTime? PaymentDate { get; set; } = null; // (if Status is Completed)
+    public string PaymentDescription { get; set; } = "";//  (if Status is Rejected)
     public virtual User User { get; set; }
     public virtual ExpenseCategory ExpenseCategory { get; set; }
-    public virtual PaymentInstruction PaymentInstruction { get; set; }
 }
 
 public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
@@ -54,6 +57,8 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
         builder.Property(e => e.CreationDate).IsRequired();
         
         builder.Property(e => e.LastUpdateTime).IsRequired();
+        
+        builder.Property(e => e.PaymentStatus).IsRequired().HasConversion<string>();
 
         builder.HasOne(e => e.User)
             .WithMany(u => u.ExpenseRequests)
@@ -64,12 +69,7 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
             .WithMany()
             .HasForeignKey(e => e.CategoryId);
             // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of ExpenseCategory if it is referenced by an Expense
-
-        builder.HasOne(e => e.PaymentInstruction)
-            .WithOne(e => e.Expense)
-            .HasForeignKey<PaymentInstruction>(p => p.ExpenseRequestId);
-
-            // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of PaymentInstruction if it is referenced by an Expense
+            
 
         
     }
