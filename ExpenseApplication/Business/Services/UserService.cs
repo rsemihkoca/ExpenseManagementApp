@@ -4,6 +4,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
+
+public interface IUserService
+{
+    string? GetUserRole();
+    
+    string? GetUserEmail();
+    
+    int GetUserId();
+    
+}
+
+
 public class UserService(IHttpContextAccessor httpContextAccessor) : IUserService
 {
     public string GetUserRole()
