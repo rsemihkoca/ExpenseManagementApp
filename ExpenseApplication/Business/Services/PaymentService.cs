@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Business.Entities;
+using Business.Enums;
 using Infrastructure.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,51 +12,89 @@ using System.Threading.Tasks;
 
 public interface IPaymentService
 {
-    Task ProcessPayment(decimal amount, string fromIban, string toIban);
-    // Get Payment Information
-    
-    Task<(string?, string?)> GetPaymentCredentials(int fromUserId, int toUserId);
+    // Task<ExecuteProcessResponse> ExecutePayment(double amount, int fromIban, int toIban);
+
+    Task ProcessPayment(int expenseRequestId, double amount, int fromUserId, int toUserId);
+    // Task<(User? fromUser, User? toUser)> GetPaymentCredentials(int fromUserId, int toUserId);
 }
 
 public class PaymentService : IPaymentService
 {
     private readonly ExpenseDbContext dbContext;
-    
-    public async Task ProcessPayment(decimal amount, string fromUserId, string toUserId)
+
+    public PaymentService(ExpenseDbContext dbContext)
     {
-        
-        (string? fromIban, string? toIban) = await GetPaymentCredentials(int.Parse(fromUserId), int.Parse(toUserId));
-        
-        if (fromIban == null || toIban == null)
+        this.dbContext = dbContext;
+    }
+
+    public async Task ProcessPayment(int expenseRequestId, double amount, int fromUserId, int toUserId)
+    {
+        ExecuteProcessResponse response = await ExecutePayment(amount, fromUserId, toUserId);
+        var expense = await dbContext.Set<Expense>().FirstOrDefaultAsync(x => x.ExpenseRequestId == expenseRequestId);
+
+        switch (response.paymentSuccess)
+        {
+            case true:
+                // get expense from db and update status
+                // var expense = await dbContext.Set<Expense>().FirstOrDefaultAsync(x => x.ExpenseRequestId == credentials.fromUser.);
+
+                Console.WriteLine("Payment Success : " + response.message);
+                
+                expense.LastUpdateTime = DateTime.Now;
+                expense.PaymentStatus = PaymentRequestStatus.Completed;
+                expense.PaymentDescription = response.message;
+                expense.PaymentDate = DateTime.Now;
+                
+                await dbContext.SaveChangesAsync();
+                
+                Console.WriteLine($"Email sent to {response.fromUserEmail}: ${amount} Paid Successfully");
+                break;
+            case false:
+
+                Console.WriteLine("Payment Failed : " + response.message);
+                
+                expense.LastUpdateTime = DateTime.Now;
+                expense.PaymentStatus = PaymentRequestStatus.Failed;
+                expense.PaymentDescription = response.message;
+                expense.PaymentDate = DateTime.Now;
+                
+                await dbContext.SaveChangesAsync();
+
+                Console.WriteLine($"Email sent to {response.fromUserEmail} Failed");
+                break;
+        }
+    }
+
+    private async Task<ExecuteProcessResponse> ExecutePayment(double amount, int fromUserId, int toUserId)
+    {
+        (User? fromUser, User? toUser) credentials = await GetPaymentCredentials(fromUserId, toUserId);
+
+        if (credentials.fromUser?.Iban == null || credentials.toUser?.Iban == null)
         {
             throw new Exception("Payment Credentials Not Found");
         }
-        
-        bool paymentSuccess = await MakePaymentRequest(amount, fromIban, toIban);
 
-        if (paymentSuccess)
+        (bool paymentSuccess, string message) response =
+            await MakePaymentRequest(amount, credentials.fromUser.Iban, credentials.toUser.Iban);
+
+        return new ExecuteProcessResponse()
         {
-            // Update Status of Payment Instruction to Success
-            // send Email to toEmail
-            Console.WriteLine("Payment Success");
-        }
-        else
-        {
-            // Update Status of Payment Instruction to Failed
-            // send Email to toEmail
-            Console.WriteLine("Payment Failed");
-        }
+            paymentSuccess = response.paymentSuccess,
+            message = response.message,
+            fromUserEmail = credentials.fromUser.Email,
+            toUserEmail = credentials.toUser.Email
+        };
     }
 
-    public async Task<(string?, string?)> GetPaymentCredentials(int fromUserId, int toUserId)
+    private async Task<(User? fromUser, User? toUser)> GetPaymentCredentials(int fromUserId, int toUserId)
     {
         var fromUser = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == fromUserId);
         var toUser = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == toUserId);
-        
-        return fromUser != null && toUser != null ? (fromUser.Iban, toUser.Iban) : (null, null);
+
+        return fromUser != null && toUser != null ? (fromUser, toUser) : (null, null);
     }
 
-    private async Task<bool> MakePaymentRequest(decimal amount, string fromIban, string toIban)
+    private async Task<(bool, string)> MakePaymentRequest(double amount, string fromIban, string toIban)
     {
         var client = new HttpClient();
         var request = new PaymentRequest()
@@ -64,23 +103,38 @@ public class PaymentService : IPaymentService
             FromIBAN = fromIban,
             ToIBAN = toIban
         };
-        var response = await client.PostAsJsonAsync("https://localhost:5001/api/payment", request);
+        var response =
+            await client.PostAsJsonAsync("http://localhost:5245/api/PaymentSimulator/ProcessPayment", request);
+
+        var result = await response.Content.ReadFromJsonAsync<PaymentResponse>();
         if (response.IsSuccessStatusCode)
         {
-            return true;
+            return (true, result.Message);
         }
         else
         {
-            return false;
+            return (false, result.Message);
         }
     }
-
-
 }
 
 public class PaymentRequest
 {
-    public decimal Amount { get; set; }
+    public double Amount { get; set; }
     public string FromIBAN { get; set; }
     public string ToIBAN { get; set; }
+}
+
+public class PaymentResponse
+{
+    public string Status { get; set; }
+    public string Message { get; set; }
+}
+
+public class ExecuteProcessResponse
+{
+    public bool paymentSuccess { get; set; }
+    public string message { get; set; }
+    public string fromUserEmail { get; set; }
+    public string toUserEmail { get; set; }
 }
