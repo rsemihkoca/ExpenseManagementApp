@@ -53,6 +53,7 @@ public class Startup
         // Hangfire
         
         services.AddHangfire(configuration => configuration
+            .UseFilter(new AutomaticRetryAttribute { Attempts = 0 })
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
