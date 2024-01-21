@@ -1,120 +1,85 @@
 using Application.Cqrs;
+using Application.Services;
 using Application.Validators;
 using AutoMapper;
 using Business.Entities;
+using Business.Enums;
+using Hangfire;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
+using LinqKit;
 using MediatR;
 
 namespace Application.Commands;
 
-public class UserCommandHandler :
-    IRequestHandler<CreateUserCommand, UserResponse>,
-    IRequestHandler<UpdateUserCommand, UserResponse>,
-    IRequestHandler<DeleteUserCommand, UserResponse>,
-    IRequestHandler<ActivateUserCommand, UserResponse>,
-    IRequestHandler<DeactivateUserCommand, UserResponse>
+public class PaymentInstructionCommandHandler :
+    IRequestHandler<CreatePaymentInstructionCommand, PaymentInstructionResponse>,
+    IRequestHandler<UpdatePaymentInstructionCommand, PaymentInstructionResponse>,
+    IRequestHandler<DeletePaymentInstructionCommand, PaymentInstructionResponse>
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
     private readonly IHandlerValidator validate;
+    private readonly IPaymentService payment;
 
-    public UserCommandHandler(
+    public PaymentInstructionCommandHandler(
         ExpenseDbContext dbContext,
         IMapper mapper,
-        IHandlerValidator validator)
+        IHandlerValidator validator, IPaymentService payment)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
         this.validate = validator;
+        this.payment = payment;
     }
 
-    public async Task<UserResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<PaymentInstructionResponse> Handle(CreatePaymentInstructionCommand request, CancellationToken cancellationToken)
     {
-        await validate.RecordNotExistAsync<User>(x => x.Username == request.Model.Username, cancellationToken);
-        await validate.RecordNotExistAsync<User>(x => x.Email == request.Model.Email, cancellationToken);
-        await validate.RecordNotExistAsync<User>(x => x.Iban == request.Model.Iban, cancellationToken);
+        /* check no previous payment instruction for this entity*/
+        /* check there is expense for this payment instruction*/
+        await validate.RecordNotExistAsync<PaymentInstruction>(x => x.ExpenseRequestId == request.Model.ExpenseRequestId, cancellationToken);
+        await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.Model.ExpenseRequestId, cancellationToken);
         
-        request.Model.Password = MD5Extensions.ToMD5(request.Model.Password.Trim());
+        var entity = mapper.Map<CreatePaymentInstructionRequest, PaymentInstruction>(request.Model);
         
-        var entity = mapper.Map<CreateUserRequest, User>(request.Model);
-
         var entityResult = await dbContext.AddAsync(entity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        var mapped = mapper.Map<User, UserResponse>(entityResult.Entity);
+        var mapped = mapper.Map<PaymentInstruction, PaymentInstructionResponse>(entityResult.Entity);
         return mapped;
+
     }
 
-    public async Task<UserResponse> Handle(UpdateUserCommand request,
-        CancellationToken cancellationToken)
+    public async Task<PaymentInstructionResponse> Handle(UpdatePaymentInstructionCommand request, CancellationToken cancellationToken)
     {
-        var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
+        var fromdb = await validate.RecordExistAsync<PaymentInstruction>(x => x.PaymentInstructionId == request.PaymentInstructionId, cancellationToken);
+
+        fromdb.PaymentStatus =
+            (PaymentRequestStatus)Enum.Parse(typeof(PaymentRequestStatus), request.Model.PaymentStatus, true);
+        fromdb.PaymentDate = request.Model.PaymentDate;
+        fromdb.PaymentDescription = request.Model.PaymentDescription;
         
-        // Check if username, email and iban is changed if changed check if it is unique
-        if (fromdb.Username != request.Model.Username)
-        {
-            await validate.RecordNotExistAsync<User>(x => x.Username == request.Model.Username, cancellationToken);
-        }
-        
-        if (fromdb.Email != request.Model.Email)
-        {
-            await validate.RecordNotExistAsync<User>(x => x.Email == request.Model.Email, cancellationToken);
-        }
-        
-        if (fromdb.Iban != request.Model.Iban)
-        {
-            await validate.RecordNotExistAsync<User>(x => x.Iban == request.Model.Iban, cancellationToken);
-        }
-        
-        fromdb.Username = request.Model.Username;
-        fromdb.Password = MD5Extensions.ToMD5(request.Model.Password.Trim());
-        fromdb.FirstName = request.Model.FirstName;
-        fromdb.LastName = request.Model.LastName;
-        fromdb.Email = request.Model.Email;
-        fromdb.Iban = request.Model.Iban;
-        fromdb.Role = request.Model.Role;
-        fromdb.IsActive = request.Model.IsActive;
         
         await dbContext.SaveChangesAsync(cancellationToken);
-        
-        var mapped = mapper.Map<User, UserResponse>(fromdb);
+        var mapped = mapper.Map<PaymentInstruction, PaymentInstructionResponse>(fromdb);
         return mapped;
     }
 
-    public async Task<UserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<PaymentInstructionResponse> Handle(DeletePaymentInstructionCommand request, CancellationToken cancellationToken)
     {
-        var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
+        var fromdb = await validate.RecordExistAsync<PaymentInstruction>(x => x.PaymentInstructionId == request.PaymentInstructionId, cancellationToken);
+        /* check if expense is in status pending */
         
-        await validate.ActiveExpenseNotExistAsync(request.UserId, expense => expense.UserId == request.UserId, cancellationToken);
-
+        var predicate = PredicateBuilder.New<Expense>(true);
+        predicate.And(x => x.ExpenseRequestId == fromdb.ExpenseRequestId);
+        predicate.And(x => x.Status == ExpenseRequestStatus.Pending);
+        
+        var expense = await validate.RecordNotExistAsync<Expense>(predicate, cancellationToken);
+        
         dbContext.Remove(fromdb);
         await dbContext.SaveChangesAsync(cancellationToken);
-
-        var mapped = mapper.Map<User, UserResponse>(fromdb);
-        return mapped;
-    }
-
-    public async Task<UserResponse> Handle(ActivateUserCommand request, CancellationToken cancellationToken)
-    {
-        var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
-        fromdb.IsActive = true;
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
-        var mapped = mapper.Map<User, UserResponse>(fromdb);
-        return mapped;
-
-    }
-
-    public async Task<UserResponse> Handle(DeactivateUserCommand request, CancellationToken cancellationToken)
-    {
-        var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
-        
-        fromdb.IsActive = false;
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
-        var mapped = mapper.Map<User, UserResponse>(fromdb);
+        var mapped = mapper.Map<PaymentInstruction, PaymentInstructionResponse>(fromdb);
         return mapped;
     }
 }
