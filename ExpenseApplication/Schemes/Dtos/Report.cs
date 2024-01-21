@@ -7,6 +7,12 @@ public class ReportFrequencyRequest
     public string Type { get; set; }
 }
 
+public class PersonnelSummaryRequest
+{
+    public string Type { get; set; }
+    public int UserId { get; set; }
+}
+
 public class ApprovedPaymentFrequencyReportResponse
 {
     public string Type { get; set; }
@@ -53,16 +59,15 @@ public class PersonnelExpenseFrequencyReportResponse
 public class PersonnelSummaryReportResponse
 {
     public int UserId { get; set; }
-    public string FullName { get; set; }
     public int TotalCount { get; set; }
     public int ApprovedCount { get; set; }
     public int RejectedCount { get; set; }
     public int PendingCount { get; set; }
     
-    public int ApprovedPercentage { get; set; }
+    public string ApprovedPercentage { get; set; }
     public double ApprovedSum { get; set; }
     public double RejectedSum { get; set; }
     public double PendingSum { get; set; }
 
-    List<ExpenseResponse> Expenses { get; set; }
+    public List<ExpenseResponse> Expenses { get; set; }
 }
