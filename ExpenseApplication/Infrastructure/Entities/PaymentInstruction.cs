@@ -12,7 +12,7 @@ public class PaymentInstruction : BaseEntity
     public int ExpenseRequestId { get; set; } // (Foreign Key to Expense)
     public PaymentRequestStatus PaymentStatus { get; set; } // (Pending, Completed, Failed)
     public DateTime? PaymentDate { get; set; }
-
+    public string PaymentDescription { get; set; } //  (if Status is Rejected)
     public virtual Expense Expense { get; set; }
 }
 
@@ -26,6 +26,8 @@ public class PaymentInstructionConfiguration : IEntityTypeConfiguration<PaymentI
         builder.Property(p => p.ExpenseRequestId).IsRequired();
         
         builder.Property(p => p.PaymentStatus).IsRequired().HasMaxLength(255).HasConversion<string>();
+        
+        builder.Property(p => p.PaymentDescription).HasMaxLength(255);
         
         builder.Property(p => p.PaymentDate).IsRequired();
         
