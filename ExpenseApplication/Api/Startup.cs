@@ -1,7 +1,5 @@
-using System.Reflection;
 using System.Text;
 using Api.Middlewares;
-using Application.Cqrs;
 using Application.Mapper;
 using Application.Services;
 using Application.Validators;
@@ -16,7 +14,6 @@ using Infrastructure.Dtos;
 using Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
