@@ -33,8 +33,6 @@ public class ExpenseQueryHandler :
     public async Task<List<ExpenseResponse>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
     {
         var list = await dbContext.Set<Expense>()
-            .Include(x => x.User)
-            .Include(x => x.ExpenseCategory)
             .ToListAsync(cancellationToken);
         
             
@@ -45,8 +43,6 @@ public class ExpenseQueryHandler :
     public async Task<ExpenseResponse> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await dbContext.Set<Expense>()
-            .Include(x => x.User)
-            .Include(x => x.ExpenseCategory)
             .FirstOrDefaultAsync(x => x.ExpenseRequestId == request.ExpenseRequestId, cancellationToken);
 
         if (entity == null)
@@ -77,8 +73,6 @@ public class ExpenseQueryHandler :
             predicate.And(x => x.PaymentStatus == (PaymentRequestStatus)Enum.Parse(typeof(PaymentRequestStatus), request.Model.PaymentStatus));
         
         var list =  await dbContext.Set<Expense>()
-            .Include(x => x.User)
-            .Include(x => x.ExpenseCategory)
             .Where(predicate).ToListAsync(cancellationToken);
         
         var mapped = mapper.Map<List<Expense>, List<ExpenseResponse>>(list);
