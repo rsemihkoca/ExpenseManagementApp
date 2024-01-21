@@ -12,15 +12,13 @@ public record UpdateExpenseCommand(int ExpenseRequestId, UpdateExpenseRequest Mo
 // admin kendini onaylayamaz
 public record DeleteExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
 
+public record ApproveExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
 
+public record RejectExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
 
 
 
 public record GetAllExpenseQuery() : IRequest<List<ExpenseResponse>>;
 
 public record GetExpenseByIdQuery(int ExpenseRequestId) : IRequest<ExpenseResponse>;
-
-// add additional query to get expense by parameter
-
-// public record GetExpenseByParameterQuery(string FirstName, string LastName, string IdentityNumber)
-//     : IRequest<List<ExpenseResponse>>;
+public record GetExpenseByParameterQuery(GetExpenseByParameterRequest Model) : IRequest<List<ExpenseResponse>>;
