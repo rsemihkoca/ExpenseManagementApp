@@ -14,9 +14,14 @@ Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
 
 <table>
   <tr>
+    <th>Method</th>
     <th>Path</th>
+    <th>Image</th>
+  </tr>
+  <tr>
     <td>
       <img src=".github/assets/POST.png" alt="POST" width="100"/>
-    </td>
+    </td>    <td>/example/path</td>
+
   </tr>
 </table>
