@@ -10,7 +10,6 @@ public class Expense : BaseEntity
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
     public int UserId { get; set; } // (Foreign Key)
-    
     public int CreatedBy { get; set; }
     public double Amount { get; set; }
     public int CategoryId { get; set; } // (Foreign Key to ExpenseCategory)
@@ -21,10 +20,10 @@ public class Expense : BaseEntity
     public string Description { get; set; } //  (from User)
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
-
     public PaymentRequestStatus PaymentStatus { get; set; } = PaymentRequestStatus.Pending;// (Pending, Completed, Failed)
+    
     public DateTime? PaymentDate { get; set; } = null; // (if Status is Completed)
-    public string PaymentDescription { get; set; } = "";//  (if Status is Rejected)
+    public string PaymentDescription { get; set; } = "Payment Not Made";//  (if Status is Rejected)
     public virtual User User { get; set; }
     public virtual ExpenseCategory ExpenseCategory { get; set; }
 }
