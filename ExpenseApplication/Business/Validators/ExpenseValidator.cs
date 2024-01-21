@@ -54,7 +54,6 @@ public class UpdateExpenseValidator : AbstractValidator<UpdateExpenseRequest>
             .NotEmpty().WithMessage("Amount is required.")
             .GreaterThan(0).WithMessage("Amount must be greater than zero.");
 
-        // must be integer
         RuleFor(expense => expense.CategoryId)
             .NotEmpty().WithMessage("Category is required.")
             .GreaterThan(0).WithMessage("Category must be greater than zero.");
@@ -71,15 +70,23 @@ public class UpdateExpenseValidator : AbstractValidator<UpdateExpenseRequest>
             .NotEmpty().WithMessage("Documents path is required.")
             .MaximumLength(255).WithMessage("Documents path cannot exceed 255 characters.");
             
-        //     public ExpenseRequestStatus Status { get; set; }
-        // must be valid enum
         RuleFor(expense => expense.Status)
             .NotEmpty().WithMessage("Status is required.")
-            .IsInEnum().WithMessage("Status must be valid.");
+            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Approved") || x.ToString().Equals("Rejected"))
+            .WithMessage("Status must be one of the following: Pending, Approved, Rejected.");
         
         RuleFor(expense => expense.Description)
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(255).WithMessage("Description cannot exceed 255 characters.");
+            
+        RuleFor(expression => expression.PaymentStatus)
+            .NotEmpty().WithMessage("Payment status is required.")
+            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Completed") || x.ToString().Equals("Failed"))
+            .WithMessage("PaymentStatus must be one of the following: Pending, Completed, Failed.");
+
+        RuleFor(expense => expense.PaymentDescription)
+            .NotEmpty().WithMessage("Payment description is required.")
+            .MaximumLength(255).WithMessage("Payment description cannot exceed 255 characters.");
     }
 }
 
