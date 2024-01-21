@@ -139,6 +139,9 @@ public class Startup
         services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserValidator>();
         
+        services.AddScoped<IValidator<ReportFrequencyRequest>, ReportValidator>();
+        services.AddScoped<IValidator<PersonnelSummaryRequest>, PersonnelSummaryValidator>();
+        
         services.AddScoped<IHandlerValidator, HandlerValidator>();
 
 
