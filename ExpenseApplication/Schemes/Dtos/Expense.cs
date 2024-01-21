@@ -40,8 +40,8 @@ public class UpdateExpenseRequest //     public int ExpenseRequestId { get; set;
 public class ExpenseResponse
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
-    public string UserId { get; set; } // (Foreign Key)
-    public string CategoryId { get; set; } // (Foreign Key to ExpenseCategory)
+    public int UserId { get; set; } // (Foreign Key)
+    public int CategoryId { get; set; } // (Foreign Key to ExpenseCategory)
     public string ExpenseStatus { get; set; }
     public string PaymentStatus { get; set; }
     
