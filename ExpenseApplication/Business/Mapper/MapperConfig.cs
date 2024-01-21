@@ -53,19 +53,5 @@ public class MapperConfig : Profile
             .ForMember(src => src.LastActivityDateTime,
                 opt => opt.MapFrom(src => src.LastActivityDateTime.ToString("dd/MM/yyyy HH:mm:ss")));
 
-        CreateMap<CreatePaymentInstructionRequest, PaymentInstruction>()
-            .ForMember(dest => dest.PaymentStatus,
-                opt => opt.MapFrom(src => PaymentRequestStatus.Pending));
-
-        CreateMap<PaymentInstruction, PaymentInstructionResponse>()
-            .ForMember(dest => dest.Amount,
-                opt => opt.MapFrom(src => src.Expense.Amount))
-            .ForMember(dest => dest.Description,
-                opt => opt.MapFrom(src => src.Expense.Description))
-            .ForMember(dest => dest.ExpenseStatus,
-                opt => opt.MapFrom(src => src.Expense.Status.ToString()))
-            .ForMember(dest => dest.PaymentStatus,
-                opt => opt.MapFrom(src => src.PaymentStatus.ToString()));
-
     }
 }
