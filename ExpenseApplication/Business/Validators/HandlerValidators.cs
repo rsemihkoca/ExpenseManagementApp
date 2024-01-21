@@ -59,7 +59,7 @@ public class HandlerValidator : IHandlerValidator
         
         if (entity != null)
         {
-            throw new HttpException($"Existing record in {typeof(T).Name}.{GetParameterName(predicate)}", 409);
+            throw new HttpException($"Existing record in {typeof(T).Name}", 409);
         }
 
         return true;
@@ -91,19 +91,19 @@ public class HandlerValidator : IHandlerValidator
     // }
 
 
-    private string GetParameterName<T>(Expression<Func<T, bool>> predicate)
-    {
-        if (predicate.Body is BinaryExpression binaryExpression)
-        {
-            if (binaryExpression.Left is MemberExpression left)
-            {
-                return left.Member.Name;
-                
-            }
-        }
+    // private string GetParameterName<T>(Expression<Func<T, bool>> predicate)
+    // {
+    //     if (predicate.Body is BinaryExpression binaryExpression)
+    //     {
+    //         if (binaryExpression.Left is MemberExpression left)
+    //         {
+    //             return left.Member.Name;
+    //             
+    //         }
+    //     }
 
-        throw new ArgumentException("Unable to extract parameter name from the expression.", nameof(predicate));
-    }
+        // throw new ArgumentException("Unable to extract parameter name from the expression.", nameof(predicate));
+    // }
     
     
     
