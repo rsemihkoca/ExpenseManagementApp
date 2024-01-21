@@ -51,6 +51,26 @@ public class ExpenseController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+    
+    // Approve Expense
+    [HttpPatch("Approve/{expenseRequestId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ApproveExpense(int expenseRequestId)
+    {
+        var command = new ApproveExpenseCommand(expenseRequestId);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+    
+    // Reject Expense
+    [HttpPatch("Reject/{expenseRequestId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> RejectExpense(int expenseRequestId)
+    {
+        var command = new RejectExpenseCommand(expenseRequestId);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 
     // Get all Expenses
     [HttpGet]
