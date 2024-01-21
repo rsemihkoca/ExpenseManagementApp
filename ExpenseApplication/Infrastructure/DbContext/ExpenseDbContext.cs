@@ -172,7 +172,8 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentInstructionId = 1,
                 ExpenseRequestId = 1,
                 PaymentStatus = PaymentRequestStatus.Completed,
-                PaymentDate = DateTime.Parse("2023-05-13T12:30:00")
+                PaymentDate = DateTime.Parse("2023-05-13T12:30:00"),
+                PaymentDescription = "Successful payment.",
             }
         );
 
