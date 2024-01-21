@@ -44,7 +44,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost("[action]")]
+    [HttpPatch("[action]")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ActivateUser(int UserId)
     {
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost("[action]")]
+    [HttpPatch("[action]")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeactivateUser(int UserId)
     {
