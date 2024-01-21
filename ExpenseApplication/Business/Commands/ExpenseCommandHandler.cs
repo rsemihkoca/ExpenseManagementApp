@@ -63,6 +63,7 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(UpdateExpenseCommand request, CancellationToken cancellationToken)
     {
+        // admin kendini approve edemez basşka bir admin approve edebilir ?
         // Admin approve ederse payment instruction oluşturulur
         // approve yapıldıgında backfire, reject yapıldıgında backfire
         // UpdateRequest için validator eklemeyi unutma !!!! DONE
@@ -71,3 +72,16 @@ public class ExpenseCommandHandler :
         return new ExpenseResponse();
     }
 }
+
+/*
+ *
+ *        /* eger fromdb.PaymentRequestStatus Completed degil ve request.Model Completed ise jobı çalıştır.* / 
+   // Start Payment Service
+   
+   expense.LastActivityTime = DateTime.Now;
+   (decimal amount, string fromIban, string toIban) = (100, "TR123456789", "TR987654321");
+   var jobId = BackgroundJob.Enqueue(() => payment.ProcessPayment(amount, fromIban, toIban));
+   // First update payment instruction status to processing
+   BackgroundJob.ContinueJobWith(jobId, () => Console.WriteLine("Continuation!"));
+ * 
+ */
