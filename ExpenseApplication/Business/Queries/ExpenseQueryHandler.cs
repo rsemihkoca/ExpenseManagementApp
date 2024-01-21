@@ -79,7 +79,6 @@ public class ExpenseQueryHandler :
         var list = await dbContext.Set<Expense>()
             .Include(x => x.User)
             .Include(x => x.ExpenseCategory)
-            .Include(x => x.PaymentInstruction)
             .ToListAsync(cancellationToken);
             
             /* creation_date and last_update_time is now */
@@ -103,6 +102,28 @@ public class ExpenseQueryHandler :
 
     public async Task<ExpenseResponse> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var entity = await dbContext.Set<Expense>()
+            .Include(x => x.User)
+            .Include(x => x.ExpenseCategory)
+            .FirstOrDefaultAsync(x => x.ExpenseRequestId == request.ExpenseRequestId, cancellationToken);
+
+        if (entity == null)
+        {
+            throw new Exception("Record not found");
+        }
+
+        var mapped = mapper.Map<Expense, ExpenseResponse>(entity);
+        return mapped;
     }
 }
+
+
+/*
+ *
+ *
+ *         var predicate = PredicateBuilder.New<Expense>(true);
+   predicate.And(x => x.ExpenseRequestId == fromdb.ExpenseRequestId);
+   predicate.And(x => x.Status == ExpenseRequestStatus.Pending);
+   
+   var expense = await validate.RecordNotExistAsync<Expense>(predicate, cancellationToken);
+ */
