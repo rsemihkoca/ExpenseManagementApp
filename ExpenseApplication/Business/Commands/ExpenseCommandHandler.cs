@@ -7,9 +7,7 @@ using Business.Enums;
 using Hangfire;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands;
 
@@ -23,12 +21,14 @@ public class ExpenseCommandHandler :
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
     private readonly IHandlerValidator validate;
+    private readonly IPaymentService payment;
 
-    public ExpenseCommandHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validator)
+    public ExpenseCommandHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validator, IPaymentService payment)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
         this.validate = validator;
+        this.payment = payment;
     }
 
 
@@ -110,8 +110,12 @@ public class ExpenseCommandHandler :
         await dbContext.SaveChangesAsync(cancellationToken);
         var mapped = mapper.Map<Expense, ExpenseResponse>(fromdb);
         
+        double amount = fromdb.Amount;
+        int fromUserId = fromdb.UserId;
+        int toUserId = fromdb.CreatedBy;
+        
         // Start Payment Service
-        // var jobId = BackgroundJob.Enqueue(() => PaymentService.ProcessPayment(, fromdb.UserId, fromdb.ExpenseRequestId));
+        var jobId = BackgroundJob.Enqueue(() => payment.ProcessPayment(request.ExpenseRequestId, amount, fromUserId, toUserId));
         // BackgroundJob.ContinueJobWith(jobId, () => Console.WriteLine("Continuation!"));
         // // payment description and status will be updated by payment service also lastupdate time
 
