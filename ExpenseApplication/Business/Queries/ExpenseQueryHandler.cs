@@ -21,13 +21,13 @@ public class ExpenseQueryHandler :
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
-    private readonly IUserService userService;
+    private readonly IHandlerValidator validate;
 
-    public ExpenseQueryHandler(ExpenseDbContext dbContext, IMapper mapper, IUserService userService)
+    public ExpenseQueryHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validate)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
-        this.userService = userService;
+        this.validate = validate;
     }
 
     public async Task<List<ExpenseResponse>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
@@ -60,25 +60,9 @@ public class ExpenseQueryHandler :
     
     public async Task<List<ExpenseResponse>> Handle(GetExpenseByParameterQuery request, CancellationToken cancellationToken)
     {
-        var role = userService.GetUserRole();
-        var creatorId = userService.GetUserId();
-        switch (role)
-        {
-            case "Admin":
-                break;
-            case "Personnel":
-                if (request.Model.UserId != userService.GetUserId())
-                {
-                    throw new HttpException("Personnel can only view own expenses" , 403);
-                }
-                break;
-            default:
-                throw new HttpException($"{role?.ToString()} not authorized", 403);
-        }
+        (string role, int creatorId)= await validate.UserAuthAsync(request.Model.UserId, cancellationToken);
         
         var predicate = PredicateBuilder.New<Expense>(true);
-        
-        
         
         if (request.Model.UserId is not null)
             predicate.And(x => x.UserId == request.Model.UserId);
