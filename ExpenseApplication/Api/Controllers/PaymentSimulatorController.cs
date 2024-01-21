@@ -22,7 +22,7 @@ public class PaymentSimulatorController : ControllerBase
                 var response = new PaymentResponse
                 {
                     Status = "success",
-                    Message = $"Payment of ${request.Amount:F2} processed successfully for card ending in {request.IBAN.Substring(request.IBAN.Length - 4)}",
+                    Message = "Payment successful. From IBAN: " + request.FromIBAN + ", To IBAN: " + request.ToIBAN + ", Amount: " + request.Amount,
                 };
 
                 return Ok(response);
@@ -69,7 +69,11 @@ public class PaymentSimulatorController : ControllerBase
         {
             return false;
         }
-        if (string.IsNullOrEmpty(request.IBAN))
+        if (string.IsNullOrEmpty(request.FromIBAN))
+        {
+            return false;
+        }
+        if (string.IsNullOrEmpty(request.ToIBAN))
         {
             return false;
         }
@@ -80,7 +84,8 @@ public class PaymentSimulatorController : ControllerBase
 public class PaymentRequest
 {
     public decimal Amount { get; set; }
-    public string IBAN { get; set; }
+    public string FromIBAN { get; set; }
+    public string ToIBAN { get; set; }
 }
 
 public class PaymentResponse
