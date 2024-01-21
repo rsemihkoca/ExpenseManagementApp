@@ -2,6 +2,7 @@ using Application.Cqrs;
 using Application.Validators;
 using AutoMapper;
 using Business.Entities;
+using Business.Enums;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
 using MediatR;
@@ -63,10 +64,12 @@ public class ExpenseCategoryCommandHandler :
     public async Task<ExpenseCategoryResponse> Handle(DeleteExpenseCategoryCommand request,
         CancellationToken cancellationToken)
     {
+        /* check if category exist
+         * check if pending expense exist with this category
+         */
         var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
 
-        await validate.ActiveExpenseNotExistAsync(request.CategoryId,
-            expense => expense.CategoryId == request.CategoryId, cancellationToken);
+        var pendingExpense = await validate.RecordNotExistAsync<Expense>(x => x.CategoryId == request.CategoryId && x.Status == ExpenseRequestStatus.Pending, cancellationToken);
 
         dbContext.Remove(fromdb);
         await dbContext.SaveChangesAsync(cancellationToken);

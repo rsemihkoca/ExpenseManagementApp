@@ -2,6 +2,7 @@ using Application.Cqrs;
 using Application.Validators;
 using AutoMapper;
 using Business.Entities;
+using Business.Enums;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
 using MediatR;
@@ -84,10 +85,14 @@ public class UserCommandHandler :
 
     public async Task<UserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
+        /* check if user exist
+         * check if pending expense exist with this user
+         */
         var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
-        await validate.ActiveExpenseNotExistAsync(request.UserId, expense => expense.UserId == request.UserId, cancellationToken);
-
+        var pendingExpense = await validate.RecordNotExistAsync<Expense>(x => x.UserId == request.UserId && x.Status == ExpenseRequestStatus.Pending, cancellationToken);
+        
+        fromdb.IsActive = false;
         dbContext.Remove(fromdb);
         await dbContext.SaveChangesAsync(cancellationToken);
 

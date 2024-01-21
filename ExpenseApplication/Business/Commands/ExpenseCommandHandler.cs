@@ -92,7 +92,12 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(ApproveExpenseCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        /*
+         * check if expense exist
+         * check already approved and payment status not completed
+         */
+
+        return new ExpenseResponse();
     }
 
     public async Task<ExpenseResponse> Handle(RejectExpenseCommand request, CancellationToken cancellationToken)
