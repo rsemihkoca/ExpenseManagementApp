@@ -133,6 +133,7 @@ public class Startup
         
         services.AddScoped<IValidator<CreateExpenseCategoryRequest>, CreateExpenseCategoryValidator>();
         services.AddScoped<IValidator<UpdateExpenseCategoryRequest>, UpdateExpenseCategoryValidator>();
+        services.AddScoped<IValidator<GetExpenseByParameterRequest>, GetExpenseByParameterRequestValidator>();
 
         services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserValidator>();
