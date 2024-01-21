@@ -5,22 +5,19 @@ dotnet ef database update --project Infrastructure --startup-project Api
 
 
 
-![img.png](.github%2Fassets%2Fimg.png)
+![erd.png](.github%2Fassets%2Ferd.png)
 
 
-Advertising (Reklam): 
-Utilities (Elektrik, Su, Fatura):
-Payroll (Maaş ve İşçi Giderleri):
-Insurance (Sigorta):
-Rent (Kira):
-Travel Expenses (Seyahat Giderleri):
-Maintenance and Repairs (Bakım ve Onarım):
-Membership Fees (Üyelik Ücretleri):
-Business Licenses and Permits (İş Lisansları ve İzinler):
-Education (Eğitim):
-Fixed Expenses (Sabit Giderler):
-Food (Yiyecek):
-Entertainment (Eğlence):
-Taxes (Vergiler):
-Gifts (Hediyeler):
-Office Equipment (Ofis Ekipmanları):
+Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
+
+
+
+<img src=".github/assets/POST.png" alt="POST" width="200"/>
+<table>
+  <tr>
+    <th>Path</th>
+    <td>
+      <img src=".github/assets/POST.png" alt="POST" width="150"/>
+    </td>
+  </tr>
+</table>
