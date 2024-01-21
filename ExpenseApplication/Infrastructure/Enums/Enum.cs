@@ -54,6 +54,8 @@ public enum PaymentRequestStatus
 {
     [Description ("Pending")]
     Pending,
+    [Description ("Declined")]
+    Declined,
     [Description ("Completed")]
     Completed,
     [Description ("Failed")]

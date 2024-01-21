@@ -97,10 +97,17 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(RejectExpenseCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
+            cancellationToken);
+        fromdb.Status = ExpenseRequestStatus.Rejected;
+        fromdb.PaymentDescription = request.PaymentDescription ?? fromdb.PaymentDescription;
+        fromdb.PaymentStatus = PaymentRequestStatus.Declined;
+        fromdb.LastUpdateTime = DateTime.Now;
+        await dbContext.SaveChangesAsync(cancellationToken);
+        var mapped = mapper.Map<Expense, ExpenseResponse>(fromdb);
+        return mapped;
     }
 }
-
 /*
  *
  *        /* eger fromdb.PaymentRequestStatus Completed degil ve request.Model Completed ise jobı çalıştır.* /

@@ -81,8 +81,8 @@ public class UpdateExpenseValidator : AbstractValidator<UpdateExpenseRequest>
             
         RuleFor(expression => expression.PaymentStatus)
             .NotEmpty().WithMessage("Payment status is required.")
-            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Completed") || x.ToString().Equals("Failed"))
-            .WithMessage("PaymentStatus must be one of the following: Pending, Completed, Failed.");
+            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Declined") || x.ToString().Equals("Completed") || x.ToString().Equals("Failed"))
+            .WithMessage("Payment status must be one of the following: Pending, Declined, Completed, Failed.");
 
         RuleFor(expense => expense.PaymentDescription)
             .NotEmpty().WithMessage("Payment description is required.")
@@ -111,7 +111,7 @@ public class GetExpenseByParameterRequestValidator : AbstractValidator<GetExpens
         RuleFor(request => request.PaymentStatus)
             .Must(BeAValidPaymentStatus)
             .When(request => !string.IsNullOrEmpty(request.PaymentStatus))
-            .WithMessage("Invalid payment status. Accepted values are: Pending, Completed, Failed");
+            .WithMessage("Invalid payment status. Accepted values are: Pending, Declined, Completed, Failed");
     }
 
     private bool BeAValidExpenseStatus(string status)
@@ -126,6 +126,7 @@ public class GetExpenseByParameterRequestValidator : AbstractValidator<GetExpens
     {
         return string.IsNullOrEmpty(paymentStatus) || 
                paymentStatus.Equals("Pending", StringComparison.OrdinalIgnoreCase) || 
+               paymentStatus.Equals("Declined", StringComparison.OrdinalIgnoreCase) ||
                paymentStatus.Equals("Completed", StringComparison.OrdinalIgnoreCase) || 
                paymentStatus.Equals("Failed", StringComparison.OrdinalIgnoreCase);
     }

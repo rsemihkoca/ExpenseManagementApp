@@ -12,7 +12,7 @@ public record DeleteExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseRespo
 
 public record ApproveExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
 
-public record RejectExpenseCommand(int ExpenseRequestId) : IRequest<ExpenseResponse>;
+public record RejectExpenseCommand(int ExpenseRequestId, string? PaymentDescription) : IRequest<ExpenseResponse>;
 
 
 

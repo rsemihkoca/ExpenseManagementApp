@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Application.Cqrs;
 using Business.Enums;
@@ -65,9 +66,9 @@ public class ExpenseController : ControllerBase
     // Reject Expense
     [HttpPatch("Reject/{expenseRequestId}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> RejectExpense(int expenseRequestId)
+    public async Task<IActionResult> RejectExpense(int expenseRequestId, [FromBody, MaxLength(255)] string? paymentDescription)
     {
-        var command = new RejectExpenseCommand(expenseRequestId);
+        var command = new RejectExpenseCommand(expenseRequestId, paymentDescription);
         var result = await _mediator.Send(command);
         return Ok(result);
     }

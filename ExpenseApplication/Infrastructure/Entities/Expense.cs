@@ -20,7 +20,7 @@ public class Expense : BaseEntity
     public string Description { get; set; } //  (from User)
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
-    public PaymentRequestStatus PaymentStatus { get; set; } = PaymentRequestStatus.Pending;// (Pending, Completed, Failed)
+    public PaymentRequestStatus PaymentStatus { get; set; } = PaymentRequestStatus.Pending;// (Pending, Declined, Completed, Failed)
     
     public DateTime? PaymentDate { get; set; } = null; // (if Status is Completed)
     public string PaymentDescription { get; set; } = "Payment Not Made";//  (if Status is Rejected)

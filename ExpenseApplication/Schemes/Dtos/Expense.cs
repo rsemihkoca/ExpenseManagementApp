@@ -7,7 +7,7 @@ public class GetExpenseByParameterRequest
     public int? UserId { get; set; }
     public int? CategoryId { get; set; }
     public string? Status { get; set; } // (Pending, Approved, Rejected)
-    public string? PaymentStatus { get; set; } // (Pending, Completed, Failed)
+    public string? PaymentStatus { get; set; } // (Pending, Declined, Completed, Failed)
 }
 
 
