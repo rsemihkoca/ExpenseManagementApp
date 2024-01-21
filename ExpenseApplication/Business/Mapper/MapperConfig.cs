@@ -26,6 +26,8 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => src.ExpenseCategory.CategoryName))
             .ForMember(dest => dest.ExpenseStatus,
                 opt => opt.MapFrom(src => src.Status))
+            .ForMember(x => x.PaymentStatus,
+                opt => opt.MapFrom(src => src.PaymentStatus))
             .ForMember(src => src.CreationDate,
                 opt => opt.MapFrom(src => src.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")))
             .ForMember(src => src.LastUpdateTime,
