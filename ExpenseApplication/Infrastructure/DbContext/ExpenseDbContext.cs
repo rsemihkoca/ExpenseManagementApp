@@ -175,9 +175,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Online",
                 Documents = "Receipt123",
                 Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Reklam için ödeme yapıldı.",
-                CreationDate = DateTime.Parse("2023-05-12T08:30:00"),
-                LastUpdateTime = DateTime.Parse("2023-05-13T12:30:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -189,10 +190,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Bank Transfer",
                 PaymentLocation = "Office",
                 Documents = "Invoice456",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Elektrik faturası ödendi.",
-                CreationDate = DateTime.Parse("2023-08-22T15:45:00"),
-                LastUpdateTime = DateTime.Parse("2023-08-22T15:45:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -204,10 +206,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Cash",
                 PaymentLocation = "Office",
                 Documents = "PayrollDocs",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Personel maaşları ödendi.",
-                CreationDate = DateTime.Parse("2023-06-10T12:15:00"),
-                LastUpdateTime = DateTime.Parse("2023-06-10T12:15:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -219,10 +222,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Credit Card",
                 PaymentLocation = "Online",
                 Documents = "InsurancePolicy",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Sigorta ödemesi yapıldı.",
-                CreationDate = DateTime.Parse("2023-09-05T09:20:00"),
-                LastUpdateTime = DateTime.Parse("2023-09-05T09:20:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21))
             },
             new Expense
             {
@@ -234,10 +238,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Bank Transfer",
                 PaymentLocation = "Office",
                 Documents = "RentAgreement",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Kira ödemesi yapıldı.",
-                CreationDate = DateTime.Parse("2023-11-18T14:00:00"),
-                LastUpdateTime = DateTime.Parse("2023-11-18T14:00:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -249,10 +254,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Cash",
                 PaymentLocation = "Travel",
                 Documents = "TravelReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Seyahat giderleri ödendi.",
-                CreationDate = DateTime.Parse("2023-07-03T11:30:00"),
-                LastUpdateTime = DateTime.Parse("2023-07-03T11:30:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -264,10 +270,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Credit Card",
                 PaymentLocation = "Maintenance",
                 Documents = "RepairReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
                 Description = "Bakım ve onarım masrafları ödendi.",
-                CreationDate = DateTime.Parse("2023-10-29T16:45:00"),
-                LastUpdateTime = DateTime.Parse("2023-10-29T16:45:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -279,10 +286,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Bank Transfer",
                 PaymentLocation = "Online",
                 Documents = "MembershipFeesReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
                 Description = "Üyelik ücretleri ödendi.",
-                CreationDate = DateTime.Parse("2023-12-08T10:10:00"),
-                LastUpdateTime = DateTime.Parse("2023-12-08T10:10:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -294,10 +302,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Cash",
                 PaymentLocation = "Office",
                 Documents = "LicensesAndPermitsDocs",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
                 Description = "İş lisansları ve izinler ödendi.",
-                CreationDate = DateTime.Parse("2023-08-14T13:20:00"),
-                LastUpdateTime = DateTime.Parse("2023-08-14T13:20:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -309,10 +318,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Credit Card",
                 PaymentLocation = "Online",
                 Documents = "EducationReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
                 Description = "Eğitim masrafları ödendi.",
-                CreationDate = DateTime.Parse("2023-05-26T09:55:00"),
-                LastUpdateTime = DateTime.Parse("2023-05-26T09:55:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -324,10 +334,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Bank Transfer",
                 PaymentLocation = "Office",
                 Documents = "FixedExpensesReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
                 Description = "Sabit giderler ödendi.",
-                CreationDate = DateTime.Parse("2023-09-18T11:40:00"),
-                LastUpdateTime = DateTime.Parse("2023-09-18T11:40:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -339,10 +350,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Cash",
                 PaymentLocation = "Office",
                 Documents = "FoodReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
                 Description = "Yiyecek alımı yapıldı.",
-                CreationDate = DateTime.Parse("2023-07-22T14:30:00"),
-                LastUpdateTime = DateTime.Parse("2023-07-22T14:30:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -354,10 +366,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentMethod = "Credit Card",
                 PaymentLocation = "Online",
                 Documents = "EntertainmentReceipts",
-                Status = ExpenseRequestStatus.Pending,
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Failed,
                 Description = "Eğlence masrafları ödendi.",
-                CreationDate = DateTime.Parse("2023-11-03T15:15:00"),
-                LastUpdateTime = DateTime.Parse("2023-11-03T15:15:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -370,9 +383,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Office",
                 Documents = "TaxDocuments",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Vergi ödemeleri yapıldı.",
-                CreationDate = DateTime.Parse("2023-06-28T10:50:00"),
-                LastUpdateTime = DateTime.Parse("2023-06-28T10:50:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -385,9 +399,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Office",
                 Documents = "GiftReceipts",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Hediye alımları yapıldı.",
-                CreationDate = DateTime.Parse("2023-10-11T12:05:00"),
-                LastUpdateTime = DateTime.Parse("2023-10-11T12:05:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -400,9 +415,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Online",
                 Documents = "OfficeEquipmentReceipts",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Ofis ekipmanları alındı.",
-                CreationDate = DateTime.Parse("2023-12-15T09:00:00"),
-                LastUpdateTime = DateTime.Parse("2023-12-15T09:00:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -415,9 +431,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Office",
                 Documents = "PayrollDocs",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Personel maaşları ödendi.",
-                CreationDate = DateTime.Parse("2023-09-01T14:30:00"),
-                LastUpdateTime = DateTime.Parse("2023-09-01T14:30:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -430,9 +447,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Office",
                 Documents = "RentAgreement",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Kira ödemesi yapıldı.",
-                CreationDate = DateTime.Parse("2023-07-14T16:20:00"),
-                LastUpdateTime = DateTime.Parse("2023-07-14T16:20:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -445,9 +463,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Travel",
                 Documents = "TravelReceipts",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Seyahat giderleri ödendi.",
-                CreationDate = DateTime.Parse("2023-10-05T10:45:00"),
-                LastUpdateTime = DateTime.Parse("2023-10-05T10:45:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -460,9 +479,10 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Online",
                 Documents = "MembershipFeesReceipts",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Üyelik ücretleri ödendi.",
-                CreationDate = DateTime.Parse("2023-11-29T09:10:00"),
-                LastUpdateTime = DateTime.Parse("2023-11-29T09:10:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             },
             new Expense
             {
@@ -475,11 +495,356 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 PaymentLocation = "Office",
                 Documents = "EducationReceipts",
                 Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
                 Description = "Eğitim masrafları ödendi.",
-                CreationDate = DateTime.Parse("2023-08-08T12:35:00"),
-                LastUpdateTime = DateTime.Parse("2023-08-08T12:35:00")
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            
+            new Expense
+            {
+                ExpenseRequestId = 22,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 1500,
+                CategoryId = 1,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Online",
+                Documents = "Receipt123",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Reklam için ödeme yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 23,
+                UserId = 2,
+                CreatedBy = 2,
+                Amount = 350,
+                CategoryId = 2,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Office",
+                Documents = "Invoice456",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Elektrik faturası ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 24,
+                UserId = 3,
+                CreatedBy = 3,
+                Amount = 2500,
+                CategoryId = 3,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "PayrollDocs",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Personel maaşları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 25,
+                UserId = 4,
+                CreatedBy = 4,
+                Amount = 700,
+                CategoryId = 4,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Online",
+                Documents = "InsurancePolicy",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Sigorta ödemesi yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21))
+            },
+            new Expense
+            {
+                ExpenseRequestId = 26,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 1200,
+                CategoryId = 5,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Office",
+                Documents = "RentAgreement",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Kira ödemesi yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 27,
+                UserId = 2,
+                CreatedBy = 2,
+                Amount = 450,
+                CategoryId = 6,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Travel",
+                Documents = "TravelReceipts",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Seyahat giderleri ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 28,
+                UserId = 3,
+                CreatedBy = 3,
+                Amount = 300,
+                CategoryId = 7,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Maintenance",
+                Documents = "RepairReceipts",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Completed,
+                Description = "Bakım ve onarım masrafları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 29,
+                UserId = 4,
+                CreatedBy = 4,
+                Amount = 180,
+                CategoryId = 8,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Online",
+                Documents = "MembershipFeesReceipts",
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
+                Description = "Üyelik ücretleri ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 30,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 500,
+                CategoryId = 9,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "LicensesAndPermitsDocs",
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
+                Description = "İş lisansları ve izinler ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 31,
+                UserId = 2,
+                CreatedBy = 2,
+                Amount = 800,
+                CategoryId = 10,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Online",
+                Documents = "EducationReceipts",
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
+                Description = "Eğitim masrafları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 32,
+                UserId = 3,
+                CreatedBy = 3,
+                Amount = 150,
+                CategoryId = 11,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Office",
+                Documents = "FixedExpensesReceipts",
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
+                Description = "Sabit giderler ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 33,
+                UserId = 4,
+                CreatedBy = 4,
+                Amount = 75,
+                CategoryId = 12,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "FoodReceipts",
+                Status = ExpenseRequestStatus.Rejected,
+                PaymentStatus = PaymentRequestStatus.Declined,
+                Description = "Yiyecek alımı yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 34,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 200,
+                CategoryId = 13,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Online",
+                Documents = "EntertainmentReceipts",
+                Status = ExpenseRequestStatus.Approved,
+                PaymentStatus = PaymentRequestStatus.Failed,
+                Description = "Eğlence masrafları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 35,
+                UserId = 2,
+                CreatedBy = 2,
+                Amount = 300,
+                CategoryId = 14,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Office",
+                Documents = "TaxDocuments",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Vergi ödemeleri yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 36,
+                UserId = 3,
+                CreatedBy = 3,
+                Amount = 50,
+                CategoryId = 15,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "GiftReceipts",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Hediye alımları yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 37,
+                UserId = 4,
+                CreatedBy = 4,
+                Amount = 1000,
+                CategoryId = 16,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Online",
+                Documents = "OfficeEquipmentReceipts",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Ofis ekipmanları alındı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 38,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 400,
+                CategoryId = 3,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Office",
+                Documents = "PayrollDocs",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Personel maaşları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 39,
+                UserId = 2,
+                CreatedBy = 2,
+                Amount = 600,
+                CategoryId = 5,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "RentAgreement",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Kira ödemesi yapıldı.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 40,
+                UserId = 3,
+                CreatedBy = 3,
+                Amount = 250,
+                CategoryId = 6,
+                PaymentMethod = "Credit Card",
+                PaymentLocation = "Travel",
+                Documents = "TravelReceipts",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Seyahat giderleri ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 41,
+                UserId = 4,
+                CreatedBy = 4,
+                Amount = 120,
+                CategoryId = 8,
+                PaymentMethod = "Bank Transfer",
+                PaymentLocation = "Online",
+                Documents = "MembershipFeesReceipts",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Üyelik ücretleri ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+            },
+            new Expense
+            {
+                ExpenseRequestId = 42,
+                UserId = 1,
+                CreatedBy = 1,
+                Amount = 300,
+                CategoryId = 10,
+                PaymentMethod = "Cash",
+                PaymentLocation = "Office",
+                Documents = "EducationReceipts",
+                Status = ExpenseRequestStatus.Pending,
+                PaymentStatus = PaymentRequestStatus.Pending,
+                Description = "Eğitim masrafları ödendi.",
+                CreationDate = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
+                LastUpdateTime = GetRandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 1, 21)),
             }
         );
+    }
+    
+    DateTime GetRandomDate(DateTime startDate, DateTime endDate)
+    {
+        Random random = new Random();
+        int range = (endDate - startDate).Days;
+        return startDate.AddDays(random.Next(range));
     }
 }
 
