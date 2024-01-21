@@ -15,4 +15,4 @@ public record PersonnelExpenseFrequencyReport(ReportFrequencyRequest Model) : IR
 
 // personnel and admin
 // personnel can only see their own
-public record PersonnelSummaryReport(int UserId, ReportFrequencyRequest Model) : IRequest<List<PersonnelSummaryReportResponse>>;
+public record PersonnelSummaryReport(PersonnelSummaryRequest Model) : IRequest<PersonnelSummaryReportResponse>;
