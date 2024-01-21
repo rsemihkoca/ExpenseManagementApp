@@ -2,6 +2,15 @@ using Business.Enums;
 
 namespace Infrastructure.Dtos;
 
+public class GetExpenseByParameterRequest
+{
+    public int? UserId { get; set; }
+    public int? CategoryId { get; set; }
+    public string? Status { get; set; } // (Pending, Approved, Rejected)
+    public string? PaymentStatus { get; set; } // (Pending, Completed, Failed)
+}
+
+
 public class CreateExpenseRequest
 {
     public int UserId { get; set; }
@@ -33,6 +42,7 @@ public class ExpenseResponse
     public string PersonnelName { get; set; } // (Foreign Key)
     public string CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
     public string ExpenseStatus { get; set; }
+    public string PaymentStatus { get; set; }
 
     public double Amount { get; set; }
     public string PaymentMethod { get; set; }
