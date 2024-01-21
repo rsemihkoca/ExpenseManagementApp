@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Application.Services;
 using Business.Entities;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Exceptions;
@@ -14,17 +15,20 @@ public interface IHandlerValidator
     Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
     
     Task<bool> RecordNotExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
-    
+
+    Task<(string role, int creatorId)> UserAuthAsync(int? modelUserId, CancellationToken cancellationToken);
 }
 
 
 public class HandlerValidator : IHandlerValidator
 {
     private readonly ExpenseDbContext dbContext;
+    private readonly IUserService userService;
 
-    public HandlerValidator(ExpenseDbContext dbContext)
+    public HandlerValidator(ExpenseDbContext dbContext, IUserService userService)
     {
         this.dbContext = dbContext;
+        this.userService = userService;
     }
     
     public async Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
@@ -46,7 +50,7 @@ public class HandlerValidator : IHandlerValidator
 
         if (entity == null)
         {
-            throw new HttpException($"No record found in {typeof(T).Name}", 404);
+            throw new HttpException($"No record found in {predicate.Parameters[0].Type.FullName}", 404);
         }
 
         return entity;
@@ -65,31 +69,27 @@ public class HandlerValidator : IHandlerValidator
         return true;
     }
     
-    // public async Task<T?> ValidateExistsAsync<T>(Func<IQueryable<T>, IQueryable<T>> query, CancellationToken cancellationToken) where T : class
-    // {
-    //     // T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
-    //     T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
-    //
-    //     if (entity == null)
-    //     {
-    //         throw new HttpException($"{typeof(T)} record not found", 404);
-    //     }
-    //
-    //     return entity;
-    // }
-
-    // public async Task<bool> ValidateNotExistsAsync<T>(Func<IQueryable<T>, IQueryable<T>> query, CancellationToken cancellationToken) where T : class
-    // {
-    //     T? entity = await query(dbContext.Set<T>()).FirstOrDefaultAsync(cancellationToken);
-    //
-    //     if (entity != null)
-    //     {
-    //         throw new HttpException($"Existing record in {typeof(T)}", 409);
-    //     }
-    //
-    //     return true;
-    // }
-
+    public async Task<(string, int)> UserAuthAsync(int? userId, CancellationToken cancellationToken)
+    {
+        var role = userService.GetUserRole();
+        var creatorId = userService.GetUserId();
+        switch (role)
+        {
+            case "Admin":
+                break;
+            case "Personnel":
+                if (userId != creatorId) // null or any other user id
+                {
+                    throw new HttpException($"Please enter your own id", 403);
+                }
+                
+                break;
+            default:
+                throw new HttpException("Unauthorized role", 403);
+        }
+        
+        return (role, creatorId);
+    }
 
     // private string GetParameterName<T>(Expression<Func<T, bool>> predicate)
     // {
