@@ -43,6 +43,8 @@ public class ExpenseResponse
     public string CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
     public string ExpenseStatus { get; set; }
     public string PaymentStatus { get; set; }
+    
+    public string PaymentDescription { get; set; }
 
     public double Amount { get; set; }
     public string PaymentMethod { get; set; }
