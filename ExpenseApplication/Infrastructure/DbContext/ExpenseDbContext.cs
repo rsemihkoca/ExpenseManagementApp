@@ -13,14 +13,12 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
-    public DbSet<PaymentInstruction> PaymentInstructions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ExpenseRequestConfiguration());
         modelBuilder.ApplyConfiguration(new ExpenseCategoryConfiguration());
-        modelBuilder.ApplyConfiguration(new PaymentInstructionConfiguration());
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>().HasData(
@@ -162,18 +160,6 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
             {
                 CategoryId = 16,
                 CategoryName = "Office Equipment".ToUpper()
-            }
-        );
-
-
-        modelBuilder.Entity<PaymentInstruction>().HasData(
-            new PaymentInstruction()
-            {
-                PaymentInstructionId = 1,
-                ExpenseRequestId = 1,
-                PaymentStatus = PaymentRequestStatus.Completed,
-                PaymentDate = DateTime.Parse("2023-05-13T12:30:00"),
-                PaymentDescription = "Successful payment.",
             }
         );
 
