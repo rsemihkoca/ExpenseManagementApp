@@ -1,36 +1,29 @@
+using Business.Enums;
+
 namespace Infrastructure.Dtos;
 
-public class CreateUserRequest
+public class CreatePaymentInstructionRequest
 {
-    public string Username { get; set; }
-    public string Password { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Iban { get; set; }
-    public string Role { get; set; }
+    public int ExpenseRequestId { get; set; }
+    public DateTime? PaymentDate { get; set; }
+    public string PaymentDescription { get; set; }
 }
 
-public class UpdateUserRequest
+public class UpdatePaymentInstructionRequest
 {
-    public string Username { get; set; }
-    public string Password { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Iban { get; set; }
-    public string Role { get; set; }
-    public bool IsActive { get; set; }
+    public string PaymentStatus { get; set; }
+    public DateTime? PaymentDate { get; set; }
+    public string PaymentDescription { get; set; }
 }
 
-public class UserResponse
+public class PaymentInstructionResponse
 {
-    public string Username { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Iban { get; set; }
-    public string Role { get; set; }
-    public string IsActive { get; set; }
-    public string LastActivityDateTime { get; set; }
+    public double Amount { get; set; }
+    public string Description { get; set; }
+    public string ExpenseStatus { get; set; }
+    
+    public int ExpenseRequestId { get; set; }
+    public string PaymentStatus { get; set; }
+    public string PaymentDate { get; set; }
+    public string PaymentDescription { get; set; }
 }
