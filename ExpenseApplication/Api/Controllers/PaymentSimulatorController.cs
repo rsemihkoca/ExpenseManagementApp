@@ -10,15 +10,14 @@ public class PaymentSimulatorController : ControllerBase
     [HttpPost("ProcessPayment")]
     public IActionResult ProcessPayment([FromBody] PaymentRequest request)
     {
-        Thread.Sleep(5000);
+        Thread.Sleep(6000);
 
         if (IsValidPayment(request))
         {
             double randomNumber = random.NextDouble();
 
-            if (randomNumber < 0.6)
+            if (randomNumber >= 0.2)
             {
-                // 60% chance for a successful payment
                 var response = new PaymentResponse
                 {
                     Status = "success",
@@ -27,24 +26,22 @@ public class PaymentSimulatorController : ControllerBase
 
                 return Ok(response);
             }
-            else if (randomNumber < 0.8 && randomNumber >= 0.6)
+            else if (randomNumber < 0.2 && randomNumber > 0.1)
             {
-                // 20% chance for an error with invalid payment details
                 var response = new PaymentResponse
                 {
                     Status = "error",
-                    Message = "Invalid payment details. Please check your information and try again.",
+                    Message = "An error occurred while processing the payment. Please try again later.",
                 };
 
                 return BadRequest(response);
             }
             else
             {
-                // 20% chance for an error with an unspecified reason
                 var response = new PaymentResponse
                 {
                     Status = "error",
-                    Message = "An error occurred while processing the payment. Please try again later.",
+                    Message = "Insufficient funds. Please try again later.",
                 };
 
                 return BadRequest(response);
