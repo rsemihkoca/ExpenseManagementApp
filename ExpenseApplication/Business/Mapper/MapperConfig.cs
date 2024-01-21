@@ -18,10 +18,10 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => DateTime.UtcNow));
 
         CreateMap<Expense, ExpenseResponse>()
-            .ForMember(dest => dest.PersonnelName,
-                opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
-            .ForMember(dest => dest.CategoryName,
-                opt => opt.MapFrom(src => src.ExpenseCategory.CategoryName))
+            // .ForMember(dest => dest.PersonnelName,
+            //     opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+            // .ForMember(dest => dest.CategoryName,
+            //     opt => opt.MapFrom(src => src.ExpenseCategory.CategoryName))
             .ForMember(dest => dest.ExpenseStatus,
                 opt => opt.MapFrom(src => src.Status))
             .ForMember(src => src.CreationDate,
