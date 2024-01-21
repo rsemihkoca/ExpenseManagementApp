@@ -64,9 +64,20 @@ public class ExpenseController : ControllerBase
 
     // Get Expense by Id
     [HttpGet("{expenseRequestId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetExpenseById(int expenseRequestId)
     {
         var query = new GetExpenseByIdQuery(expenseRequestId);
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+    
+    // Get Expense by UserId
+    [HttpGet("ByUser/")]
+    [Authorize(Roles = "Admin, Personnel")]
+    public async Task<IActionResult> GetExpenseByParameterQuery([FromQuery] GetExpenseByParameterRequest request)
+    {
+        var query = new GetExpenseByParameterQuery(request);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
