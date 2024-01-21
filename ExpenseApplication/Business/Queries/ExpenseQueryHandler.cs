@@ -1,8 +1,13 @@
 using Application.Cqrs;
+using Application.Services;
+using Application.Validators;
 using AutoMapper;
 using Business.Entities;
+using Business.Enums;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
+using Infrastructure.Exceptions;
+using LinqKit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,91 +15,28 @@ namespace Application.Queries;
 
 public class ExpenseQueryHandler :
     IRequestHandler<GetAllExpenseQuery, List<ExpenseResponse>>,
-    IRequestHandler<GetExpenseByIdQuery, ExpenseResponse>
+    IRequestHandler<GetExpenseByIdQuery, ExpenseResponse>,
+    IRequestHandler<GetExpenseByParameterQuery, List<ExpenseResponse>>
 
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
+    private readonly IUserService userService;
 
-    public ExpenseQueryHandler(ExpenseDbContext dbContext, IMapper mapper)
+    public ExpenseQueryHandler(ExpenseDbContext dbContext, IMapper mapper, IUserService userService)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
-    //
-    // public async Task<List<ExpenseResponse>> Handle(GetAllCustomerQuery request,
-    //     CancellationToken cancellationToken)
-    // {
-    //     var list = await dbContext.Set<Customer>()
-    //         .Include(x => x.Accounts)
-    //         .Include(x => x.Contacts)
-    //         .Include(x => x.Addresses).ToListAsync(cancellationToken);
-    //     
-    //     var mappedList = mapper.Map<List<Customer>, List<CustomerResponse>>(list);
-    //      return new List<CustomerResponse>>(mappedList);
-    // }
-    //
-    // public async Task<CustomerResponse>> Handle(GetCustomerByIdQuery request,
-    //     CancellationToken cancellationToken)
-    // {
-    //     var entity =  await dbContext.Set<Customer>()
-    //         .Include(x => x.Accounts)
-    //         .Include(x => x.Contacts)
-    //         .Include(x => x.Addresses)
-    //         .FirstOrDefaultAsync(x => x.CustomerNumber == request.Id, cancellationToken);
-    //
-    //     if (entity == null)
-    //     {
-    //         return new CustomerResponse>("Record not found");
-    //     }
-    //     
-    //     var mapped = mapper.Map<Customer, CustomerResponse>(entity);
-    //     return new CustomerResponse>(mapped);
-    // }
-    //
-    // public async Task<List<CustomerResponse>> Handle(GetCustomerByParameterQuery request,
-    //     CancellationToken cancellationToken)
-    // {
-    //     var predicate = PredicateBuilder.New<Customer>(true);
-    //     if (string.IsNullOrEmpty(request.FirstName))
-    //         
-    //         predicate.And(x => x.FirstName.ToUpper().Contains(request.FirstName.ToUpper()));
-    //     if (string.IsNullOrEmpty(request.LastName))
-    //         predicate.And(x => x.LastName.ToUpper().Contains(request.LastName.ToUpper()));
-    //     
-    //     if (string.IsNullOrEmpty(request.IdentityNumber))
-    //         predicate.And(x => x.IdentityNumber.ToUpper().Contains(request.IdentityNumber.ToUpper()));
-    //     
-    //     var list =  await dbContext.Set<Customer>()
-    //         .Include(x => x.Accounts)
-    //         .Include(x => x.Contacts)
-    //         .Include(x => x.Addresses)
-    //         .Where(predicate).ToListAsync(cancellationToken);
-    //     
-    //     var mappedList = mapper.Map<List<Customer>, List<CustomerResponse>>(list);
-    //     return new List<CustomerResponse>>(mappedList);
     public async Task<List<ExpenseResponse>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
     {
         var list = await dbContext.Set<Expense>()
             .Include(x => x.User)
             .Include(x => x.ExpenseCategory)
             .ToListAsync(cancellationToken);
-            
-            /* creation_date and last_update_time is now */
-            
-    // public int ExpenseRequestId { get; set; } // (Primary Key)
-        // public int PersonnelName { get; set; } // (Foreign Key)
-    // public double Amount { get; set; }
-        // public int CategoryName { get; set; } // (Foreign Key to ExpenseCategory)
-    // public string PaymentMethod { get; set; }
-    // public string PaymentLocation { get; set; }
-    // public string Documents { get; set; }
-    // public ExpenseRequestStatus Status { get; set; }
-    // public string Description { get; set; }
-        // public DateTime CreationDate { get; set; }
-        // public DateTime LastUpdateTime { get; set; }
-        // public string PaymentStatus { get; set; }
+        
             
         var mappedList = mapper.Map<List<Expense>, List<ExpenseResponse>>(list);
         return new List<ExpenseResponse>(mappedList);
@@ -114,6 +56,50 @@ public class ExpenseQueryHandler :
 
         var mapped = mapper.Map<Expense, ExpenseResponse>(entity);
         return mapped;
+    }
+    
+    public async Task<List<ExpenseResponse>> Handle(GetExpenseByParameterQuery request, CancellationToken cancellationToken)
+    {
+        var role = userService.GetUserRole();
+        var creatorId = userService.GetUserId();
+        switch (role)
+        {
+            case "Admin":
+                break;
+            case "Personnel":
+                if (request.Model.UserId != userService.GetUserId())
+                {
+                    throw new HttpException("Personnel can only view own expenses" , 403);
+                }
+                break;
+            default:
+                throw new HttpException($"{role?.ToString()} not authorized", 403);
+        }
+        
+        var predicate = PredicateBuilder.New<Expense>(true);
+        
+        
+        
+        if (request.Model.UserId is not null)
+            predicate.And(x => x.UserId == request.Model.UserId);
+            
+        if (request.Model.CategoryId is not null)
+            predicate.And(x => x.CategoryId == request.Model.CategoryId); 
+            
+        if (!string.IsNullOrEmpty(request.Model.Status))
+            predicate.And(x => x.Status == (ExpenseRequestStatus)Enum.Parse(typeof(ExpenseRequestStatus), request.Model.Status));
+            
+        if (!string.IsNullOrEmpty(request.Model.PaymentStatus))
+            predicate.And(x => x.PaymentStatus == (PaymentRequestStatus)Enum.Parse(typeof(PaymentRequestStatus), request.Model.PaymentStatus));
+        
+        var list =  await dbContext.Set<Expense>()
+            .Include(x => x.User)
+            .Include(x => x.ExpenseCategory)
+            .Where(predicate).ToListAsync(cancellationToken);
+        
+        var mapped = mapper.Map<List<Expense>, List<ExpenseResponse>>(list);
+        return mapped;
+
     }
 }
 
