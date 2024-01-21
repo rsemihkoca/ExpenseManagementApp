@@ -12,7 +12,10 @@ namespace Application.Commands;
 
 public class ExpenseCommandHandler :
     IRequestHandler<CreateExpenseCommand, ExpenseResponse>,
-    IRequestHandler<UpdateExpenseCommand, ExpenseResponse>
+    IRequestHandler<UpdateExpenseCommand, ExpenseResponse>,
+    IRequestHandler<DeleteExpenseCommand, ExpenseResponse>,
+    IRequestHandler<ApproveExpenseCommand, ExpenseResponse>,
+    IRequestHandler<RejectExpenseCommand, ExpenseResponse>
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IUserService userService;
@@ -70,6 +73,21 @@ public class ExpenseCommandHandler :
         // must be valid enum dene
 
         return new ExpenseResponse();
+    }
+
+    public async Task<ExpenseResponse> Handle(DeleteExpenseCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ExpenseResponse> Handle(ApproveExpenseCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ExpenseResponse> Handle(RejectExpenseCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
 
