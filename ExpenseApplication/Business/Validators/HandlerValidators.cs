@@ -98,11 +98,14 @@ public class HandlerValidator : IHandlerValidator
     public async Task<bool> ExpenseCanBeApprovedAsync(Expense fromdb, CancellationToken cancellationToken)
     {
         
-        if (fromdb.Status != ExpenseRequestStatus.Approved && fromdb.PaymentStatus != PaymentRequestStatus.Completed)
-            return true;
+        if (fromdb.Status == ExpenseRequestStatus.Approved && fromdb.PaymentStatus == PaymentRequestStatus.Completed)
+            throw new HttpException("Expense already approved and payment completed", 405);
+        if (fromdb.Status == ExpenseRequestStatus.Approved && fromdb.PaymentStatus == PaymentRequestStatus.OnProcess)
+            throw new HttpException("Expense already approved and payment is in progress, please wait", 405);
         else
         {
-            throw new HttpException("Expense already approved and payment completed", 405);
+            return true;
+
         }
     }
     
