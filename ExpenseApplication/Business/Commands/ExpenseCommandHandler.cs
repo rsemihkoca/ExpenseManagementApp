@@ -4,6 +4,7 @@ using Application.Validators;
 using AutoMapper;
 using Business.Entities;
 using Business.Enums;
+using Hangfire;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
 using Infrastructure.Exceptions;
@@ -94,10 +95,28 @@ public class ExpenseCommandHandler :
     {
         /*
          * check if expense exist
-         * check already approved and payment status not completed
+         * check if it is not approved and payment status not completed
+         * do not check user exist since it cant be deleted if expense exist
          */
 
-        return new ExpenseResponse();
+        var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
+            cancellationToken);
+        var awaiter = await validate.ExpenseCanBeApprovedAsync(fromdb, cancellationToken);
+        
+        fromdb.Status = ExpenseRequestStatus.Approved;
+        fromdb.PaymentStatus = PaymentRequestStatus.OnProcess;
+        fromdb.LastUpdateTime = DateTime.Now;
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
+        var mapped = mapper.Map<Expense, ExpenseResponse>(fromdb);
+        
+        // Start Payment Service
+        // var jobId = BackgroundJob.Enqueue(() => PaymentService.ProcessPayment(, fromdb.UserId, fromdb.ExpenseRequestId));
+        // BackgroundJob.ContinueJobWith(jobId, () => Console.WriteLine("Continuation!"));
+        // // payment description and status will be updated by payment service also lastupdate time
+
+
+        return mapped;
     }
 
     public async Task<ExpenseResponse> Handle(RejectExpenseCommand request, CancellationToken cancellationToken)
@@ -118,7 +137,7 @@ public class ExpenseCommandHandler :
  *        /* eger fromdb.PaymentRequestStatus Completed degil ve request.Model Completed ise jobı çalıştır.* /
    // Start Payment Service
 
-   expense.LastActivityTime = DateTime.Now;
+   expense.LastUpdateTime = DateTime.Now;
    (decimal amount, string fromIban, string toIban) = (100, "TR123456789", "TR987654321");
    var jobId = BackgroundJob.Enqueue(() => payment.ProcessPayment(amount, fromIban, toIban));
    // First update payment instruction status to processing

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Application.Services;
 using Business.Entities;
+using Business.Enums;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +12,14 @@ namespace Application.Validators;
 public interface IHandlerValidator
 {
     
-    Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken);
+    // Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken);
     Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
     
     Task<bool> RecordNotExistAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) where T : class;
 
     Task<(string role, int creatorId)> UserAuthAsync(int? modelUserId, CancellationToken cancellationToken);
+    
+    Task<bool> ExpenseCanBeApprovedAsync(Expense fromdb, CancellationToken cancellationToken);
 }
 
 
@@ -31,17 +34,17 @@ public class HandlerValidator : IHandlerValidator
         this.userService = userService;
     }
     
-    public async Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
-    {
-        var entity = await dbContext.Expenses.Where(predicate).FirstOrDefaultAsync(cancellationToken);
-
-        if (entity != null)
-        {
-            throw new HttpException($"Active Expenses exist on this id: {id}", 405);
-        }
-
-        return true;
-    }
+    // public async Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
+    // {
+    //     var entity = await dbContext.Expenses.Where(predicate).FirstOrDefaultAsync(cancellationToken);
+    //
+    //     if (entity != null)
+    //     {
+    //         throw new HttpException($"Active Expenses exist on this id: {id}", 405);
+    //     }
+    //
+    //     return true;
+    // }
     
     public async Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken) where T : class
@@ -91,20 +94,17 @@ public class HandlerValidator : IHandlerValidator
         return (role, creatorId);
     }
 
-    // private string GetParameterName<T>(Expression<Func<T, bool>> predicate)
-    // {
-    //     if (predicate.Body is BinaryExpression binaryExpression)
-    //     {
-    //         if (binaryExpression.Left is MemberExpression left)
-    //         {
-    //             return left.Member.Name;
-    //             
-    //         }
-    //     }
-
-        // throw new ArgumentException("Unable to extract parameter name from the expression.", nameof(predicate));
-    // }
-    
+    // ExpenseCanBeApprovedAsync
+    public async Task<bool> ExpenseCanBeApprovedAsync(Expense fromdb, CancellationToken cancellationToken)
+    {
+        
+        if (fromdb.Status != ExpenseRequestStatus.Approved && fromdb.PaymentStatus != PaymentRequestStatus.Completed)
+            return true;
+        else
+        {
+            throw new HttpException("Expense already approved and payment completed", 405);
+        }
+    }
     
     
 }

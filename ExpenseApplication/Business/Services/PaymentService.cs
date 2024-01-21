@@ -1,3 +1,8 @@
+using System.Net.Http.Json;
+using Business.Entities;
+using Infrastructure.Data.DbContext;
+using Microsoft.EntityFrameworkCore;
+
 namespace Application.Services;
 
 using System;
@@ -7,53 +12,75 @@ using System.Threading.Tasks;
 public interface IPaymentService
 {
     Task ProcessPayment(decimal amount, string fromIban, string toIban);
+    // Get Payment Information
     
+    Task<(string?, string?)> GetPaymentCredentials(int fromUserId, int toUserId);
 }
 
 public class PaymentService : IPaymentService
 {
-    public async Task ProcessPayment(decimal amount, string fromIban, string toIban)
+    private readonly ExpenseDbContext dbContext;
+    
+    public async Task ProcessPayment(decimal amount, string fromUserId, string toUserId)
     {
-
-        bool paymentSuccess = await MakePaymentRequest(amount, toIban);
+        
+        (string? fromIban, string? toIban) = await GetPaymentCredentials(int.Parse(fromUserId), int.Parse(toUserId));
+        
+        if (fromIban == null || toIban == null)
+        {
+            throw new Exception("Payment Credentials Not Found");
+        }
+        
+        bool paymentSuccess = await MakePaymentRequest(amount, fromIban, toIban);
 
         if (paymentSuccess)
         {
             // Update Status of Payment Instruction to Success
             // send Email to toEmail
+            Console.WriteLine("Payment Success");
         }
         else
         {
+            // Update Status of Payment Instruction to Failed
+            // send Email to toEmail
+            Console.WriteLine("Payment Failed");
         }
     }
 
-    private async Task<bool> MakePaymentRequest(decimal amount, string toIban)
+    public async Task<(string?, string?)> GetPaymentCredentials(int fromUserId, int toUserId)
     {
-        try
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                string apiUrl = "http://localhost:5245/api/PaymentSimulator/ProcessPayment";
-                
-                // Request to PaymentSimulator API
-                HttpResponseMessage response = await client.PostAsync(apiUrl, new StringContent($"{{\"amount\": {amount}, \"iban\": \"{toIban}\"}}", System.Text.Encoding.UTF8, "application/json"));
+        var fromUser = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == fromUserId);
+        var toUser = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == toUserId);
+        
+        return fromUser != null && toUser != null ? (fromUser.Iban, toUser.Iban) : (null, null);
+    }
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        catch (Exception ex)
+    private async Task<bool> MakePaymentRequest(decimal amount, string fromIban, string toIban)
+    {
+        var client = new HttpClient();
+        var request = new PaymentRequest()
         {
-            Console.WriteLine($"Error during payment request: {ex.Message}");
+            Amount = amount,
+            FromIBAN = fromIban,
+            ToIBAN = toIban
+        };
+        var response = await client.PostAsJsonAsync("https://localhost:5001/api/payment", request);
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        else
+        {
             return false;
         }
     }
-    
-    
+
+
+}
+
+public class PaymentRequest
+{
+    public decimal Amount { get; set; }
+    public string FromIBAN { get; set; }
+    public string ToIBAN { get; set; }
 }

@@ -56,6 +56,8 @@ public enum PaymentRequestStatus
     Pending,
     [Description ("Declined")]
     Declined,
+    [Description ("OnProcess")]
+    OnProcess,
     [Description ("Completed")]
     Completed,
     [Description ("Failed")]
