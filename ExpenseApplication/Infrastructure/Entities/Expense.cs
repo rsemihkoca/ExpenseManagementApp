@@ -18,7 +18,7 @@ public class Expense : BaseEntity
     public string PaymentLocation { get; set; }
     public string Documents { get; set; } //  (File upload or references)
     public ExpenseRequestStatus Status { get; set; } // (Pending, Approved, Rejected)
-    public string Description { get; set; } //  (if Status is Rejected)
+    public string Description { get; set; } //  (from User)
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
     public virtual User User { get; set; }
