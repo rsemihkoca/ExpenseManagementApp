@@ -8,6 +8,8 @@ using Application.Validators;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.SqlServer;
 using IbanNet.DependencyInjection.ServiceProvider;
 using Infrastructure.Data.DbContext;
 using Infrastructure.Dtos;
@@ -48,9 +50,26 @@ public class Startup
         var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new MapperConfig()));
         services.AddSingleton(mapperConfig.CreateMapper());
         
+        // Hangfire
+        
+        services.AddHangfire(configuration => configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(Configuration.GetConnectionString("MsSqlConnection"), new SqlServerStorageOptions()
+            {
+                TransactionTimeout = TimeSpan.FromMinutes(5),
+                QueuePollInterval = TimeSpan.FromMinutes(5),
+            }));
+        services.AddHangfireServer();
+
+
+        
         services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<INotificationService, NotificationService>();
         
         services.AddSwaggerGen(c =>
         {
@@ -117,6 +136,9 @@ public class Startup
 
         services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserValidator>();
+        
+        services.AddScoped<IValidator<CreatePaymentInstructionRequest>, CreatePaymentInstructionValidator>();
+        services.AddScoped<IValidator<UpdatePaymentInstructionRequest>, UpdatePaymentInstructionValidator>();
 
         services.AddScoped<IHandlerValidator, HandlerValidator>();
 
@@ -134,6 +156,8 @@ public class Startup
 
         app.UseHealthChecks("/health");
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+        app.UseHangfireDashboard();
 
         app.UseAuthentication();
         app.UseRouting();
