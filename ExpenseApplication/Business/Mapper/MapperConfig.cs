@@ -46,11 +46,26 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => src.IsActive))
             .ForMember(dest => dest.LastActivityDateTime,
                 opt => opt.MapFrom(src => DateTime.UtcNow));
-        
+
         CreateMap<User, UserResponse>()
             .ForMember(dest => dest.IsActive,
                 opt => opt.MapFrom(src => src.IsActive ? "Active" : "Inactive"))
             .ForMember(src => src.LastActivityDateTime,
                 opt => opt.MapFrom(src => src.LastActivityDateTime.ToString("dd/MM/yyyy HH:mm:ss")));
+
+        CreateMap<CreatePaymentInstructionRequest, PaymentInstruction>()
+            .ForMember(dest => dest.PaymentStatus,
+                opt => opt.MapFrom(src => PaymentRequestStatus.Pending));
+
+        CreateMap<PaymentInstruction, PaymentInstructionResponse>()
+            .ForMember(dest => dest.Amount,
+                opt => opt.MapFrom(src => src.Expense.Amount))
+            .ForMember(dest => dest.Description,
+                opt => opt.MapFrom(src => src.Expense.Description))
+            .ForMember(dest => dest.ExpenseStatus,
+                opt => opt.MapFrom(src => src.Expense.Status.ToString()))
+            .ForMember(dest => dest.PaymentStatus,
+                opt => opt.MapFrom(src => src.PaymentStatus.ToString()));
+
     }
 }
