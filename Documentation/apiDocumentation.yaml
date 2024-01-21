@@ -1,0 +1,647 @@
+openapi: 3.0.1
+info:
+  title: Expense Management Api
+  version: v1.0
+paths:
+  /api/Expense:
+    post:
+      tags:
+        - Expense
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseRequest'
+      responses:
+        '200':
+          description: Success
+    get:
+      tags:
+        - Expense
+      responses:
+        '200':
+          description: Success
+  /api/Expense/{expenseRequestId}:
+    put:
+      tags:
+        - Expense
+      parameters:
+        - name: expenseRequestId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseRequest'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - Expense
+      parameters:
+        - name: expenseRequestId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+    get:
+      tags:
+        - Expense
+      parameters:
+        - name: expenseRequestId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Expense/Approve/{expenseRequestId}:
+    patch:
+      tags:
+        - Expense
+      parameters:
+        - name: expenseRequestId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Expense/Reject/{expenseRequestId}:
+    patch:
+      tags:
+        - Expense
+      parameters:
+        - name: expenseRequestId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              maxLength: 255
+              type: string
+          text/json:
+            schema:
+              maxLength: 255
+              type: string
+          application/*+json:
+            schema:
+              maxLength: 255
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/Expense/ByUser:
+    get:
+      tags:
+        - Expense
+      parameters:
+        - name: UserId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: CategoryId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: Status
+          in: query
+          style: form
+          schema:
+            type: string
+        - name: PaymentStatus
+          in: query
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /api/ExpenseCategory:
+    post:
+      tags:
+        - ExpenseCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseCategoryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseCategoryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateExpenseCategoryRequest'
+      responses:
+        '200':
+          description: Success
+    get:
+      tags:
+        - ExpenseCategory
+      parameters:
+        - name: expenseCategoryId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/ExpenseCategory/{expenseCategoryId}:
+    put:
+      tags:
+        - ExpenseCategory
+      parameters:
+        - name: expenseCategoryId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseCategoryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseCategoryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateExpenseCategoryRequest'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - ExpenseCategory
+      parameters:
+        - name: expenseCategoryId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/ExpenseCategory/GetAllExpenseCategory:
+    get:
+      tags:
+        - ExpenseCategory
+      responses:
+        '200':
+          description: Success
+  /api/PaymentSimulator/ProcessPayment:
+    post:
+      tags:
+        - PaymentSimulator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+      responses:
+        '200':
+          description: Success
+  /api/Report/ApprovedPaymentFrequencyReport:
+    post:
+      tags:
+        - Report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+      responses:
+        '200':
+          description: Success
+  /api/Report/RejectedPaymentFrequencyReport:
+    post:
+      tags:
+        - Report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+      responses:
+        '200':
+          description: Success
+  /api/Report/PersonnelExpenseFrequencyReport:
+    post:
+      tags:
+        - Report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReportFrequencyRequest'
+      responses:
+        '200':
+          description: Success
+  /api/Report/PersonnelSummaryReport:
+    post:
+      tags:
+        - Report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonnelSummaryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PersonnelSummaryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PersonnelSummaryRequest'
+      responses:
+        '200':
+          description: Success
+  /api/Token:
+    post:
+      tags:
+        - Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+  /api/User:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: Success
+    get:
+      tags:
+        - User
+      parameters:
+        - name: UserId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/User/{UserId}:
+    put:
+      tags:
+        - User
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - User
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/User/ActivateUser:
+    patch:
+      tags:
+        - User
+      parameters:
+        - name: UserId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/User/DeactivateUser:
+    patch:
+      tags:
+        - User
+      parameters:
+        - name: UserId
+          in: query
+          style: form
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/User/GetAllUser:
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    CreateExpenseCategoryRequest:
+      type: object
+      properties:
+        categoryName:
+          type: string
+          nullable: true
+      additionalProperties: false
+    CreateExpenseRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        categoryId:
+          type: integer
+          format: int32
+        paymentMethod:
+          type: string
+          nullable: true
+        paymentLocation:
+          type: string
+          nullable: true
+        documents:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      additionalProperties: false
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        iban:
+          type: string
+          nullable: true
+        role:
+          type: string
+          nullable: true
+      additionalProperties: false
+    PaymentRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        fromIBAN:
+          type: string
+          nullable: true
+        toIBAN:
+          type: string
+          nullable: true
+      additionalProperties: false
+    PersonnelSummaryRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        userId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ReportFrequencyRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TokenRequest:
+      type: object
+      properties:
+        userName:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TokenResponse:
+      type: object
+      properties:
+        expireDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UpdateExpenseCategoryRequest:
+      type: object
+      properties:
+        categoryName:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UpdateExpenseRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        categoryId:
+          type: integer
+          format: int32
+        paymentMethod:
+          type: string
+          nullable: true
+        paymentLocation:
+          type: string
+          nullable: true
+        documents:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        paymentStatus:
+          type: string
+          nullable: true
+        paymentDescription:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UpdateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        iban:
+          type: string
+          nullable: true
+        role:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: http
+      description: Enter JWT Bearer token **_only_**
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - Bearer: []
