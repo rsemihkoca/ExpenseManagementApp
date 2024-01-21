@@ -12,12 +12,11 @@ Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
 
 
 
-<img src=".github/assets/POST.png" alt="POST" width="200"/>
 <table>
   <tr>
     <th>Path</th>
     <td>
-      <img src=".github/assets/POST.png" alt="POST" width="150"/>
+      <img src=".github/assets/POST.png" alt="POST" width="100"/>
     </td>
   </tr>
 </table>
