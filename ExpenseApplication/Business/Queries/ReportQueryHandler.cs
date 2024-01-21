@@ -15,7 +15,7 @@ public class ReportQueryHandler :
     IRequestHandler<ApprovedPaymentFrequencyReport, ApprovedPaymentFrequencyReportResponse>,
     IRequestHandler<RejectedPaymentFrequencyReport, RejectedPaymentFrequencyReportResponse>,
     IRequestHandler<PersonnelExpenseFrequencyReport, PersonnelExpenseFrequencyReportResponse>,
-    IRequestHandler<PersonnelSummaryReport, List<PersonnelSummaryReportResponse>>
+    IRequestHandler<PersonnelSummaryReport, PersonnelSummaryReportResponse>
 {
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
@@ -37,7 +37,7 @@ public class ReportQueryHandler :
 
         var predicate = PredicateBuilder.New<Expense>(true);
 
-        predicate = predicate.And(x => x.Status == ParseEnum<ExpenseRequestStatus>("Approved"))
+        predicate = predicate.And(x => x.Status == ExpenseRequestStatus.Approved)
                                 .And(x => x.CreationDate >= startDate && x.CreationDate <= endDate);
 
         var query = dbContext.Set<Expense>().Where(predicate);
@@ -66,7 +66,7 @@ public class ReportQueryHandler :
 
         var predicate = PredicateBuilder.New<Expense>(true);
 
-        predicate = predicate.And(x => x.Status == ParseEnum<ExpenseRequestStatus>("Rejected"))
+        predicate = predicate.And(x => x.Status == ExpenseRequestStatus.Rejected)
                                 .And(x => x.CreationDate >= startDate && x.CreationDate <= endDate);
 
         var query = dbContext.Set<Expense>().Where(predicate);
@@ -95,7 +95,7 @@ public class ReportQueryHandler :
 
         var predicate = PredicateBuilder.New<Expense>(true);
 
-        predicate = predicate.And(x => x.Status == ParseEnum<ExpenseRequestStatus>("Pending"))
+        predicate = predicate.And(x => x.Status == ExpenseRequestStatus.Pending)
                                 .And(x => x.CreationDate >= startDate && x.CreationDate <= endDate);
 
         var query = dbContext.Set<Expense>()
@@ -127,11 +127,88 @@ public class ReportQueryHandler :
         };
     }
 
-    public async Task<List<PersonnelSummaryReportResponse>> Handle(PersonnelSummaryReport request,
+    public async Task<PersonnelSummaryReportResponse> Handle(PersonnelSummaryReport request,
         CancellationToken cancellationToken)
     {
-        (role, _) = await validate.ValidateUser(request.UserId);
+        /* check if personnel can only see their own */
+        
+        (string role, int creatorId)= await validate.UserAuthAsync(request.Model.UserId, cancellationToken);
+        
+        var (startDate, endDate) = CalculateStartEndDate(request.Model.Type);
+
+        var predicate = PredicateBuilder.New<Expense>(true);
+
+        predicate = predicate.And(x => x.CreationDate >= startDate && x.CreationDate <= endDate)
+                                .And(x => x.User.UserId == request.Model.UserId);
+
+        var query = dbContext.Set<Expense>()
+            .Include(x => x.User)
+            .Where(predicate);
+        
+        int totalCount = await query.CountAsync(cancellationToken);
+        int approvedCount = await query.CountAsync(e => e.Status == ExpenseRequestStatus.Approved, cancellationToken);
+        int rejectedCount = await query.CountAsync(e => e.Status == ExpenseRequestStatus.Rejected, cancellationToken);
+        int pendingCount = await query.CountAsync(e => e.Status == ExpenseRequestStatus.Pending, cancellationToken);
+        double approvedPercentage = approvedCount == 0 ? 0 : (double)approvedCount / totalCount * 100;
+        double approvedSum = await query.SumAsync(e => e.Amount, cancellationToken);
+        double rejectedSum = await query.SumAsync(e => e.Amount, cancellationToken);
+        double pendingSum = await query.SumAsync(e => e.Amount, cancellationToken);
+        
+        List<ExpenseResponse> expenses = await query
+                                                    .Select(e => new ExpenseResponse
+                                                    {
+                                                        ExpenseRequestId = e.ExpenseRequestId,
+                                                        CategoryId = e.CategoryId,
+                                                        ExpenseStatus = EnumToString<ExpenseRequestStatus>(e.Status),
+                                                        PaymentStatus = EnumToString<PaymentRequestStatus>(e.PaymentStatus),
+                                                        PaymentDescription = e.PaymentDescription,
+                                                        Amount = e.Amount,
+                                                        PaymentMethod = e.PaymentMethod,
+                                                        PaymentLocation = e.PaymentLocation,
+                                                        Documents = e.Documents,
+                                                        Description = e.Description,
+                                                        CreationDate = e.CreationDate.ToString("dd/MM/yyyy HH:mm:ss"),
+                                                        LastUpdateTime = e.LastUpdateTime.ToString("dd/MM/yyyy HH:mm:ss"),
+                    
+
+                                                    }).ToListAsync(cancellationToken);
+
+        return new PersonnelSummaryReportResponse
+        {
+            UserId = request.Model.UserId,
+            TotalCount = totalCount,
+            ApprovedCount = approvedCount,
+            RejectedCount = rejectedCount,
+            PendingCount = pendingCount,
+            ApprovedPercentage = (approvedPercentage).ToString("0") + "%",
+            ApprovedSum = approvedSum,
+            RejectedSum = rejectedSum,
+            PendingSum = pendingSum,
+            Expenses = expenses
+            
+        };
+
     }
+    
+    /*
+     *
+     * public class PersonnelSummaryReportResponse
+       {
+           public int UserId { get; set; }
+           public string FullName { get; set; }
+           public int TotalCount { get; set; }
+           public int ApprovedCount { get; set; }
+           public int RejectedCount { get; set; }
+           public int PendingCount { get; set; }
+           
+           public int ApprovedPercentage { get; set; }
+           public double ApprovedSum { get; set; }
+           public double RejectedSum { get; set; }
+           public double PendingSum { get; set; }
+       
+           List<ExpenseResponse> Expenses { get; set; }
+       }
+     */
 
     private static (DateTime startDate, DateTime endDate) CalculateStartEndDate(string frequency)
     {
@@ -162,8 +239,14 @@ public class ReportQueryHandler :
         return dt.AddDays(-1 * diff).Date;
     }
 
-    public static T ParseEnum<T>(string value) where T : struct, Enum
+    // private static T ParseEnum<T>(string value) where T : struct, Enum
+    // {
+    //     return Enum.Parse<T>(value, true);
+    // }
+    
+    private static string EnumToString<T>(T value) where T : struct, Enum
     {
-        return Enum.Parse<T>(value, true);
+        return Enum.GetName(typeof(T), value);
     }
 }
+
