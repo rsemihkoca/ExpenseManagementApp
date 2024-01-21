@@ -21,6 +21,7 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
         builder.HasIndex(e => e.CategoryId).IsUnique();
         
         builder.Property(e => e.CategoryName).IsRequired().HasMaxLength(255);
+        builder.HasIndex(e => e.CategoryName).IsUnique();
         
 
         builder.HasMany(e => e.ExpenseRequests)

@@ -48,7 +48,7 @@ public class ExpenseCategoryCommandHandler :
         CancellationToken cancellationToken)
     {
         var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
-        await validate.RecordNotExistAsync<ExpenseCategory>(x => x.CategoryName == request.Model.CategoryName, cancellationToken);
+        await validate.RecordNotExistAsync<ExpenseCategory>(x => x.CategoryName == request.Model.CategoryName.ToUpper(), cancellationToken);
 
         fromdb.CategoryName = request.Model.CategoryName;
         await dbContext.SaveChangesAsync(cancellationToken);
