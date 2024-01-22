@@ -11,7 +11,6 @@ dotnet ef database update --project Infrastructure --startup-project Api
 Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
 
 
-
 <table>
   <tr>
     <th>Method</th>
@@ -25,7 +24,6 @@ Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
 
   </tr>
 </table>
-
 
 # Project Name
 
@@ -61,11 +59,27 @@ Explain the authentication method required for accessing your API.
 
 Provide an example of the payload or input data for testing your API.
 
+<div align="center">
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Path</th>
+    <th>Auth</th>
+  </tr>
+  <tr>
+    <td>
+      <img src=".github/assets/POST.png" alt="POST" width="100"/>
+    </td>    <td>/api/Expense/</td>
+
+  </tr>
+</table>
+</div>
 
 <table>
 <tr>
-<th>Json 1</th>
-<th>Markdown</th>
+<th>Response</th>
+<th>Request</th>
 </tr>
 <tr>
 <td>
