@@ -58,10 +58,15 @@ Explain the authentication method required for accessing your API.
 ### Test Payload
 
 Provide an example of the payload or input data for testing your API.
+<style>
+    table {
+        width: 100%;
+    }
+</style>
 
 <div align="center">
 
-<table border="1" width="100%">
+<table>
   <tr>
     <th>Method</th>
     <th>Path</th>
