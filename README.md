@@ -110,56 +110,38 @@ Provide an example of the payload or input data for testing your API.
 
 
 <table>
-<tr>
-<th align="center">
-<img width="441" height="1">
-<p> 
-<small>
-EXAMPLE TEXT
-</small>
-</p>
-</th>
-<th align="center">
-<img width="441" height="1">
-<p> 
-<small>
-EXAMPLE TEXT
-</small>
-</p>
-</th>
-</tr>
-<tr>
-<td>
-```jsonc
+  <thead>
+    <tr>
+      <th width="500px">Request Example</th>
+      <th width="500px">Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr width="600px">
+      <td>
+
+```json
 {
-  "foo": [
-    {
-      "bar": "hello world"
-    }
-  ]
+  "id": 5,
+  "username": "mary",
+  "email": "mary@example.com",
+  "order_id": "f7177da"
 }
 ```
-
 </td>
 <td>
-```jsonc
+
+```json
 {
-  "foo": [
-    {
-      "bar": "hello world"
-    }
-  ]
+  "id": 5,
+  "username": "mary",
+  "email": "mary@example.com",
+  "order_id": "f7177da"
 }
 ```
 
 </td>
 </tr>
-<tr>
-<td align="center">
-Column 1
-</td>
-<td align="center">
-Column 2
-</td>
-</tr>
+
+  </tbody>
 </table>
