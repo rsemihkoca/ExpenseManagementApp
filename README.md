@@ -173,7 +173,8 @@ Retrieve an expense record by expense request ID. Authorized users: <b>[Admin]</
 
 #### Description: 
 Approve an expense record by expense request ID. Authorized users: <b>[Admin]</b>
-Admin users approve expense records by giving expense request id. This endpoint fires background job to update expense record.
+Admin users approve expense records by giving expense request id.
+Checks if already approved and completed or paymentstatus is in progress. If not, updates expense record and fires background job.
 
 ### Reject Expense
 <table>
