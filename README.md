@@ -58,14 +58,9 @@ Explain the authentication method required for accessing your API.
 ### Test Payload
 
 Provide an example of the payload or input data for testing your API.
-<style>
-    table {
-        width: 100%;
-    }
-</style>
+
 
 <div align="center">
-
 <table>
   <tr>
     <th>Method</th>
@@ -108,6 +103,63 @@ Provide an example of the payload or input data for testing your API.
 }
 ```
 
+</td>
+</tr>
+</table>
+
+
+
+<table>
+<tr>
+<th align="center">
+<img width="441" height="1">
+<p> 
+<small>
+EXAMPLE TEXT
+</small>
+</p>
+</th>
+<th align="center">
+<img width="441" height="1">
+<p> 
+<small>
+EXAMPLE TEXT
+</small>
+</p>
+</th>
+</tr>
+<tr>
+<td>
+```jsonc
+{
+  "foo": [
+    {
+      "bar": "hello world"
+    }
+  ]
+}
+```
+
+</td>
+<td>
+```jsonc
+{
+  "foo": [
+    {
+      "bar": "hello world"
+    }
+  ]
+}
+```
+
+</td>
+</tr>
+<tr>
+<td align="center">
+Column 1
+</td>
+<td align="center">
+Column 2
 </td>
 </tr>
 </table>
