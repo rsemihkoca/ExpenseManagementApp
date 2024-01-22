@@ -61,65 +61,6 @@ Provide an example of the payload or input data for testing your API.
 
 
 
-<table>
-
-  <tbody>
-  <tr width="600px">
-      <td>
-
-```json
-{
-  "id": 5,
-  "username": "mary",
-  "email": "mary@example.com",
-  "order_id": "f7177da"
-}
-```
-</td>
-<td>
-
-```json
-{
-  "id": 5,
-  "username": "mary",
-  "email": "mary@example.com",
-  "order_id": "f7177da"
-}
-```
-
-</td>
-</tr>
-
-  </tbody>
-  <tfoot>
-    <tr>
-      <th width="500px">Request Example</th>
-      <th width="500px">Response Example</th>
-    </tr>
-  </tfoot>
-</table>
-
-
-
-
-<div align="center">
-  <table>
-    <thead>
-        <tr>
-          <th width="200px">Method</th>
-          <th width="800px">Path </th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr width="600px">
-        <td>
-          <img src=".github/assets/POST.png" alt="POST" width="100px"/>
-        </td>
-        <td >/api/Expense/</td>
-      </tr>
-  </table>
-</div>
-
 
 
 
@@ -135,13 +76,13 @@ Provide an example of the payload or input data for testing your API.
     </thead>
     <tbody>
       <tr width="100%">
-        <td align="center">
-          <img src=".github/assets/POST.png" alt="POST" width="30%"/>
+        <td align="center" style="padding: 0;margin: 0">
+          <img src=".github/assets/POST.png" alt="POST" width="25%"/>
         </td>
-        <td align="center"><b>/api/Expense/</b></td>
+        <td align="center" style="padding: 0;margin: 0"><b>/api/Expense/</b></td>
       </tr>
   <tr width="100%">
-      <td height="0px">
+      <td height="0px" style="padding-bottom: 0%;padding-top: 0%">
 
 ```json
 {
