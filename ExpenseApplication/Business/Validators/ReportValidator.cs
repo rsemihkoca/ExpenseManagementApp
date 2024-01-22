@@ -1,7 +1,7 @@
 using FluentValidation;
 using Infrastructure.Dtos;
 
-namespace Application.Validators;
+namespace Business.Validators;
 
 
 public class ReportValidator : AbstractValidator<ReportFrequencyRequest>
@@ -9,9 +9,9 @@ public class ReportValidator : AbstractValidator<ReportFrequencyRequest>
     public ReportValidator()
     {
         RuleFor(x => x.Type)
-        .NotEmpty().WithMessage("Type is required")
-        .Must(x => x == "daily" || x == "weekly" || x == "monthly")
-        .WithMessage("Type must be daily, weekly or monthly");
+        .NotEmpty().WithMessage(Constants.ReportValidationMessages.TypeRequired)
+        .Must(x => x == Constants.Frequency.Daily || x == Constants.Frequency.Weekly || x == Constants.Frequency.Monthly)
+        .WithMessage(Constants.ReportValidationMessages.InvalidType);
     }
 }
 
@@ -20,12 +20,12 @@ public class PersonnelSummaryValidator : AbstractValidator<PersonnelSummaryReque
     public PersonnelSummaryValidator()
     {
         RuleFor(x => x.Type)
-        .NotEmpty().WithMessage("Type is required")
-        .Must(x => x == "daily" || x == "weekly" || x == "monthly")
-        .WithMessage("Type must be daily, weekly or monthly");
+            .NotEmpty().WithMessage(Constants.PersonnelSummaryValidationMessages.TypeRequired)
+            .Must(x => x == Constants.Frequency.Daily || x == Constants.Frequency.Weekly || x == Constants.Frequency.Monthly)
+            .WithMessage(Constants.PersonnelSummaryValidationMessages.InvalidType);
         
         RuleFor(x => x.UserId)
-        .GreaterThan(0)
-        .WithMessage("UserId must be greater than 0");
+            .GreaterThan(0)
+            .WithMessage(Constants.PersonnelSummaryValidationMessages.UserIdGreaterThanZero);
     }
 }
