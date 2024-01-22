@@ -217,7 +217,198 @@ Personnel can only retrieve their own expenses.
 Personnel can filter expenses by status and date range. Also Admin can filter expenses.
 This api is queryable.
 
+---
 
+### ExpenseCategory
+
+#### Create Expense Category
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/ExpenseCategory</td>
+  </tr>
+</table>
+
+#### Description:
+Create a new expense category.
+
+#### Get All Expense Categories
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">GET    </td>
+    <td  align="center">/api/ExpenseCategory</td>
+  </tr>
+</table>
+
+#### Description:
+Retrieve all expense categories.
+
+#### Update Expense Category
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">PUT    </td>
+    <td  align="center">/api/ExpenseCategory/{expenseCategoryId}</td>
+  </tr>
+</table>
+
+#### Description:
+Update an expense category by expense category ID.
+
+#### Delete Expense Category
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">DELETE    </td>
+    <td  align="center">/api/ExpenseCategory/{expenseCategoryId}</td>
+  </tr>
+</table>
+
+#### Description:
+Delete an expense category by expense category ID.
+
+#### Get All Expense Categories
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">GET    </td>
+    <td  align="center">/api/ExpenseCategory/GetAllExpenseCategory</td>
+  </tr>
+</table>
+
+#### Description:
+Retrieve all expense categories.
+
+---
+
+### PaymentSimulator
+
+#### Process Payment
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/PaymentSimulator/ProcessPayment</td>
+  </tr>
+</table>
+
+#### Description:
+Simulate the process of making a payment. Authorized users: <b>[Anonymous]</b>
+Hangfire is used to simulate payment process. Hangfire is a background job library. It is used to simulate payment process.
+
+---
+
+### Report
+
+#### Approved Payment Frequency Report
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/Report/ApprovedPaymentFrequencyReport</td>
+  </tr>
+</table>
+
+#### Description:
+Generate a report on the frequency of approved payments.
+
+#### Rejected Payment Frequency Report
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/Report/RejectedPaymentFrequencyReport</td>
+  </tr>
+</table>
+
+#### Description:
+Generate a report on the frequency of rejected payments.
+
+#### Personnel Expense Frequency Report
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/Report/PersonnelExpenseFrequencyReport</td>
+  </tr>
+</table>
+
+#### Description:
+Generate a report on the frequency of personnel expenses.
+
+#### Personnel Summary Report
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/Report/PersonnelSummaryReport</td>
+  </tr>
+</table>
+
+#### Description:
+Generate a summary report on personnel expenses. Authorized users: <b>[Admin, Personnel]</b>.
 
 Further information can be found in the [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G).
 Also in dcoumentation folder there is a postman collection. You can import it to postman and test the api.
