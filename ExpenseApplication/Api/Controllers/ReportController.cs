@@ -1,4 +1,4 @@
-using Application.Cqrs;
+using Business.Cqrs;
 using Infrastructure.Dtos;
 using Microsoft.AspNetCore.Authorization;
 
@@ -20,7 +20,7 @@ public class ReportController : ControllerBase
     }
 
     [HttpPost("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> ApprovedPaymentFrequencyReport([FromBody] ReportFrequencyRequest request)
     {
         var command = new ApprovedPaymentFrequencyReport(request);
@@ -29,7 +29,7 @@ public class ReportController : ControllerBase
     }
     
     [HttpPost("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> RejectedPaymentFrequencyReport([FromBody] ReportFrequencyRequest request)
     {
         var command = new RejectedPaymentFrequencyReport(request);
@@ -38,7 +38,7 @@ public class ReportController : ControllerBase
     }
     
     [HttpPost("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> PersonnelExpenseFrequencyReport([FromBody] ReportFrequencyRequest request)
     {
         var command = new PersonnelExpenseFrequencyReport(request);
@@ -47,7 +47,7 @@ public class ReportController : ControllerBase
     }
     
     [HttpPost("[action]")]
-    [Authorize(Roles = "Admin, Personnel")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnel)]
     public async Task<IActionResult> PersonnelSummaryReport([FromBody] PersonnelSummaryRequest request)
     {
         var command = new PersonnelSummaryReport(request);
