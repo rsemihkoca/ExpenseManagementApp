@@ -150,12 +150,12 @@ Provide an example of the payload or input data for testing your API.
   <table>
     <thead>
         <tr>
-          <th width="20%">Method</th>
-          <th width="80%">Path </th>
+          <th width="200px">Method</th>
+          <th width="800px">Path </th>
         </tr>
     </thead>
     <tbody>
-      <tr width="100%">
+      <tr width="600px">
         <td>
           <img src=".github/assets/POST.png" alt="POST" width="100px"/>
         </td>
