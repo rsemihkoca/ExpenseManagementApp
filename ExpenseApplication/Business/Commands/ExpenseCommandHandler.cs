@@ -34,11 +34,11 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
+        (string role, int creatorId) = await validate.UserAuthAsync(request.Model.UserId, cancellationToken);
+
         await validate.RecordExistAsync<User>(x => x.UserId == request.Model.UserId, cancellationToken);
         await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.Model.CategoryId,
             cancellationToken);
-
-        (string role, int creatorId) = await validate.UserAuthAsync(request.Model.UserId, cancellationToken);
 
         var entity = mapper.Map<CreateExpenseRequest, Expense>(request.Model);
         entity.CreatedBy = creatorId;
