@@ -1,17 +1,15 @@
-using Application.Cqrs;
-using Application.Services;
-using Application.Validators;
+using Business.Cqrs;
+using Business.Validators;
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using LinqKit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Queries;
+namespace Business.Queries;
 
 public class ExpenseQueryHandler :
     IRequestHandler<GetAllExpenseQuery, List<ExpenseResponse>>,
@@ -42,6 +40,8 @@ public class ExpenseQueryHandler :
 
     public async Task<ExpenseResponse> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.ExpenseRequestId, cancellationToken);
+
         var entity = await dbContext.Set<Expense>()
             .FirstOrDefaultAsync(x => x.ExpenseRequestId == request.ExpenseRequestId, cancellationToken);
 
