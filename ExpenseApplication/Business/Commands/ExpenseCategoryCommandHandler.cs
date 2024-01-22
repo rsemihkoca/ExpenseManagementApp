@@ -1,13 +1,13 @@
-using Application.Cqrs;
-using Application.Validators;
+using Business.Cqrs;
+using Business.Validators;
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Commands;
+namespace Business.Commands;
 
 public class ExpenseCategoryCommandHandler :
     IRequestHandler<CreateExpenseCategoryCommand, ExpenseCategoryResponse>,
@@ -48,6 +48,10 @@ public class ExpenseCategoryCommandHandler :
     public async Task<ExpenseCategoryResponse> Handle(UpdateExpenseCategoryCommand request,
         CancellationToken cancellationToken)
     {
+        /* check if category exist
+         * check if category name already exist
+         */
+        await validate.IdGreaterThanZeroAsync(request.CategoryId, cancellationToken);
         var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
         await validate.RecordNotExistAsync<ExpenseCategory>(x => x.CategoryName == request.Model.CategoryName.ToUpper(), cancellationToken);
 
@@ -67,6 +71,8 @@ public class ExpenseCategoryCommandHandler :
         /* check if category exist
          * check if pending expense exist with this category
          */
+        await validate.IdGreaterThanZeroAsync(request.CategoryId, cancellationToken);
+
         var fromdb = await validate.RecordExistAsync<ExpenseCategory>(x => x.CategoryId == request.CategoryId, cancellationToken);
 
         var pendingExpense = await validate.RecordNotExistAsync<Expense>(x => x.CategoryId == request.CategoryId && x.Status == ExpenseRequestStatus.Pending, cancellationToken);
