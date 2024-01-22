@@ -144,3 +144,19 @@ Provide an example of the payload or input data for testing your API.
 
   </tbody>
 </table>
+
+
+<div align="center">
+  <table>
+    <tr>
+      <th width="20%">Method</th>
+      <th width="80%">Path </th>
+    </tr>
+    <tr>
+      <td>
+        <img src=".github/assets/POST.png" alt="POST" width="100"/>
+      </td>
+      <td >/api/Expense/</td>
+    </tr>
+  </table>
+</div>
