@@ -126,7 +126,6 @@ Provide an example of the payload or input data for testing your API.
 
 
 
-
 <table>
     <thead>
         <tr>
@@ -142,7 +141,7 @@ Provide an example of the payload or input data for testing your API.
         <td align="center"><b>/api/Expense/</b></td>
       </tr>
   <tr width="100%">
-      <td>
+      <td height="0px">
 
 ```json
 {
@@ -153,7 +152,7 @@ Provide an example of the payload or input data for testing your API.
 }
 ```
 </td>
-<td>
+<td height="0px">
 
 ```json
 {
