@@ -1,8 +1,8 @@
-using Business.Entities;
-using Business.Enums;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Enums;
 
-namespace Infrastructure.Data.DbContext;
+namespace Infrastructure.DbContext;
 
 public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
@@ -27,11 +27,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 UserId = 1,
                 Username = "admin1",
                 Password = "5F4DCC3B5AA765D61D8327DEB882CF99",
-                FirstName = "Admin",
+                FirstName = Constants.Roles.Admin,
                 LastName = "1",
                 Email = "admin1@example.com",
                 Iban = "TR760009901234567800100001",
-                Role = "Admin",
+                Role = Constants.Roles.Admin,
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -41,11 +41,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 UserId = 2,
                 Username = "admin2",
                 Password = "5F4DCC3B5AA765D61D8327DEB882CF99", // "password"
-                FirstName = "Admin",
+                FirstName = Constants.Roles.Admin,
                 LastName = "2",
                 Email = "admin2@example.com",
                 Iban = "TR548695845712502365201452",
-                Role = "Admin",
+                Role = Constants.Roles.Admin,
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -55,11 +55,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 UserId = 3,
                 Username = "personnel1",
                 Password = "5F4DCC3B5AA765D61D8327DEB882CF99",
-                FirstName = "Personnel",
+                FirstName = Constants.Roles.Personnel,
                 LastName = "1",
                 Email = "personnel1@example.com",
                 Iban = "TR115181625282523330364444",
-                Role = "Personnel",
+                Role = Constants.Roles.Personnel,
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
@@ -69,11 +69,11 @@ public class ExpenseDbContext : Microsoft.EntityFrameworkCore.DbContext
                 UserId = 4,
                 Username = "personnel2",
                 Password = "5F4DCC3B5AA765D61D8327DEB882CF99",
-                FirstName = "Personnel",
+                FirstName = Constants.Roles.Personnel,
                 LastName = "2",
                 Email = "personnel2@example.com",
                 Iban = "TR960251857420045115789005",
-                Role = "Personnel",
+                Role = Constants.Roles.Personnel,
                 PasswordRetryCount = 0,
                 IsActive = true,
                 LastActivityDateTime = DateTime.Now
