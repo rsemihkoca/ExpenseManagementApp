@@ -61,29 +61,6 @@ Provide an example of the payload or input data for testing your API.
 
 
 
-
-
-
-<div align="center">
-  <table>
-    <thead>
-        <tr>
-          <th width="200px">Method</th>
-          <th width="800px">Path </th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr width="600px">
-        <td>
-          <img src=".github/assets/POST.png" alt="POST" width="100px"/>
-        </td>
-        <td >/api/Expense/</td>
-      </tr>
-  </table>
-</div>
-
-
-
 <table>
 
   <tbody>
@@ -125,6 +102,77 @@ Provide an example of the payload or input data for testing your API.
 
 
 
+<div align="center">
+  <table>
+    <thead>
+        <tr>
+          <th width="200px">Method</th>
+          <th width="800px">Path </th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr width="600px">
+        <td>
+          <img src=".github/assets/POST.png" alt="POST" width="100px"/>
+        </td>
+        <td >/api/Expense/</td>
+      </tr>
+  </table>
+</div>
 
+
+
+
+
+
+
+
+<table>
+    <thead>
+        <tr>
+          <th width="10%">Method</th>
+          <th width="40%">Path </th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr width="100%">
+        <td align="center">
+          <img src=".github/assets/POST.png" alt="POST" width="30%"/>
+        </td>
+        <td align="center"><b>/api/Expense/</b></td>
+      </tr>
+  <tr width="100%">
+      <td>
+
+```json
+{
+  "id": 5,
+  "username": "mary",
+  "email": "mary@example.com",
+  "order_id": "f7177da"
+}
+```
+</td>
+<td>
+
+```json
+{
+  "id": 5,
+  "username": "mary",
+  "email": "mary@example.com",
+  "order_id": "f7177da"
+}
+```
+
+</td>
+</tr>
+
+  </tbody>
+    <tfoot>
+        <tr>
+        <th width="50%">Request Example</th>
+        <th width="50%">Response Example</th>
+        </tr>
+</table>
 
 
