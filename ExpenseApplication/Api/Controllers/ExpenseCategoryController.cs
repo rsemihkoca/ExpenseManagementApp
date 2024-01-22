@@ -1,8 +1,9 @@
-using Application.Cqrs;
-using Infrastructure.Dtos;
+using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Schemes.Dtos;
+using Constants = Schemes.Constants.Constants;
 
 namespace Api.Controllers;
 
@@ -18,7 +19,7 @@ public class ExpenseCategoryController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> CreateExpenseCategory([FromBody] CreateExpenseCategoryRequest request)
     {
         var command = new CreateExpenseCategoryCommand(request);
@@ -27,7 +28,7 @@ public class ExpenseCategoryController : ControllerBase
     }
 
     [HttpPut("{expenseCategoryId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> UpdateExpenseCategory(int expenseCategoryId, [FromBody] UpdateExpenseCategoryRequest request)
     {
         var command = new UpdateExpenseCategoryCommand(expenseCategoryId, request);
@@ -36,7 +37,7 @@ public class ExpenseCategoryController : ControllerBase
     }
 
     [HttpDelete("{expenseCategoryId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> DeleteExpenseCategory(int expenseCategoryId)
     {
         var command = new DeleteExpenseCategoryCommand(expenseCategoryId);
@@ -45,7 +46,7 @@ public class ExpenseCategoryController : ControllerBase
     }
 
     [HttpGet("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetAllExpenseCategory()
     {
         var query = new GetAllExpenseCategoryQuery();
@@ -54,7 +55,7 @@ public class ExpenseCategoryController : ControllerBase
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetExpenseCategoryById(int expenseCategoryId)
     {
         var query = new GetExpenseCategoryByIdQuery(expenseCategoryId);
