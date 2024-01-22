@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Business.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Business.Entities;
+namespace Infrastructure.Entities;
 
-[Table("Users", Schema = "CaseDb")]
+[Table(Constants.Database.UserTable, Schema = Constants.Database.Schema)]
 public class User : BaseEntity
 {
     public int UserId { get; set; } // Primary key
@@ -57,7 +56,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.ExpenseRequests)
             .WithOne(e => e.User)
             .HasForeignKey(e => e.UserId);
-        // .OnDelete(DeleteBehavior.Restrict);
 
 
     }
