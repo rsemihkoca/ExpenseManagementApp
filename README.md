@@ -81,8 +81,18 @@ Provide an example of the payload or input data for testing your API.
         </td>
         <td align="center" style="padding: 0;margin: 0"><b>/api/Expense/</b></td>
       </tr>
-  <tr width="100%" style="padding: 0;margin: 0">
-      <td height="0px" style="padding-bottom: 0%;padding-top: 0%; margin: 0%">
+      
+</tbody>
+<thead>
+    <tr>
+    <th width="50%">Request Example</th>
+    <th width="50%">Response Example</th>
+    </tr>
+</thead>
+<tbody> 
+
+<tr width="100%" style="padding: 0;margin: 0">
+  <td height="0px" style="padding-bottom: 0%;padding-top: 0%; margin: 0%">
 
 ```json
 {
@@ -105,12 +115,8 @@ Provide an example of the payload or input data for testing your API.
 ```
 </td>
 </tr>
-  </tbody>
-    <tfoot>
-        <tr>
-        <th width="50%">Request Example</th>
-        <th width="50%">Response Example</th>
-        </tr>
+</tbody> 
+
 </table>
 
 
