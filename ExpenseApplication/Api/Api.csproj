@@ -27,7 +27,9 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
       <ProjectReference Include="..\Schemes\Schemes.csproj" />
     </ItemGroup>
-
+    <ItemGroup>
+        <Using Include="Schemes.Constants;" />
+    </ItemGroup>
     <ItemGroup>
       <Reference Include="MediatR">
         <HintPath>..\..\..\..\.nuget\packages\mediatr\12.2.0\lib\net6.0\MediatR.dll</HintPath>

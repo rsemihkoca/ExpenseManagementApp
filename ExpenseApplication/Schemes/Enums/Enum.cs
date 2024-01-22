@@ -1,13 +1,14 @@
 using System.ComponentModel;
 using Business.Entities;
+using Infrastructure;
 
 namespace Business.Enums;
 
 public enum UserRole
 {
-    [Description ("Admin")]
+    [Description (Constants.Roles.Admin)]
     Admin,
-    [Description ("Personnel")]
+    [Description (Constants.Roles.Personnel)]
     Personnel
 }
 //
@@ -63,4 +64,3 @@ public enum PaymentRequestStatus
     [Description ("Failed")]
     Failed
 }
-
