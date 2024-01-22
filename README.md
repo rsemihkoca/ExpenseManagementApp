@@ -61,7 +61,7 @@ Provide an example of the payload or input data for testing your API.
 
 <div align="center">
 
-<table>
+<table border="1" width="100%">
   <tr>
     <th>Method</th>
     <th>Path</th>
