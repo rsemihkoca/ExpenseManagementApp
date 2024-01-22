@@ -1,4 +1,5 @@
-using Business.Entities;
+
+using Schemes.Dtos;
 
 namespace Infrastructure.Dtos;
 
