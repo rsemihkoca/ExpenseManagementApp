@@ -1,12 +1,12 @@
 using System.Linq.Expressions;
-using Application.Services;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Exceptions;
+using Business.Services;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Enums;
+using Schemes.Exceptions;
 
-namespace Application.Validators;
+namespace Business.Validators;
 
 
 public interface IHandlerValidator
@@ -20,6 +20,10 @@ public interface IHandlerValidator
     Task<(string role, int creatorId)> UserAuthAsync(int? modelUserId, CancellationToken cancellationToken);
     
     Task<bool> ExpenseCanBeApprovedAsync(Expense fromdb, CancellationToken cancellationToken);
+    
+    Task<bool> ExpenseCanBeRejectedAsync(Expense fromdb, CancellationToken cancellationToken);
+    
+    Task<bool> IdGreaterThanZeroAsync(int id, CancellationToken cancellationToken);
 }
 
 
@@ -33,18 +37,6 @@ public class HandlerValidator : IHandlerValidator
         this.dbContext = dbContext;
         this.userService = userService;
     }
-    
-    // public async Task<bool> ActiveExpenseNotExistAsync(int id, Expression<Func<Expense, bool>> predicate, CancellationToken cancellationToken)
-    // {
-    //     var entity = await dbContext.Expenses.Where(predicate).FirstOrDefaultAsync(cancellationToken);
-    //
-    //     if (entity != null)
-    //     {
-    //         throw new HttpException($"Active Expenses exist on this id: {id}", 405);
-    //     }
-    //
-    //     return true;
-    // }
     
     public async Task<T> RecordExistAsync<T>(Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken) where T : class
@@ -78,17 +70,17 @@ public class HandlerValidator : IHandlerValidator
         var creatorId = userService.GetUserId();
         switch (role)
         {
-            case "Admin":
+            case Constants.Roles.Admin:
                 break;
-            case "Personnel":
+            case Constants.Roles.Personnel:
                 if (userId != creatorId) // null or any other user id
                 {
-                    throw new HttpException($"Please enter your own id", 403);
+                    throw new HttpException(Constants.ErrorMessages.NotOwnId, 403);
                 }
                 
                 break;
             default:
-                throw new HttpException("Unauthorized role", 403);
+                throw new HttpException(Constants.ErrorMessages.UnauthorizedRole, 403);
         }
         
         return (role, creatorId);
@@ -99,9 +91,22 @@ public class HandlerValidator : IHandlerValidator
     {
         
         if (fromdb.Status == ExpenseRequestStatus.Approved && fromdb.PaymentStatus == PaymentRequestStatus.Completed)
-            throw new HttpException("Expense already approved and payment completed", 405);
+            throw new HttpException(Constants.ErrorMessages.MadePayment, 405);
         if (fromdb.Status == ExpenseRequestStatus.Approved && fromdb.PaymentStatus == PaymentRequestStatus.OnProcess)
-            throw new HttpException("Expense already approved and payment is in progress, please wait", 405);
+            throw new HttpException(Constants.ErrorMessages.InProgressPayment, 405);
+        else
+        {
+            return true;
+
+        }
+    }
+    public async Task<bool> ExpenseCanBeRejectedAsync(Expense fromdb, CancellationToken cancellationToken)
+    {
+        
+        if (fromdb.PaymentStatus == PaymentRequestStatus.Completed)
+            throw new HttpException(Constants.ErrorMessages.MadePayment, 405);
+        if (fromdb.Status == ExpenseRequestStatus.Approved && fromdb.PaymentStatus == PaymentRequestStatus.OnProcess)
+            throw new HttpException(Constants.ErrorMessages.InProgressPayment, 405);
         else
         {
             return true;
@@ -109,6 +114,15 @@ public class HandlerValidator : IHandlerValidator
         }
     }
     
-    
+    /* Check Id is greater than zero */
+    public async Task<bool> IdGreaterThanZeroAsync(int id, CancellationToken cancellationToken)    
+    {
+        if (id <= 0)
+        {
+            throw new HttpException(Constants.ErrorMessages.IdLessThanZero, 400);
+        }
+
+        return true;
+    }
 }
 
