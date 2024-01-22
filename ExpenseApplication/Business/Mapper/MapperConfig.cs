@@ -1,9 +1,9 @@
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Dtos;
+using Infrastructure.Entities;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Mapper;
+namespace Business.Mapper;
 
 public class MapperConfig : Profile
 {
@@ -18,16 +18,12 @@ public class MapperConfig : Profile
                 opt => opt.MapFrom(src => DateTime.UtcNow));
 
         CreateMap<Expense, ExpenseResponse>()
-            // .ForMember(dest => dest.PersonnelName,
-            //     opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
-            // .ForMember(dest => dest.CategoryName,
-            //     opt => opt.MapFrom(src => src.ExpenseCategory.CategoryName))
             .ForMember(dest => dest.ExpenseStatus,
                 opt => opt.MapFrom(src => src.Status))
             .ForMember(src => src.CreationDate,
-                opt => opt.MapFrom(src => src.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")))
+                opt => opt.MapFrom(src => src.CreationDate.ToString(Constants.DateFormats.DateTimeFormat)))
             .ForMember(src => src.LastUpdateTime,
-                opt => opt.MapFrom(src => src.LastUpdateTime.ToString("dd/MM/yyyy HH:mm:ss")));
+                opt => opt.MapFrom(src => src.LastUpdateTime.ToString(Constants.DateFormats.DateTimeFormat)));
 
         CreateMap<ExpenseCategory, ExpenseCategoryResponse>();
 
@@ -47,9 +43,9 @@ public class MapperConfig : Profile
 
         CreateMap<User, UserResponse>()
             .ForMember(dest => dest.IsActive,
-                opt => opt.MapFrom(src => src.IsActive ? "Active" : "Inactive"))
+                opt => opt.MapFrom(src => src.IsActive ? Constants.UserStatus.Active : Constants.UserStatus.Inactive))
             .ForMember(src => src.LastActivityDateTime,
-                opt => opt.MapFrom(src => src.LastActivityDateTime.ToString("dd/MM/yyyy HH:mm:ss")));
+                opt => opt.MapFrom(src => src.LastActivityDateTime.ToString(Constants.DateFormats.DateTimeFormat)));
 
     }
 }
