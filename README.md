@@ -69,7 +69,7 @@ Provide an example of the payload or input data for testing your API.
   <tr>
     <td>
       <img src=".github/assets/POST.png" alt="POST" width="100"/>
-    </td >    <td colspan="2">/api/Expense/</td>
+    </td >    <td colspan="100%">/api/Expense/</td>
 
   </tr>
 </table>
