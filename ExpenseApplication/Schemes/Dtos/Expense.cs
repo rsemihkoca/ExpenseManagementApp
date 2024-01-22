@@ -1,6 +1,4 @@
-using Business.Enums;
-
-namespace Infrastructure.Dtos;
+namespace Schemes.Dtos;
 
 public class GetExpenseByParameterRequest
 {
