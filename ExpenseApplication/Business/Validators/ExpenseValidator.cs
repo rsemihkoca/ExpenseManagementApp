@@ -1,8 +1,7 @@
 using FluentValidation;
-using Infrastructure.Dtos;
-using Microsoft.AspNetCore.Components;
+using Schemes.Dtos;
 
-namespace Application.Validators;
+namespace Business.Validators;
 
 public class CreateExpenseValidator : AbstractValidator<CreateExpenseRequest>
 {
@@ -11,33 +10,33 @@ public class CreateExpenseValidator : AbstractValidator<CreateExpenseRequest>
     {
     
         RuleFor(expense => expense.UserId)
-            .NotEmpty().WithMessage("User id is required.")
-            .GreaterThan(0).WithMessage("User id must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.UserIdRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.UserIdGreaterThanZero);
         
         RuleFor(expense => expense.Amount)
-            .NotEmpty().WithMessage("Amount is required.")
-            .GreaterThan(0).WithMessage("Amount must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.AmountRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.AmountGreaterThanZero);
 
         // must be integer
         RuleFor(expense => expense.CategoryId)
-            .NotEmpty().WithMessage("Category is required.")
-            .GreaterThan(0).WithMessage("Category must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.CategoryIdRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.CategoryIdGreaterThanZero);
         
         RuleFor(expense => expense.PaymentMethod)
-            .NotEmpty().WithMessage("Payment method is required.")
-            .MaximumLength(50).WithMessage("Payment method cannot exceed 50 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentMethodRequired)
+            .MaximumLength(50).WithMessage(Constants.ExpenseValidationMessages.PaymentMethodMaxLength);
 
         RuleFor(expense => expense.PaymentLocation)
-            .NotEmpty().WithMessage("Payment location is required.")
-            .MaximumLength(255).WithMessage("Payment location cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentLocationRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.PaymentLocationMaxLength);
 
         RuleFor(expense => expense.Documents)
-            .NotEmpty().WithMessage("Documents path is required.")
-            .MaximumLength(255).WithMessage("Documents path cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.DocumentsPathRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.DocumentsPathMaxLength);
         
         RuleFor(expense => expense.Description)
-            .NotEmpty().WithMessage("Description is required.")
-            .MaximumLength(255).WithMessage("Description cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.DescriptionRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.DescriptionMaxLength);
     }
 }
 
@@ -47,46 +46,46 @@ public class UpdateExpenseValidator : AbstractValidator<UpdateExpenseRequest>
     public UpdateExpenseValidator()
     {
         RuleFor(expense => expense.UserId)
-            .NotEmpty().WithMessage("User id is required.")
-            .GreaterThan(0).WithMessage("User id must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.UserIdRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.UserIdGreaterThanZero);
         
         RuleFor(expense => expense.Amount)
-            .NotEmpty().WithMessage("Amount is required.")
-            .GreaterThan(0).WithMessage("Amount must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.AmountRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.AmountGreaterThanZero);
 
         RuleFor(expense => expense.CategoryId)
-            .NotEmpty().WithMessage("Category is required.")
-            .GreaterThan(0).WithMessage("Category must be greater than zero.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.CategoryIdRequired)
+            .GreaterThan(0).WithMessage(Constants.ExpenseValidationMessages.CategoryIdGreaterThanZero);
         
         RuleFor(expense => expense.PaymentMethod)
-            .NotEmpty().WithMessage("Payment method is required.")
-            .MaximumLength(50).WithMessage("Payment method cannot exceed 50 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentMethodRequired)
+            .MaximumLength(50).WithMessage(Constants.ExpenseValidationMessages.PaymentMethodMaxLength);
 
         RuleFor(expense => expense.PaymentLocation)
-            .NotEmpty().WithMessage("Payment location is required.")
-            .MaximumLength(255).WithMessage("Payment location cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentLocationRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.PaymentLocationMaxLength);
 
         RuleFor(expense => expense.Documents)
-            .NotEmpty().WithMessage("Documents path is required.")
-            .MaximumLength(255).WithMessage("Documents path cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.DocumentsPathRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.DocumentsPathMaxLength);
             
         RuleFor(expense => expense.Status)
-            .NotEmpty().WithMessage("Status is required.")
-            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Approved") || x.ToString().Equals("Rejected"))
-            .WithMessage("Status must be one of the following: Pending, Approved, Rejected.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.StatusRequired)
+            .Must(x => x.ToString().Equals(Constants.ExpenseRequestStatus.Pending) || x.ToString().Equals(Constants.ExpenseRequestStatus.Approved) || x.ToString().Equals(Constants.ExpenseRequestStatus.Rejected))
+            .WithMessage(Constants.ExpenseValidationMessages.StatusInvalid);
         
         RuleFor(expense => expense.Description)
-            .NotEmpty().WithMessage("Description is required.")
-            .MaximumLength(255).WithMessage("Description cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.DescriptionRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.DescriptionMaxLength);
             
         RuleFor(expression => expression.PaymentStatus)
-            .NotEmpty().WithMessage("Payment status is required.")
-            .Must(x => x.ToString().Equals("Pending") || x.ToString().Equals("Declined") || x.ToString().Equals("Completed") || x.ToString().Equals("Failed"))
-            .WithMessage("Payment status must be one of the following: Pending, Declined, Completed, Failed.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentStatusRequired)
+            .Must(x => x.ToString().Equals(Constants.PaymentRequestStatus.Pending) || x.ToString().Equals(Constants.PaymentRequestStatus.Declined) || x.ToString().Equals(Constants.PaymentRequestStatus.Completed) || x.ToString().Equals(Constants.PaymentRequestStatus.Failed))
+            .WithMessage(Constants.ExpenseValidationMessages.PaymentStatusInvalid);
 
         RuleFor(expense => expense.PaymentDescription)
-            .NotEmpty().WithMessage("Payment description is required.")
-            .MaximumLength(255).WithMessage("Payment description cannot exceed 255 characters.");
+            .NotEmpty().WithMessage(Constants.ExpenseValidationMessages.PaymentDescriptionRequired)
+            .MaximumLength(255).WithMessage(Constants.ExpenseValidationMessages.PaymentDescriptionMaxLength);
     }
 }
 
@@ -97,38 +96,38 @@ public class GetExpenseByParameterRequestValidator : AbstractValidator<GetExpens
     {
         RuleFor(request => request.UserId)
             .GreaterThan(0).When(request => request.UserId.HasValue)
-            .WithMessage("UserId must be greater than 0 when provided.");
+            .WithMessage(Constants.ExpenseValidationMessages.UserIdGreaterThanZeroWhenProvided);
 
         RuleFor(request => request.CategoryId)
             .GreaterThan(0).When(request => request.CategoryId.HasValue)
-            .WithMessage("CategoryId must be greater than 0 when provided.");
+            .WithMessage(Constants.ExpenseValidationMessages.CategoryIdGreaterThanZeroWhenProvided);
 
         RuleFor(request => request.Status)
             .Must(BeAValidExpenseStatus)
             .When(request => !string.IsNullOrEmpty(request.Status))
-            .WithMessage("Invalid expense status. Accepted values are: Pending, Approved, Rejected");
+            .WithMessage(Constants.ExpenseValidationMessages.StatusInvalid);
 
         RuleFor(request => request.PaymentStatus)
             .Must(BeAValidPaymentStatus)
             .When(request => !string.IsNullOrEmpty(request.PaymentStatus))
-            .WithMessage("Invalid payment status. Accepted values are: Pending, Declined, Completed, Failed");
+            .WithMessage(Constants.ExpenseValidationMessages.PaymentStatusInvalid);
     }
 
     private bool BeAValidExpenseStatus(string status)
     {
         return string.IsNullOrEmpty(status) || 
-               status.Equals("Pending", StringComparison.OrdinalIgnoreCase) || 
-               status.Equals("Approved", StringComparison.OrdinalIgnoreCase) || 
-               status.Equals("Rejected", StringComparison.OrdinalIgnoreCase);
+               status.Equals(Constants.ExpenseRequestStatus.Pending, StringComparison.OrdinalIgnoreCase) || 
+               status.Equals(Constants.ExpenseRequestStatus.Approved, StringComparison.OrdinalIgnoreCase) || 
+               status.Equals(Constants.ExpenseRequestStatus.Rejected, StringComparison.OrdinalIgnoreCase);
     }
 
     private bool BeAValidPaymentStatus(string paymentStatus)
     {
         return string.IsNullOrEmpty(paymentStatus) || 
-               paymentStatus.Equals("Pending", StringComparison.OrdinalIgnoreCase) || 
-               paymentStatus.Equals("Declined", StringComparison.OrdinalIgnoreCase) ||
-               paymentStatus.Equals("Completed", StringComparison.OrdinalIgnoreCase) || 
-               paymentStatus.Equals("Failed", StringComparison.OrdinalIgnoreCase);
+               paymentStatus.Equals(Constants.PaymentRequestStatus.Pending, StringComparison.OrdinalIgnoreCase) || 
+               paymentStatus.Equals(Constants.PaymentRequestStatus.Declined, StringComparison.OrdinalIgnoreCase) ||
+               paymentStatus.Equals(Constants.PaymentRequestStatus.Completed, StringComparison.OrdinalIgnoreCase) || 
+               paymentStatus.Equals(Constants.PaymentRequestStatus.Failed, StringComparison.OrdinalIgnoreCase);
     }
     
 }
