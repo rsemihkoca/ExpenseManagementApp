@@ -17,7 +17,6 @@ cd ExpenseApplication
 ```
 
 
-
 ## Docker Configuration
 
 
@@ -54,14 +53,13 @@ The application will be accessible at `http://localhost:5245` by default.
 
 ![erd.png](.github%2Fassets%2Ferd.png)
 
-CreatedBy: Admin UserId
-Status: 0: Pending, 1: Approved, 2: Rejected, Only admin can approve or reject expense requests.
-Description: User add description for expense request.
+CreatedBy: Admin UserId \
+Status: 0: Pending, 1: Approved, 2: Rejected, Only admin can approve or reject expense requests.\
+Description: User add description for expense request.\
 PaymentDescription: Admin add description for expense request. Or error code from background job.
 ---
 
 
-Documentation details [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G): 
 
 ## Expense
 
@@ -218,3 +216,8 @@ Admin users can give null user id to retrieve all expenses.
 Personnel can only retrieve their own expenses.
 Personnel can filter expenses by status and date range. Also Admin can filter expenses.
 This api is queryable.
+
+
+
+Further information can be found in the [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G).
+Also in dcoumentation folder there is a postman collection. You can import it to postman and test the api.
