@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Business.Entities;
+namespace Infrastructure.Entities;
 
-[Table("ExpenseCategory", Schema = "CaseDb")]
+[Table(Constants.Database.ExpenseCategoryTable, Schema = Constants.Database.Schema)]
 public class ExpenseCategory : BaseEntity
 {
     public int CategoryId { get; set; } // (Primary Key)
@@ -27,6 +27,5 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
         builder.HasMany(e => e.ExpenseRequests)
             .WithOne(e => e.ExpenseCategory)
             .HasForeignKey(e => e.CategoryId);
-            // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of ExpenseCategory if it is referenced by an Expense
     }
 }
