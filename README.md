@@ -655,7 +655,47 @@ Retrieve all user records. Authorized users: <b>[Admin]</b>.
 - 2 Admin, 2 Personnel users are created in migration. 42 expenses are created.
 - Further Improvements: ApiResponse Class, I did not used apiresponse class so as to return appropriate status code and message. But it can be improved. Handling enums, ClassLevelCascadeMode etc.
 
+### Runtime Screenshots(Projenin Çalışma Örneği)
+Get token
 
+
+![img_1.png](.github%2Fassets%2Fimg_1.png)
+
+Get JWT Token and use it in Authorization header.
+
+![img_2.png](.github%2Fassets%2Fimg_2.png)
+
+After Authorization, you can use api endpoints. Here a test token you can also use it.
+```jwttoken
+eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEiLCJFbWFpbCI6ImFkbWluMUBleGFtcGxlLmNvbSIsIlVzZXJuYW1lIjoiYWRtaW4xIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE2NzA1ODkzNDg5LCJpc3MiOiJFeHBlbnNlQXBwbGljYXRpb24iLCJhdWQiOiJFeHBlbnNlQXBwbGljYXRpb24ifQ.iyL7pHsWY8q-O_gRqCIMctZtrSfK1rZ8vFYASk02utQ
+```
+
+ExpenseRequestId 42 is pending. Admin can approve it.
+```json
+{
+  "expenseRequestId": 42,
+  "userId": 1,
+  "categoryId": 10,
+  "expenseStatus": "Pending",
+  "paymentStatus": "Pending",
+  "paymentDescription": "Payment Not Made",
+  "amount": 300,
+  "paymentMethod": "Cash",
+  "paymentLocation": "Office",
+  "documents": "EducationReceipts",
+  "description": "Eğitim masrafları ödendi.",
+  "creationDate": "13/01/2024 00:00:00",
+  "lastUpdateTime": "06/01/2024 00:00:00"
+}
+```
+
+Approve Expense \
+
+![img_3.png](.github%2Fassets%2Fimg_3.png)
+
+Payment simulator sleeps 6 seconds. And probabilisticly approves(90%) or rejects(10%) expense.\
+
+![img_4.png](.github%2Fassets%2Fimg_4.png)
 
 Further information can be found in the [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G).
 Also in documentation folder there is a postman collection. You can import it to postman and test the api.
