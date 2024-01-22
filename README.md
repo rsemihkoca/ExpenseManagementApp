@@ -16,12 +16,79 @@ Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
   <tr>
     <th>Method</th>
     <th>Path</th>
-    <th>Image</th>
+    <th>Auth</th>
   </tr>
   <tr>
     <td>
       <img src=".github/assets/POST.png" alt="POST" width="100"/>
-    </td>    <td>/example/path</td>
+    </td>    <td>/api/Expense/</td>
 
   </tr>
+</table>
+
+
+# Project Name
+
+A brief description of your project.
+
+## Description
+
+Provide a more detailed description of your project here.
+
+## Validations
+
+List any validations or requirements for using your project.
+
+## API Details
+
+### API Method
+
+Specify the HTTP method used by your API (e.g., GET, POST, PUT, DELETE).
+
+### API Path
+
+Provide the endpoint or path for your API.
+
+### API Authentication
+
+Explain the authentication method required for accessing your API.
+
+## Test
+
+
+
+### Test Payload
+
+Provide an example of the payload or input data for testing your API.
+
+
+<table>
+<tr>
+<th>Json 1</th>
+<th>Markdown</th>
+</tr>
+<tr>
+<td>
+<pre>
+{
+  "id": 1,
+  "username": "joe",
+  "email": "joe@example.com",
+  "order_id": "3544fc0"
+}
+</pre>
+</td>
+<td>
+
+```json
+{
+  "id": 5,
+  "username": "mary",
+  "email": "mary@example.com",
+  "order_id": "f7177da"
+}
+```
+
+</td>
+</tr>
 </table>
