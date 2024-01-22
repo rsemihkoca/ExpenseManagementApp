@@ -689,7 +689,7 @@ ExpenseRequestId 42 is pending. Admin can approve it.
 }
 ```
 
-Approve Expense \
+Approve Expense
 
 ![img_3.png](.github%2Fassets%2Fimg_3.png)
 
