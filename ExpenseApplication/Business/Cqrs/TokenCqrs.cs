@@ -1,6 +1,7 @@
 using Infrastructure.Dtos;
 using MediatR;
+using Schemes.Dtos;
 
-namespace Application.Cqrs;
+namespace Business.Cqrs;
 
 public record CreateTokenCommand(TokenRequest Model) : IRequest<TokenResponse>;
