@@ -1,4 +1,4 @@
-namespace Infrastructure.Exceptions;
+namespace Schemes.Exceptions;
 
 public class HttpException : Exception
 {

@@ -1,14 +1,12 @@
 using System.ComponentModel;
-using Business.Entities;
-using Infrastructure;
 
-namespace Business.Enums;
+namespace Schemes.Enums;
 
 public enum UserRole
 {
-    [Description (Constants.Roles.Admin)]
+    [Description (Constants.Constants.Roles.Admin)]
     Admin,
-    [Description (Constants.Roles.Personnel)]
+    [Description (Constants.Constants.Roles.Personnel)]
     Personnel
 }
 //
