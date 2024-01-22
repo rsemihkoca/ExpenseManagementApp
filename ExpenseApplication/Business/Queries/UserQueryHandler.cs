@@ -1,13 +1,14 @@
-using Application.Cqrs;
+using Business.Cqrs;
 using AutoMapper;
-using Business.Entities;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
+using Business.Validators;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Dtos;
+using Schemes.Exceptions;
 
-namespace Application.Queries;
+namespace Business.Queries;
 public class UserQueryHandler :
     IRequestHandler<GetAllUserQuery,List<UserResponse>>,
     IRequestHandler<GetUserByIdQuery,UserResponse>
@@ -15,11 +16,13 @@ public class UserQueryHandler :
 
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
+    private readonly IHandlerValidator validate;
 
-    public UserQueryHandler(ExpenseDbContext dbContext, IMapper mapper)
+    public UserQueryHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validate)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
+        this.validate = validate;
     }
     public async Task<List<UserResponse>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
@@ -27,7 +30,7 @@ public class UserQueryHandler :
         
         if (list.Count == 0)
         {
-            throw new HttpException("No record found", 404);
+            throw new HttpException(Constants.ErrorMessages.NoRecordFound, 404);
         }
         
         var mappedList = mapper.Map<List<User>, List<UserResponse>>(list);
@@ -36,6 +39,7 @@ public class UserQueryHandler :
 
     public async Task<UserResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.UserId, cancellationToken);
         var entity = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == request.UserId, cancellationToken);
         
         if (entity == null)
