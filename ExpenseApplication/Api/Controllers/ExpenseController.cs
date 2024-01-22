@@ -1,10 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using Application.Cqrs;
-using Business.Enums;
-using Infrastructure.Dtos;
+using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
-
+using Schemes.Dtos;
 namespace Api.Controllers;
 
 using MediatR;
@@ -24,7 +21,7 @@ public class ExpenseController : ControllerBase
 
     // Create Expense
     [HttpPost]
-    [Authorize(Roles = "Admin, Personnel")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnel)]
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request)
     {
         var command = new CreateExpenseCommand(request);
@@ -34,7 +31,7 @@ public class ExpenseController : ControllerBase
 
     // Update Expense
     [HttpPut("{expenseRequestId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
 
     public async Task<IActionResult> UpdateExpense(int expenseRequestId, [FromBody] UpdateExpenseRequest request)
     {
@@ -45,7 +42,7 @@ public class ExpenseController : ControllerBase
 
     // Delete Expense
     [HttpDelete("{expenseRequestId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> DeleteExpense(int expenseRequestId)
     {
         var command = new DeleteExpenseCommand(expenseRequestId);
@@ -55,7 +52,7 @@ public class ExpenseController : ControllerBase
     
     // Approve Expense
     [HttpPatch("Approve/{expenseRequestId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> ApproveExpense(int expenseRequestId)
     {
         var command = new ApproveExpenseCommand(expenseRequestId);
@@ -65,7 +62,7 @@ public class ExpenseController : ControllerBase
     
     // Reject Expense
     [HttpPatch("Reject/{expenseRequestId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> RejectExpense(int expenseRequestId, [FromBody, MaxLength(255)] string? paymentDescription)
     {
         var command = new RejectExpenseCommand(expenseRequestId, paymentDescription);
@@ -75,7 +72,7 @@ public class ExpenseController : ControllerBase
 
     // Get all Expenses
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetAllExpenses()
     {
         var query = new GetAllExpenseQuery();
@@ -85,7 +82,7 @@ public class ExpenseController : ControllerBase
 
     // Get Expense by Id
     [HttpGet("{expenseRequestId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetExpenseById(int expenseRequestId)
     {
         var query = new GetExpenseByIdQuery(expenseRequestId);
@@ -95,7 +92,7 @@ public class ExpenseController : ControllerBase
     
     // Get Expense by UserId
     [HttpGet("ByUser/")]
-    [Authorize(Roles = "Admin, Personnel")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnel)]
     public async Task<IActionResult> GetExpenseByParameterQuery([FromQuery] GetExpenseByParameterRequest request)
     {
         var query = new GetExpenseByParameterQuery(request);
