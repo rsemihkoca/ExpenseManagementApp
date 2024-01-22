@@ -1,13 +1,14 @@
-using Application.Cqrs;
+using Business.Cqrs;
 using AutoMapper;
-using Business.Entities;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
+using Business.Validators;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Dtos;
+using Schemes.Exceptions;
 
-namespace Application.Queries;
+namespace Business.Queries;
 
 public class ExpenseCategoryQueryHandler :
     IRequestHandler<GetAllExpenseCategoryQuery,List<ExpenseCategoryResponse>>,
@@ -16,11 +17,13 @@ public class ExpenseCategoryQueryHandler :
 
     private readonly ExpenseDbContext dbContext;
     private readonly IMapper mapper;
+    private readonly IHandlerValidator validate;
 
-    public ExpenseCategoryQueryHandler(ExpenseDbContext dbContext, IMapper mapper)
+    public ExpenseCategoryQueryHandler(ExpenseDbContext dbContext, IMapper mapper, IHandlerValidator validate)
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
+        this.validate = validate;
     }
     public async Task<List<ExpenseCategoryResponse>> Handle(GetAllExpenseCategoryQuery request, CancellationToken cancellationToken)
     {
@@ -28,7 +31,7 @@ public class ExpenseCategoryQueryHandler :
         
         if (list.Count == 0)
         {
-            throw new HttpException("No record found", 404);
+            throw new HttpException(Constants.ErrorMessages.NoRecordFound, 404);
         }
         
         var mappedList = mapper.Map<List<ExpenseCategory>, List<ExpenseCategoryResponse>>(list);
@@ -37,6 +40,8 @@ public class ExpenseCategoryQueryHandler :
 
     public async Task<ExpenseCategoryResponse> Handle(GetExpenseCategoryByIdQuery request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.CategoryId, cancellationToken);
+
         var entity = await dbContext.Set<ExpenseCategory>().FirstOrDefaultAsync(x => x.CategoryId == request.CategoryId, cancellationToken);
         
         if (entity == null)
