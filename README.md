@@ -606,8 +606,7 @@ User can not be deleted if user has pending expenses.
 #### Description:
 Activate a user account. Authorized users: <b>[Admin]</b>. \
 If a user try to login with deactivated account, user will get error message.
-Users are blocked if they have 3 failed login attempts.\
-Only admin can activate user.
+Users are blocked if they have 3 failed login attempts. Only admin can activate user.
 
 #### Deactivate User
 <table>
@@ -627,7 +626,7 @@ Only admin can activate user.
 #### Description:
 Deactivate a user account. Authorized users: <b>[Admin]</b>. \
 If a user try to login with deactivated account, user will get error message. \
-Blocked users can not login. So they can not be created expenses.\
+Blocked users can not login. So they can not be created expenses.
 
 #### Get All Users
 <table>
