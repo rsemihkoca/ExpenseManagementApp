@@ -1,10 +1,10 @@
 using System.Net.Http.Json;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Enums;
 
-namespace Application.Services;
+namespace Business.Services;
 
 using System;
 using System.Net.Http;
