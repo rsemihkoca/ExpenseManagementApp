@@ -355,16 +355,16 @@ Hangfire is used to simulate payment process. Hangfire is a background job libra
 </table>
 
 #### Description:
-Generate a report on the frequency of approved payments. Authorized users: <b>[Admin]</b>
+Generate a report on the frequency of approved payments. Authorized users: <b>[Admin]</b>.\
 Example response:
 ```json
 {
-  "type": "weekly",
-  "startDate": "22/01/2024 00:00:00",
-  "endDate": "28/01/2024 23:59:59",
-  "approvedCount": 0,
-  "approvedSum": 0,
-  "averageApprovedAmount": 0
+  "type": "monthly",
+  "startDate": "01/01/2024 00:00:00",
+  "endDate": "31/01/2024 23:59:59",
+  "approvedCount": 16,
+  "approvedSum": 14400,
+  "averageApprovedAmount": 900
 }
 ```
 
@@ -384,7 +384,18 @@ Example response:
 </table>
 
 #### Description:
-Generate a report on the frequency of rejected payments. Authorized users: <b>[Admin]</b>
+Generate a report on the frequency of rejected payments. Authorized users: <b>[Admin]</b>.\
+Example response:
+```json
+{
+  "type": "weekly",
+  "startDate": "22/01/2024 00:00:00",
+  "endDate": "28/01/2024 23:59:59",
+  "rejectedCount": 0,
+  "rejectedSum": 0,
+  "averageRejectedAmount": 0
+}
+```
 
 #### Personnel Expense Frequency Report
 <table>
@@ -402,7 +413,30 @@ Generate a report on the frequency of rejected payments. Authorized users: <b>[A
 </table>
 
 #### Description:
-Generate a report on the frequency of personnel expenses. Authorized users: <b>[Admin]</b>
+Generate a report on the frequency of personnel expenses. Authorized users: <b>[Admin]</b>.\
+Example response:
+```json
+{
+  "type": "monthly",
+  "startDate": "01/01/2024 00:00:00",
+  "endDate": "31/01/2024 23:59:59",
+  "totalPendingCount": 16,
+  "totalPendingSum": 6040,
+  "averagePendingAmount": 377.5,
+  "personnelExpenseFrequencies": [
+    {
+      "userId": 1,
+      "fullName": "Admin 1",
+      "pendingCount": 4,
+      "pendingSum": 1400,
+      "averagePendingAmount": 350
+    },
+    {
+      "userId": 2,
+      "fullName": "Admin 2"
+    }//...
+```
+
 
 #### Personnel Summary Report
 <table>
@@ -420,7 +454,38 @@ Generate a report on the frequency of personnel expenses. Authorized users: <b>[
 </table>
 
 #### Description:
-Generate a summary report on personnel expenses. Authorized users: <b>[Admin, Personnel]</b>.
+Generate a summary report on personnel expenses. Authorized users: <b>[Admin, Personnel]</b>.\
+Example response:
+```json
+{
+  "userId": 3,
+  "totalCount": 10,
+  "approvedCount": 4,
+  "rejectedCount": 2,
+  "pendingCount": 4,
+  "approvedPercentage": "40%",
+  "approvedSum": 6500,
+  "rejectedSum": 6500,
+  "pendingSum": 6500,
+  "expenses": [
+    {
+      "expenseRequestId": 3,
+      "userId": 0,
+      "categoryId": 3,
+      "expenseStatus": "Approved",
+      "paymentStatus": "Completed",
+      "paymentDescription": "Payment Not Made",
+      "amount": 2500,
+      "paymentMethod": "Cash",
+      "paymentLocation": "Office",
+      "documents": "PayrollDocs",
+      "description": "Personel maaşları ödendi.",
+      "creationDate": "09/01/2024 00:00:00",
+      "lastUpdateTime": "09/01/2024 00:00:00"
+    },...
+    {
+```
+
 
 ---
 ### Additional Information
