@@ -65,7 +65,6 @@ Provide an example of the payload or input data for testing your API.
   <tr>
     <th>Method</th>
     <th>Path</th>
-    <th>Auth</th>
   </tr>
   <tr>
     <td>
