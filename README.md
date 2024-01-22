@@ -1,14 +1,67 @@
-cd ExpenseApplication/
 
+---
+
+# Expense Application Setup
+
+## Prerequisites
+
+- [.NET SDK 8](https://dotnet.microsoft.com/download) installed on your machine.
+- Docker/Docker Compose installed on your machine.
+- Git installed on your machine.
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/ExpenseApplication.git
+cd ExpenseApplication
+```
+
+
+
+## Docker Configuration
+
+
+### 1. Restart Docker Containers
+
+Execute the following command to bring down existing Docker containers, volumes, and remove orphaned containers, then bring the Docker environment back up:
+
+```bash
+docker-compose down -v --remove-orphans && docker-compose up
+```
+
+### 2. Apply Migrations
+
+Run the following commands to apply Entity Framework migrations and update the database:
+
+```bash
+cd ExpenseApplication
 dotnet ef migrations add InitialCreate --project Infrastructure --startup-project Api
 dotnet ef database update --project Infrastructure --startup-project Api
+```
+If you already have migrations, you can run the following command to drop the database and re-create it:
 
+```bash
+## Run the Application
 
+```bash
+cd ExpenseApplication
+dotnet ef database update --project Infrastructure --startup-project Api
+```
+
+The application will be accessible at `http://localhost:5245` by default.
+
+## Entity Relationship Diagram (ERD)
 
 ![erd.png](.github%2Fassets%2Ferd.png)
 
+CreatedBy: Admin UserId
+Status: 0: Pending, 1: Approved, 2: Rejected, Only admin can approve or reject expense requests.
+Description: User add description for expense request.
+PaymentDescription: Admin add description for expense request. Or error code from background job.
+---
 
-Documentation details https://documenter.getpostman.com/view/23348379/2s9YymFQ2G
+
+Documentation details [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G): 
 
 ## Expense
 
