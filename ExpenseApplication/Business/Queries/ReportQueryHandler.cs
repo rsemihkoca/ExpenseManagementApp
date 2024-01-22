@@ -1,15 +1,16 @@
-using Application.Cqrs;
-using Application.Validators;
+using Business.Cqrs;
+using Business.Validators;
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
+using Infrastructure.DbContext;
 using Infrastructure.Dtos;
+using Infrastructure.Entities;
 using LinqKit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Queries;
+namespace Business.Queries;
 
 public class ReportQueryHandler :
     IRequestHandler<ApprovedPaymentFrequencyReport, ApprovedPaymentFrequencyReportResponse>,
@@ -48,8 +49,8 @@ public class ReportQueryHandler :
         ApprovedPaymentFrequencyReportResponse response = new()
         {
             Type = request.Model.Type,
-            StartDate = startDate.ToString("dd/MM/yyyy HH:mm:ss"),
-            EndDate = endDate.ToString("dd/MM/yyyy HH:mm:ss"),
+            StartDate = startDate.ToString(Constants.DateFormats.DateTimeFormat),
+            EndDate = endDate.ToString(Constants.DateFormats.DateTimeFormat),
             ApprovedCount = count,
             ApprovedSum = sum,
             AverageApprovedAmount = count == 0 ? 0 : sum / count
@@ -77,8 +78,8 @@ public class ReportQueryHandler :
         RejectedPaymentFrequencyReportResponse response = new()
         {
             Type = request.Model.Type,
-            StartDate = startDate.ToString("dd/MM/yyyy HH:mm:ss"),
-            EndDate = endDate.ToString("dd/MM/yyyy HH:mm:ss"),
+            StartDate = startDate.ToString(Constants.DateFormats.DateTimeFormat),
+            EndDate = endDate.ToString(Constants.DateFormats.DateTimeFormat),
             RejectedCount = count,
             RejectedSum = sum,
             AverageRejectedAmount = count == 0 ? 0 : sum / count
@@ -118,8 +119,8 @@ public class ReportQueryHandler :
         return new PersonnelExpenseFrequencyReportResponse
         {
             Type = request.Model.Type,
-            StartDate = startDate.ToString("dd/MM/yyyy HH:mm:ss"),
-            EndDate = endDate.ToString("dd/MM/yyyy HH:mm:ss"),
+            StartDate = startDate.ToString(Constants.DateFormats.DateTimeFormat),
+            EndDate = endDate.ToString(Constants.DateFormats.DateTimeFormat),
             TotalPendingCount = count,
             TotalPendingSum = sum,
             AveragePendingAmount = count == 0 ? 0 : sum / count,
