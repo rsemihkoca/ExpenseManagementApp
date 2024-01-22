@@ -1,5 +1,5 @@
-using Infrastructure.Exceptions;
 using Newtonsoft.Json;
+using Schemes.Exceptions;
 
 namespace Api.Middlewares;
 
@@ -31,7 +31,7 @@ public class GlobalExceptionHandlerMiddleware
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception, int statusCode)
     {
-        context.Response.ContentType = "application/json";
+        context.Response.ContentType = Constants.ContentType.Json;
         context.Response.StatusCode = statusCode;
 
         return context.Response.WriteAsync(new ErrorDetails
