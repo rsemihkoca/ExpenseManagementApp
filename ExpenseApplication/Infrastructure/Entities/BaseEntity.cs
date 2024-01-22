@@ -1,4 +1,4 @@
-namespace Business.Entities;
+namespace Infrastructure.Entities;
 
 public abstract class BaseEntity
 {
