@@ -1,21 +1,22 @@
 using System.Text;
 using Api.Middlewares;
-using Application.Mapper;
-using Application.Services;
-using Application.Validators;
+using Business.Mapper;
+using Business.Services;
+using Business.Validators;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.SqlServer;
 using IbanNet.DependencyInjection.ServiceProvider;
-using Infrastructure.Data.DbContext;
+using Infrastructure.DbContext;
 using Infrastructure.Dtos;
-using Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Schemes.Dtos;
+using Schemes.Token;
 
 namespace Api;
 
@@ -48,7 +49,6 @@ public class Startup
         services.AddSingleton(mapperConfig.CreateMapper());
         
         // Hangfire
-        
         services.AddHangfire(configuration => configuration
             .UseFilter(new AutomaticRetryAttribute { Attempts = 0 })
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
@@ -67,7 +67,6 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPaymentService, PaymentService>();
-        services.AddScoped<INotificationService, NotificationService>();
         
         services.AddSwaggerGen(c =>
         {
