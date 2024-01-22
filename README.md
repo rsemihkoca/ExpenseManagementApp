@@ -1,7 +1,7 @@
 
 ---
 
-# Expense Application Setup
+# Expense Application 
 
 ## Prerequisites
 
@@ -653,9 +653,11 @@ Retrieve all user records. Authorized users: <b>[Admin]</b>.
 
 - Handlervalidator.cs and fluentvalidation is used for validation.
 - Entities have unique index fields so additional validations are added for those like CategoryName, UserName, Email.
-- 
+- Dependencies injected, code is decoupled. Avoid code duplication. Code can extended easily.
+- 2 Admin, 2 Personnel users are created in migration. 42 expenses are created.
+- Further Improvements: ApiResponse Class, I did not used apiresponse class so as to return appropriate status code and message. But it can be improved. Handling enums, ClassLevelCascadeMode etc.
 
 
 
 Further information can be found in the [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G).
-Also in dcoumentation folder there is a postman collection. You can import it to postman and test the api.
+Also in documentation folder there is a postman collection. You can import it to postman and test the api.
