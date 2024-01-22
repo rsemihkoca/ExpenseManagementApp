@@ -67,22 +67,22 @@ Provide an example of the payload or input data for testing your API.
 
 
 
-<table>
-    <thead>
-        <tr>
+<table style="padding: 0;margin: 0">
+    <thead style="padding: 0;margin: 0">
+        <tr style="padding: 0;margin: 0">
           <th width="10%">Method</th>
           <th width="40%">Path </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="padding: 0;margin: 0">
       <tr width="100%">
         <td align="center" style="padding: 0;margin: 0">
           <img src=".github/assets/POST.png" alt="POST" width="25%"/>
         </td>
         <td align="center" style="padding: 0;margin: 0"><b>/api/Expense/</b></td>
       </tr>
-  <tr width="100%">
-      <td height="0px" style="padding-bottom: 0%;padding-top: 0%">
+  <tr width="100%" style="padding: 0;margin: 0">
+      <td height="0px" style="padding-bottom: 0%;padding-top: 0%; margin: 0%">
 
 ```json
 {
@@ -93,7 +93,7 @@ Provide an example of the payload or input data for testing your API.
 }
 ```
 </td>
-<td height="0px">
+<td height="0px" style="padding-bottom: 0%;padding-top: 0%; margin: 0%">
 
 ```json
 {
@@ -103,10 +103,8 @@ Provide an example of the payload or input data for testing your API.
   "order_id": "f7177da"
 }
 ```
-
 </td>
 </tr>
-
   </tbody>
     <tfoot>
         <tr>
