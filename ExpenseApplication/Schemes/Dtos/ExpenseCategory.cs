@@ -1,4 +1,4 @@
-namespace Infrastructure.Dtos;
+namespace Schemes.Dtos;
 
 public class CreateExpenseCategoryRequest
 {
