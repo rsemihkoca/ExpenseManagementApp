@@ -293,6 +293,7 @@ Update an expense category by expense category ID. Authorized users: <b>[Admin]<
 
 #### Description:
 Delete an expense category by expense category ID. Authorized users: <b>[Admin]</b>
+Category can not be deleted if category has pending expenses.
 
 #### Get All Expense Categories
 <table>
@@ -484,16 +485,175 @@ Example response:
       "description": "Personel maaşları ödendi.",
       "creationDate": "09/01/2024 00:00:00",
       "lastUpdateTime": "09/01/2024 00:00:00"
-    },...
+    }...
     {
 ```
 
+---
+
+### Token
+
+#### Generate Token
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/Token</td>
+  </tr>
+</table>
+
+#### Description:
+Generate a new authentication token. Authorized users: <b>[Anonymous]</b>.\
+JWT is used for authentication.\
+Roles: Admin, Personnel\
+
+---
+### User
+
+#### Create User
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">POST    </td>
+    <td  align="center">/api/User</td>
+  </tr>
+</table>
+
+#### Description:
+Create a new user. Authorized users: <b>[Admin]</b>.
+
+#### Get All Users
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">GET    </td>
+    <td  align="center">/api/User</td>
+  </tr>
+</table>
+
+#### Description:
+Retrieve all user records. Authorized users: <b>[Admin]</b>.
+
+#### Update User
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">PUT    </td>
+    <td  align="center">/api/User/{UserId}</td>
+  </tr>
+</table>
+
+#### Description:
+Update a user by user ID. Authorized users: <b>[Admin]</b>.
+
+#### Delete User
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">DELETE    </td>
+    <td  align="center">/api/User/{UserId}</td>
+  </tr>
+</table>
+
+#### Description:
+Delete a user by user ID. Authorized users: <b>[Admin]</b>.\
+User can not be deleted if user has pending expenses.
+
+#### Activate User
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">PATCH    </td>
+    <td  align="center">/api/User/ActivateUser</td>
+  </tr>
+</table>
+
+#### Description:
+Activate a user account. Authorized users: <b>[Admin]</b>. \
+If a user try to login with deactivated account, user will get error message.
+Users are blocked if they have 3 failed login attempts.\
+Only admin can activate user.
+
+#### Deactivate User
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">PATCH    </td>
+    <td  align="center">/api/User/DeactivateUser</td>
+  </tr>
+</table>
+
+#### Description:
+Deactivate a user account. Authorized users: <b>[Admin]</b>. \
+If a user try to login with deactivated account, user will get error message. \
+Blocked users can not login. So they can not be created expenses.\
+
+#### Get All Users
+<table>
+<thead>
+    <tr>
+      <th width="200px">Method</th>
+      <th width="800px">Path </th>
+    </tr>
+</thead>
+<tbody>
+  <tr width="600px">
+    <td align="center">GET    </td>
+    <td  align="center">/api/User/GetAllUser</td>
+  </tr>
+</table>
+
+#### Description:
+Retrieve all user records. Authorized users: <b>[Admin]</b>.
 
 ---
 ### Additional Information
 
-Handlervalidator.cs and fluentvalidation is used for validation.\
-Entities have unique index fields so additional validations are added like CategoryName, UserName, Email.\
+- Handlervalidator.cs and fluentvalidation is used for validation.
+- Entities have unique index fields so additional validations are added for those like CategoryName, UserName, Email.
+- 
 
 
 
