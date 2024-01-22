@@ -1,7 +1,8 @@
-using Application.Cqrs;
+using Business.Cqrs;
 using Infrastructure.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Schemes.Dtos;
 
 namespace Api.Controllers;
 
