@@ -172,7 +172,7 @@ Retrieve an expense record by expense request ID. Authorized users: <b>[Admin]</
 </table>
 
 #### Description: 
-Approve an expense record by expense request ID. Authorized users: <b>[Admin]</b>
+Approve an expense record by expense request ID. Authorized users: <b>[Admin]</b>. \
 Admin users approve expense records by giving expense request id.
 Checks if already approved and completed or paymentstatus is in progress. If not, updates expense record and fires background job.
 
@@ -192,7 +192,7 @@ Checks if already approved and completed or paymentstatus is in progress. If not
 </table>
 
 #### Description: 
-Reject an expense record by expense request ID. Authorized users: <b>[Admin]</b>
+Reject an expense record by expense request ID. Authorized users: <b>[Admin]</b>. \
 Reject endpoint do not fire background job. Updates expense record immediately. And relevant fields are updated. Payment description, status, last updated date...
 
 ### Get Expenses by User
@@ -332,7 +332,7 @@ Retrieve all expense categories. Authorized users: <b>[Admin]</b>
 </table>
 
 #### Description:
-Simulate the process of making a payment. Authorized users: <b>[Anonymous]</b>
+Simulate the process of making a payment. Authorized users: <b>[Anonymous]</b>. \
 Hangfire is used to simulate payment process. Hangfire is a background job library. It is used to simulate payment process.
 
 ---
