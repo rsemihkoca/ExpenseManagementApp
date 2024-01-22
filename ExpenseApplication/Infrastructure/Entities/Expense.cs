@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Business.Enums;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Schemes.Enums;
 
-namespace Business.Entities;
+namespace Infrastructure.Entities;
 
-[Table("Expense", Schema = "CaseDb")]
+[Table(Constants.Database.ExpenseTable, Schema = Constants.Database.Schema)]
 public class Expense : BaseEntity
 {
     public int ExpenseRequestId { get; set; } // (Primary Key)
@@ -23,7 +24,7 @@ public class Expense : BaseEntity
     public PaymentRequestStatus PaymentStatus { get; set; } = PaymentRequestStatus.Pending;// (Pending, Declined, Completed, Failed)
     
     public DateTime? PaymentDate { get; set; } = null; // (if Status is Completed)
-    public string PaymentDescription { get; set; } = "Payment Not Made";//  (if Status is Rejected)
+    public string PaymentDescription { get; set; } = Constants.DefaultValues.PaymentDescription;//  (if Status is Rejected)
     public virtual User User { get; set; }
     public virtual ExpenseCategory ExpenseCategory { get; set; }
 }
@@ -62,12 +63,10 @@ public class ExpenseRequestConfiguration : IEntityTypeConfiguration<Expense>
         builder.HasOne(e => e.User)
             .WithMany(u => u.ExpenseRequests)
             .HasForeignKey(e => e.UserId);
-            // .OnDelete(DeleteBehavior.Restrict); // Delete expense if user is deleted
 
         builder.HasOne(e => e.ExpenseCategory)
             .WithMany()
             .HasForeignKey(e => e.CategoryId);
-            // .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of ExpenseCategory if it is referenced by an Expense
             
 
         
