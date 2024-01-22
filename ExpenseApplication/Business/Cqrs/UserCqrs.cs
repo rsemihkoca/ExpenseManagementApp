@@ -1,7 +1,7 @@
-using Infrastructure.Dtos;
 using MediatR;
+using Schemes.Dtos;
 
-namespace Application.Cqrs;
+namespace Business.Cqrs;
 
 public record CreateUserCommand(CreateUserRequest Model) : IRequest<UserResponse>;
 public record UpdateUserCommand(int UserId, UpdateUserRequest Model) : IRequest<UserResponse>;
