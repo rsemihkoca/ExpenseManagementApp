@@ -1,13 +1,13 @@
-using Application.Cqrs;
-using Application.Validators;
+using Business.Cqrs;
+using Business.Validators;
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Commands;
+namespace Business.Commands;
 
 public class UserCommandHandler :
     IRequestHandler<CreateUserCommand, UserResponse>,
@@ -50,6 +50,8 @@ public class UserCommandHandler :
     public async Task<UserResponse> Handle(UpdateUserCommand request,
         CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.UserId, cancellationToken);
+        
         var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
         // Check if username, email and iban is changed if changed check if it is unique
@@ -88,6 +90,8 @@ public class UserCommandHandler :
         /* check if user exist
          * check if pending expense exist with this user
          */
+        await validate.IdGreaterThanZeroAsync(request.UserId, cancellationToken);
+        
         var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
         var pendingExpense = await validate.RecordNotExistAsync<Expense>(x => x.UserId == request.UserId && x.Status == ExpenseRequestStatus.Pending, cancellationToken);
@@ -102,6 +106,8 @@ public class UserCommandHandler :
 
     public async Task<UserResponse> Handle(ActivateUserCommand request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.UserId, cancellationToken);
+        
         var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
         fromdb.IsActive = true;
@@ -114,6 +120,8 @@ public class UserCommandHandler :
 
     public async Task<UserResponse> Handle(DeactivateUserCommand request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.UserId, cancellationToken);
+        
         var fromdb = await validate.RecordExistAsync<User>(x => x.UserId == request.UserId, cancellationToken);
         
         fromdb.IsActive = false;
