@@ -60,61 +60,32 @@ Explain the authentication method required for accessing your API.
 Provide an example of the payload or input data for testing your API.
 
 
-<div align="center">
-<table>
-  <tr>
-    <th>Method</th>
-    <th>Path</th>
-  </tr>
-  <tr>
-    <td colspan="10%">
-      <img src=".github/assets/POST.png" alt="POST" width="100"/>
-    </td >    <td colspan="90%">/api/Expense/</td>
 
-  </tr>
-</table>
+
+
+
+<div align="center">
+  <table>
+    <thead>
+        <tr>
+          <th width="200px">Method</th>
+          <th width="800px">Path </th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr width="600px">
+        <td>
+          <img src=".github/assets/POST.png" alt="POST" width="100px"/>
+        </td>
+        <td >/api/Expense/</td>
+      </tr>
+  </table>
 </div>
 
-<table>
-<tr>
-<th>Response</th>
-<th>Request</th>
-</tr>
-<tr>
-<td>
-<pre>
-{
-  "id": 1,
-  "username": "joe",
-  "email": "joe@example.com",
-  "order_id": "3544fc0"
-}
-</pre>
-</td>
-<td>
-
-```json
-{
-  "id": 5,
-  "username": "mary",
-  "email": "mary@example.com",
-  "order_id": "f7177da"
-}
-```
-
-</td>
-</tr>
-</table>
-
 
 
 <table>
-  <thead>
-    <tr>
-      <th width="500px">Request Example</th>
-      <th width="500px">Response Example</th>
-    </tr>
-  </thead>
+
   <tbody>
   <tr width="600px">
       <td>
@@ -143,23 +114,17 @@ Provide an example of the payload or input data for testing your API.
 </tr>
 
   </tbody>
+  <tfoot>
+    <tr>
+      <th width="500px">Request Example</th>
+      <th width="500px">Response Example</th>
+    </tr>
+  </tfoot>
 </table>
 
 
-<div align="center">
-  <table>
-    <thead>
-        <tr>
-          <th width="200px">Method</th>
-          <th width="800px">Path </th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr width="600px">
-        <td>
-          <img src=".github/assets/POST.png" alt="POST" width="100px"/>
-        </td>
-        <td >/api/Expense/</td>
-      </tr>
-  </table>
-</div>
+
+
+
+
+
