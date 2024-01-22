@@ -434,7 +434,7 @@ Example response:
     {
       "userId": 2,
       "fullName": "Admin 2"
-    }//...
+    }...
 ```
 
 
@@ -455,6 +455,8 @@ Example response:
 
 #### Description:
 Generate a summary report on personnel expenses. Authorized users: <b>[Admin, Personnel]</b>.\
+Personnel can only retrieve their own expenses.\
+Admin can retrieve all expenses if userId is null.\
 Example response:
 ```json
 {
