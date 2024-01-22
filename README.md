@@ -118,6 +118,7 @@ Retrieve expense records. Authorized users: <b>[Admin]</b>
 #### Description: 
 Update an expense record by expense request ID. Authorized users: <b>[Admin]</b>.\
 Updating expense as approved do not fire background job. Only approve endpoint fires background job.
+This endpoint can be used if expens is paid manually.
 
 ### Delete Expense
 <table>
@@ -237,7 +238,7 @@ This api is queryable.
 </table>
 
 #### Description:
-Create a new expense category.
+Create a new expense category. Authorized users: <b>[Admin]</b>
 
 #### Get All Expense Categories
 <table>
@@ -255,7 +256,7 @@ Create a new expense category.
 </table>
 
 #### Description:
-Retrieve all expense categories.
+Retrieve all expense categories. Authorized users: <b>[Admin]</b>
 
 #### Update Expense Category
 <table>
@@ -273,7 +274,7 @@ Retrieve all expense categories.
 </table>
 
 #### Description:
-Update an expense category by expense category ID.
+Update an expense category by expense category ID. Authorized users: <b>[Admin]</b>
 
 #### Delete Expense Category
 <table>
@@ -291,7 +292,7 @@ Update an expense category by expense category ID.
 </table>
 
 #### Description:
-Delete an expense category by expense category ID.
+Delete an expense category by expense category ID. Authorized users: <b>[Admin]</b>
 
 #### Get All Expense Categories
 <table>
@@ -309,7 +310,7 @@ Delete an expense category by expense category ID.
 </table>
 
 #### Description:
-Retrieve all expense categories.
+Retrieve all expense categories. Authorized users: <b>[Admin]</b>
 
 ---
 
@@ -354,7 +355,18 @@ Hangfire is used to simulate payment process. Hangfire is a background job libra
 </table>
 
 #### Description:
-Generate a report on the frequency of approved payments.
+Generate a report on the frequency of approved payments. Authorized users: <b>[Admin]</b>
+Example response:
+```json
+{
+  "type": "weekly",
+  "startDate": "22/01/2024 00:00:00",
+  "endDate": "28/01/2024 23:59:59",
+  "approvedCount": 0,
+  "approvedSum": 0,
+  "averageApprovedAmount": 0
+}
+```
 
 #### Rejected Payment Frequency Report
 <table>
@@ -372,7 +384,7 @@ Generate a report on the frequency of approved payments.
 </table>
 
 #### Description:
-Generate a report on the frequency of rejected payments.
+Generate a report on the frequency of rejected payments. Authorized users: <b>[Admin]</b>
 
 #### Personnel Expense Frequency Report
 <table>
@@ -390,7 +402,7 @@ Generate a report on the frequency of rejected payments.
 </table>
 
 #### Description:
-Generate a report on the frequency of personnel expenses.
+Generate a report on the frequency of personnel expenses. Authorized users: <b>[Admin]</b>
 
 #### Personnel Summary Report
 <table>
@@ -409,6 +421,14 @@ Generate a report on the frequency of personnel expenses.
 
 #### Description:
 Generate a summary report on personnel expenses. Authorized users: <b>[Admin, Personnel]</b>.
+
+---
+### Additional Information
+
+Handlervalidator.cs and fluentvalidation is used for validation.\
+Entities have unique index fields so additional validations are added like CategoryName, UserName, Email.\
+
+
 
 Further information can be found in the [link](https://documenter.getpostman.com/view/23348379/2s9YymFQ2G).
 Also in dcoumentation folder there is a postman collection. You can import it to postman and test the api.
