@@ -1,8 +1,8 @@
 using System.Security.Claims;
-using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Schemes.Exceptions;
 
-namespace Application.Services;
+namespace Business.Services;
 
 
 public interface IUserService
@@ -24,7 +24,7 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
         
         if (role == null)
         {
-            throw new HttpException("Role not found", 404);
+            throw new HttpException(Constants.ErrorMessages.RoleNotFound, 404);
         }
 
         return role;
@@ -36,7 +36,7 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
         
         if (email == null)
         {
-            throw new HttpException("Email not found", 404);
+            throw new HttpException(Constants.ErrorMessages.EmailNotFound, 404);
         }
 
         return email;
@@ -44,11 +44,11 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
     
     public int GetUserId()
     {
-        var userId = httpContextAccessor.HttpContext?.User.FindFirst("Id")?.Value;
+        var userId = httpContextAccessor.HttpContext?.User.FindFirst(Constants.Credentials.Id)?.Value;
         
         if (userId == null)
         {
-            throw new HttpException("User not found", 404);
+            throw new HttpException(Constants.ErrorMessages.UserNotFound, 404);
         }
         return int.Parse(userId);
     }
