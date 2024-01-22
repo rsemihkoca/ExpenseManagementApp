@@ -1,18 +1,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Cqrs;
-using Business.Entities;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
-using Infrastructure.Exceptions;
-using Infrastructure.Token;
+using Business.Cqrs;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Schemes.Dtos;
+using Schemes.Exceptions;
+using Schemes.Token;
 
-namespace Application.Commands;
+namespace Business.Commands;
 
 public class TokenCommandHandler :
     IRequestHandler<CreateTokenCommand, TokenResponse>
@@ -33,12 +33,12 @@ public class TokenCommandHandler :
             
         if (user == null)
         {
-            throw new HttpException("Invalid user information", 400);
+            throw new HttpException(Constants.ErrorMessages.InvalidUserInformation, 400);
         }
 
         if (!user.IsActive)
         {
-            throw new HttpException("Please contact your administrator, your account is locked.", 403);
+            throw new HttpException(Constants.ErrorMessages.ContactAdministrator, 403);
         }
 
         string hash = MD5Extensions.ToMD5(request.Model.Password.Trim());
@@ -52,7 +52,7 @@ public class TokenCommandHandler :
 
         if (user.PasswordRetryCount > 3)
         {
-            throw new HttpException("Please contact your administrator, your account is locked.", 405);
+            throw new HttpException(Constants.ErrorMessages.ContactAdministrator, 405);
         }
 
         user.LastActivityDateTime = DateTime.UtcNow;
@@ -91,9 +91,9 @@ public class TokenCommandHandler :
     {
         var claims = new[]
         {
-            new Claim("Id", user.UserId.ToString()),
-            new Claim("Email", user.Email),
-            new Claim("Username", user.Username),
+            new Claim(Constants.Credentials.Id, user.UserId.ToString()),
+            new Claim(Constants.Credentials.Email, user.Email),
+            new Claim(Constants.Credentials.Username, user.Username),
             new Claim(ClaimTypes.Role, user.Role),
         };
 
