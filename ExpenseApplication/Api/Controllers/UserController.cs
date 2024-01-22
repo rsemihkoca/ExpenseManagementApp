@@ -1,8 +1,8 @@
-using Application.Cqrs;
-using Infrastructure.Dtos;
+using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Schemes.Dtos;
 
 namespace Api.Controllers;
 
@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
         var command = new CreateUserCommand(request);
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{UserId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> UpdateUser(int UserId, [FromBody] UpdateUserRequest request)
     {
         var command = new UpdateUserCommand(UserId, request);
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{UserId}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> DeleteUser(int UserId)
     {
         var command = new DeleteUserCommand(UserId);
@@ -45,7 +45,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPatch("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> ActivateUser(int UserId)
     {
         var command = new ActivateUserCommand(UserId);
@@ -54,7 +54,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPatch("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> DeactivateUser(int UserId)
     {
         var command = new DeactivateUserCommand(UserId);
@@ -63,7 +63,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetAllUser()
     {
         var query = new GetAllUserQuery();
@@ -72,7 +72,7 @@ public class UserController : ControllerBase
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = Constants.Roles.Admin)]
     public async Task<IActionResult> GetUserById(int UserId)
     {
         var query = new GetUserByIdQuery(UserId);
