@@ -1,15 +1,15 @@
-using Application.Cqrs;
-using Application.Services;
-using Application.Validators;
+using Business.Cqrs;
+using Business.Services;
+using Business.Validators;
 using AutoMapper;
-using Business.Entities;
-using Business.Enums;
 using Hangfire;
-using Infrastructure.Data.DbContext;
-using Infrastructure.Dtos;
+using Infrastructure.DbContext;
+using Infrastructure.Entities;
 using MediatR;
+using Schemes.Dtos;
+using Schemes.Enums;
 
-namespace Application.Commands;
+namespace Business.Commands;
 
 public class ExpenseCommandHandler :
     IRequestHandler<CreateExpenseCommand, ExpenseResponse>,
@@ -56,7 +56,8 @@ public class ExpenseCommandHandler :
         // Update approved bir sey tetiklemiyor sadece update ediyor elden verme durumları gibi
         // check if expense exist
         // check if new user exist, check if new category exist
-
+        await validate.IdGreaterThanZeroAsync(request.ExpenseRequestId, cancellationToken);
+        
         var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
             cancellationToken);
         await validate.RecordExistAsync<User>(x => x.UserId == request.Model.UserId, cancellationToken);
@@ -82,6 +83,8 @@ public class ExpenseCommandHandler :
 
     public async Task<ExpenseResponse> Handle(DeleteExpenseCommand request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.ExpenseRequestId, cancellationToken);
+
         var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
             cancellationToken);
 
@@ -98,6 +101,8 @@ public class ExpenseCommandHandler :
          * check if it is not approved and payment status not completed
          * do not check user exist since it cant be deleted if expense exist
          */
+        await validate.IdGreaterThanZeroAsync(request.ExpenseRequestId, cancellationToken);
+
 
         var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
             cancellationToken);
@@ -116,17 +121,18 @@ public class ExpenseCommandHandler :
         
         // Start Payment Service
         var jobId = BackgroundJob.Enqueue(() => payment.ProcessPayment(request.ExpenseRequestId, amount, fromUserId, toUserId));
-        // BackgroundJob.ContinueJobWith(jobId, () => Console.WriteLine("Continuation!"));
-        // // payment description and status will be updated by payment service also lastupdate time
-
 
         return mapped;
     }
 
     public async Task<ExpenseResponse> Handle(RejectExpenseCommand request, CancellationToken cancellationToken)
     {
+        await validate.IdGreaterThanZeroAsync(request.ExpenseRequestId, cancellationToken);
+
         var fromdb = await validate.RecordExistAsync<Expense>(x => x.ExpenseRequestId == request.ExpenseRequestId,
             cancellationToken);
+        await validate.ExpenseCanBeRejectedAsync(fromdb, cancellationToken);
+        
         fromdb.Status = ExpenseRequestStatus.Rejected;
         fromdb.PaymentDescription = request.PaymentDescription ?? fromdb.PaymentDescription;
         fromdb.PaymentStatus = PaymentRequestStatus.Declined;
@@ -136,15 +142,3 @@ public class ExpenseCommandHandler :
         return mapped;
     }
 }
-/*
- *
- *        /* eger fromdb.PaymentRequestStatus Completed degil ve request.Model Completed ise jobı çalıştır.* /
-   // Start Payment Service
-
-   expense.LastUpdateTime = DateTime.Now;
-   (decimal amount, string fromIban, string toIban) = (100, "TR123456789", "TR987654321");
-   var jobId = BackgroundJob.Enqueue(() => payment.ProcessPayment(amount, fromIban, toIban));
-   // First update payment instruction status to processing
-   BackgroundJob.ContinueJobWith(jobId, () => Console.WriteLine("Continuation!"));
- *
- */
