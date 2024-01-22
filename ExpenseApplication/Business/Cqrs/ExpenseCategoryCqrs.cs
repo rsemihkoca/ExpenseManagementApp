@@ -1,7 +1,8 @@
 using Infrastructure.Dtos;
 using MediatR;
+using Schemes.Dtos;
 
-namespace Application.Cqrs;
+namespace Business.Cqrs;
 
 public record CreateExpenseCategoryCommand(CreateExpenseCategoryRequest Model) : IRequest<ExpenseCategoryResponse>;
 public record UpdateExpenseCategoryCommand(int CategoryId, UpdateExpenseCategoryRequest Model) : IRequest<ExpenseCategoryResponse>;
