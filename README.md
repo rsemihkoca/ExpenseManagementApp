@@ -40,9 +40,6 @@ dotnet ef database update --project Infrastructure --startup-project Api
 If you already have migrations, you can run the following command to drop the database and re-create it:
 
 ```bash
-## Run the Application
-
-```bash
 cd ExpenseApplication
 dotnet ef database update --project Infrastructure --startup-project Api
 ```
@@ -54,9 +51,10 @@ The application will be accessible at `http://localhost:5245` by default.
 ![erd.png](.github%2Fassets%2Ferd.png)
 
 CreatedBy: Admin UserId \
-Status: 0: Pending, 1: Approved, 2: Rejected, Only admin can approve or reject expense requests.\
+Status: Only admin can approve or reject expense requests.\
 Description: User add description for expense request.\
 PaymentDescription: Admin add description for expense request. Or error code from background job.
+
 ---
 
 
