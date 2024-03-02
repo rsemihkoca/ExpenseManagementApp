@@ -1,7 +1,7 @@
 
 ---
 
-# Expense Application [Loom Demo](https://www.loom.com/share/a5ce7a3dd11f4793b86aecbbb9b8f918))
+# Expense Application - [Loom Demo](https://www.loom.com/share/a5ce7a3dd11f4793b86aecbbb9b8f918)
 
 ## Prerequisites
 
